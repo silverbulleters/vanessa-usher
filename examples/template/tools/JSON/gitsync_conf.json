@@ -1,0 +1,35 @@
+{
+  "globals": {
+    "storage-user": "admin",
+    "storage-pwd": "admin",
+    "git-path": "git",
+    "domain-email": "myCompany.org",
+    "lic-try-count": 5,
+    "plugins": {
+      "enable": [
+        "check-authors",
+        "sync-remote"
+      ]
+    },
+    "plugins-config": {
+      "push-n-commits": 0,
+      "push-tags": true,
+      "skip-exists-tags": false,
+      "rename-module": true,
+      "rename-form": true,
+      "push": true
+    }
+  },
+  "repositories": [
+    {
+      "name": "my-base",
+      "path": "http://storage-server1C:1234/my-base",
+      "dir": "./src/cf",
+      "temp-dir": "",
+      "v8version": "8.3.15.1489",
+      "plugins-config": {
+        "URL": "https://github.com:MyCompany/my-project.git"
+      }
+    }
+  ]
+}

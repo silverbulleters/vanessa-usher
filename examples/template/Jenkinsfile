@@ -1,0 +1,3 @@
+@Library('usher2') _
+
+runPipeline('tools/pipeline/ci.json')
