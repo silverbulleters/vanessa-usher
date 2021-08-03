@@ -8,6 +8,8 @@ plugins {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.module", "jackson-module-jsonSchema", "2.9.8")
+
     implementation("org.codehaus.groovy", "groovy-all", "2.4.19")
 
     // unit-tests

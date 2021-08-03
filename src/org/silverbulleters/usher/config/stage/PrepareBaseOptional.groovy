@@ -5,14 +5,14 @@ import org.silverbulleters.usher.config.additional.Repo
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PrepareBaseOptional extends BaseOptional {
-    static final EMPTY = new PrepareBaseOptional()
+  static final EMPTY = new PrepareBaseOptional()
 
-    String sourcePath = "./src/cf"
-    String template = ""
-    Repo repo = Repo.EMPTY
+  String sourcePath = "./src/cf"
+  String template = ""
+  Repo repo = Repo.EMPTY
 
-    PrepareBaseOptional() {
-        name = "Prepare base"
-        timeout = 100
-    }
+  PrepareBaseOptional() {
+    name = "Prepare base"
+    timeout = 100
+  }
 }

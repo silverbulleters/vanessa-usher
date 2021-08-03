@@ -7,72 +7,67 @@ import org.silverbulleters.usher.config.stage.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PipelineConfiguration implements Serializable {
-    /**
-     * Режим запуска: ci, gitsync, cd
-     */
-    String mode = "ci"
+  /**
+   * Версия платформы 1С
+   */
+  String v8Version = "8.3"
 
-    /**
-     * Версия платформы 1С
-     */
-    String v8Version = "8.3"
+  /**
+   * Агент по умолчанию
+   */
+  String agent = "any"
 
-    /**
-     * Агент по умолчанию
-     */
-    String agent = "any"
+  /**
+   * Режим отладки
+   */
+  boolean debug = false
 
-    /**
-     * Режим отладки
-     */
-    boolean debug = false
+  /**
+   * E-mail для уведомлений
+   */
+  String emailForNotification = ""
 
-    /**
-     * E-mail для уведомлений
-     */
-    String emailForNotification = "NO_USE"
+  /**
+   * Путь к общему конфигу vrunner
+   */
+  String vrunnerConfig = "./tools/JSON/vRunner.json"
 
-    /**
-     * Путь к общему конфигу vrunner
-     */
-    String vrunnerConfig = "./tools/JSON/vRunner.json"
+  /**
+   * Общий таймаут на задание
+   */
+  int timeout = 100
 
-    /**
-     * Общий таймаут на задание
-     */
-    int timeout = 100
+  /**
+   * Информационная база по умолчанию
+   */
+  InfoBase defaultInfobase = InfoBase.EMPTY
 
-    /**
-     * Информационная база по умолчанию
-     */
-    InfoBase defaultInfobase = InfoBase.EMPTY
+  /**
+   * Шаги задания
+   */
+  Stages stages = Stages.EMPTY
 
-    /**
-     * Шаги задания
-     */
-    Stages stages = Stages.EMPTY
+  @JsonProperty("gitsync")
+  GitsyncOptional gitsyncOptional = GitsyncOptional.EMPTY
 
-    @JsonProperty("gitsync")
-    GitsyncOptional gitsyncOptional = GitsyncOptional.EMPTY
+  @JsonProperty("preparebase")
+  PrepareBaseOptional prepareBaseOptional = PrepareBaseOptional.EMPTY
 
-    @JsonProperty("preparebase")
-    PrepareBaseOptional prepareBaseOptional = PrepareBaseOptional.EMPTY
+  @JsonProperty("syntaxCheck")
+  SyntaxCheckOptional syntaxCheckOptional = SyntaxCheckOptional.EMPTY
 
-    @JsonProperty("syntaxCheck")
-    SyntaxCheckOptional syntaxCheckOptional = SyntaxCheckOptional.EMPTY
+  @JsonProperty("smoke")
+  SmokeOptional smokeOptional = SmokeOptional.EMPTY
 
-    @JsonProperty("smoke")
-    SmokeOptional smokeOptional = SmokeOptional.EMPTY
+  @JsonProperty("tdd")
+  TddOptional tddOptional = TddOptional.EMPTY
 
-    @JsonProperty("tdd")
-    TddOptional tddOptional = TddOptional.EMPTY
+  @JsonProperty("bdd")
+  BddOptional bddOptional = BddOptional.EMPTY
 
-    @JsonProperty("bdd")
-    BddOptional bddOptional = BddOptional.EMPTY
+  @JsonProperty("sonarqube")
+  SonarQubeOptional sonarQubeOptional = SonarQubeOptional.EMPTY
 
-    @JsonProperty("sonarqube")
-    SonarQubeOptional sonarQubeOptional = SonarQubeOptional.EMPTY
-
-    @JsonProperty("build")
-    BuildOptional buildOptional = BuildOptional.EMPTY
+  @JsonProperty("build")
+  BuildOptional buildOptional = BuildOptional.EMPTY
 }
