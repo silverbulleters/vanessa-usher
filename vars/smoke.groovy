@@ -33,21 +33,21 @@ void call(PipelineConfiguration config) {
 
 private def testing() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentional.exist(auth)) {
+  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credentional = credentional.getAuthString()
-      def credentionalTestClient = getTestClient()
-      smokeTesting(credentional, credentionalTestClient)
+      def credential = credentialHelper.getAuthString()
+      def credentialTestClient = getTestClient()
+      smokeTesting(credential, credentialTestClient)
     }
   } else {
     smokeTesting('', '')
   }
 }
 
-private smokeTesting(String credentional, String credentionalTestClient) {
+private smokeTesting(String credential, String credentialTestClient) {
   command = vrunner.smoke(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
-  command = command.replace("%credentionalTestClientID%", credentionalTestClient)
+  command = command.replace("%credentialID%", credential)
+  command = command.replace("%credentialTestClientID%", credentialTestClient)
   cmdRun(command)
 }
 
@@ -60,6 +60,6 @@ private String getTestClient() {
     pass = "${PASSWORD}"
   } catch (e) {
   }
-  def credentionalTestClient = String.format('%s:%s:1538', login, pass)
-  return credentionalTestClient
+  def credentialTestClient = String.format('%s:%s:1538', login, pass)
+  return credentialTestClient
 }

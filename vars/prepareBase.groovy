@@ -33,68 +33,68 @@ void call(PipelineConfiguration config) {
 
 private def prepare() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentional.exist(auth)) {
+  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credentional = credentional.getAuthString()
-      prepareInternal(credentional)
+      def credential = credentialHelper.getAuthString()
+      prepareInternal(credential)
     }
   } else {
     prepareInternal('')
   }
 }
 
-private def prepareInternal(String credentional) {
+private def prepareInternal(String credential) {
   if (stageOptional.getTemplate().isEmpty()) {
     if (stageOptional.getRepo() != Repo.EMPTY) {
-      loadRepo(credentional)
-      updateDB(credentional)
+      loadRepo(credential)
+      updateDB(credential)
     } else {
-      initDevFromSource(credentional)
+      initDevFromSource(credential)
     }
   } else {
-    initDevWithTemplate(credentional)
-    compile(credentional)
+    initDevWithTemplate(credential)
+    compile(credential)
   }
-  migrate(credentional)
+  migrate(credential)
 }
 
-private def loadRepo(credentional) {
+private def loadRepo(credential) {
   command = vrunner.loadRepo(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   auth = stageOptional.getRepo().getAuth()
   withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    def credentionalRepo = credentional.getAuthRepoString()
-    command = command.replace("%credentionalStorageID%", credentionalRepo)
+    def credentialRepo = credentialHelper.getAuthRepoString()
+    command = command.replace("%credentialStorageID%", credentialRepo)
     cmdRun(command)
   }
 }
 
-private def updateDB(credentional) {
+private def updateDB(credential) {
   command = vrunner.updateDB(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def initDevWithTemplate(credentional) {
+private def initDevWithTemplate(credential) {
   command = vrunner.initDevWithTemplate(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def initDevFromSource(credentional) {
+private def initDevFromSource(credential) {
   command = vrunner.initDevFromSource(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def compile(credentional) {
+private def compile(credential) {
   command = vrunner.initDevWithTemplate(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def migrate(credentional) {
+private def migrate(credential) {
   command = vrunner.migrate(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }

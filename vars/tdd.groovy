@@ -34,21 +34,21 @@ void call(PipelineConfiguration config) {
 
 private def testing() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentional.exist(auth)) {
+  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credentional = credentional.getAuthString()
-      def credentionalTestClient = getTestClient()
-      xddTesting(credentional, credentionalTestClient)
+      def credential = credentialHelper.getAuthString()
+      def credentialTestClient = getTestClient()
+      xddTesting(credential, credentialTestClient)
     }
   } else {
     xddTesting('')
   }
 }
 
-private xddTesting(String credentional, String credentionalTestClient) {
+private xddTesting(String credential, String credentialTestClient) {
   command = vrunner.xunit(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
-  command = command.replace("%credentionalTestClientID%", credentionalTestClient)
+  command = command.replace("%credentialID%", credential)
+  command = command.replace("%credentialTestClientID%", credentialTestClient)
   cmdRun(command)
 }
 
@@ -61,6 +61,6 @@ private String getTestClient() {
     pass = "${PASSWORD}"
   } catch (e) {
   }
-  def credentionalTestClient = String.format('%s:%s:1538', login, pass)
-  return credentionalTestClient
+  def credentialTestClient = String.format('%s:%s:1538', login, pass)
+  return credentialTestClient
 }

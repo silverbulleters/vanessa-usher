@@ -1,13 +1,13 @@
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.InfoBase
 
-public void setDatabase(PipelineConfiguration config, String credentional) {
+public void setDatabase(PipelineConfiguration config, String credential) {
   def command = [
       "packman",
       "set-database", infobaseHelper.getConnectionString(config),
-      "%credentionalID%"
+      "%credentialID%"
   ].join(" ")
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 

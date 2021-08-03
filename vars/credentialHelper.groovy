@@ -1,28 +1,28 @@
 String getAuthString() {
-  def credentional = "--db-user ${USERNAME}"
+  def credential = "--db-user ${USERNAME}"
   try {
-    credentional = credentional + " --db-pwd ${PASSWORD} "
+    credential = credential + " --db-pwd ${PASSWORD} "
   } catch (e) {
   }
-  return credentional
+  return credential
 }
 
 String getAuthRepoString() {
-  def credentional = "--storage-user ${USERNAME}"
+  def credential = "--storage-user ${USERNAME}"
   try {
-    credentional = credentional + " --storage-pwd ${PASSWORD} "
+    credential = credential + " --storage-pwd ${PASSWORD} "
   } catch (e) {
   }
-  return credentional
+  return credential
 }
 
 String getCustomAuth(String userName, String passName) {
-  def credentional = "${userName} ${USERNAME}"
+  def credential = "${userName} ${USERNAME}"
   try {
-    credentional = credentional + " ${passName} ${PASSWORD} "
+    credential = credential + " ${passName} ${PASSWORD} "
   } catch (e) {
   }
-  return credentional
+  return credential
 }
 
 
@@ -36,6 +36,6 @@ boolean exist(String id) {
     println(e.getMessage())
     result = false
   }
-  println("Credentional " + id + "  exist? " + result)
+  println("Credential " + id + "  exist? " + result)
   return result
 }

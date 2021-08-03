@@ -29,29 +29,25 @@ void call(PipelineConfiguration config) {
 
 private def syncInternal() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentional.exist(auth)) {
+  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credentional = credentional.getAuthString()
-      runSync(credentional)
+      def credential = credentialHelper.getAuthString()
+      runSync(credential)
     }
   } else {
     runSync('')
   }
 }
 
-private def runSync(String credentional) {
-  def connectionString = getConnectionString()
-  def command = "gitsync %credentionalID% --v8version ${config.getV8Version()} --ibconnection ${connectionString} all ${stageOptional.getConfigPath()}"
-  command = command.replace("%credentionalID%", credentional)
-  cmdRun(command)
+private def runSync(String credential) {
+  def command = [
+      "gitsync",
+      "%credentialID%",
+      "--v8version", config.getV8Version(),
+      "--ibconnection", infobaseHelper.getConnectionString(config),
+      "all", stageOptional.getConfigPath()
+  ].join(" ")
+  command = command.replace("%credentialID%", credential)
   // TODO: ищем ошибку "КРИТИЧНАЯОШИБКА" в логах, если есть - фейлим сборку этой ошибкой
-}
-
-// FIXME: ДУБЛЬ!
-private def getConnectionString() {
-  def connectionString = ""
-  if (config.getDefaultInfobase() != InfoBase.EMPTY) {
-    connectionString = config.getDefaultInfobase().getConnectionString()
-  }
-  return connectionString;
+  cmdRun(command)
 }

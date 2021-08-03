@@ -34,18 +34,18 @@ void call(PipelineConfiguration config) {
 
 private def testing() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentional.exist(auth)) {
+  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credentional = credentional.getAuthString()
-      bddTesting(credentional)
+      def credential = credentialHelper.getAuthString()
+      bddTesting(credential)
     }
   } else {
     bddTesting('')
   }
 }
 
-private bddTesting(String credentional) {
-  command = vrunner.vanessa(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+private bddTesting(String credential) {
+  def command = vrunner.vanessa(config, stageOptional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }

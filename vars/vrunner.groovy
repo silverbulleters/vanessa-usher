@@ -10,7 +10,7 @@ def initDevFromSource(PipelineConfiguration config, PrepareBaseOptional optional
   def command = [
       "vrunner",
       "init-dev",
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--src=${optional.getSourcePath()}",
@@ -25,7 +25,7 @@ def initDevWithTemplate(PipelineConfiguration config, PrepareBaseOptional option
   def command = [
       "vrunner",
       "init-dev",
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--dt", optional.getTemplate(),
@@ -39,7 +39,7 @@ def compile(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "compile",
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--src=${optional.getSourcePath()}",
@@ -55,10 +55,10 @@ def loadRepo(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "loadrepo",
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
-      "%credentionalStorageID%",
+      "%credentialStorageID%",
       "--v8version", config.getV8Version(),
       "--storage-name", optional.getRepo().getPath(),
       "--nocacheuse"
@@ -70,7 +70,7 @@ def updateDB(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "updatedb",
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version(),
@@ -83,7 +83,7 @@ def migrate(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "run",
-      "%credentionalID%",
+      "%credentialID%",
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--settings", config.getVrunnerConfig(),
       "--command", "'ЗапуститьОбновлениеИнформационнойБазы;ЗавершитьРаботуСистемы;'",
@@ -96,7 +96,7 @@ def syntaxCheck(PipelineConfiguration config, SyntaxCheckOptional optional) {
   def command = [
       "vrunner",
       "syntax-check",
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--allure-results2", optional.getAllurePath(),
       "--junitpath", "./out/junit/syntaxCheck.xml",
@@ -112,11 +112,11 @@ def smoke(PipelineConfiguration config, SmokeOptional optional) {
       "vrunner",
       "xunit",
       optional.getTestPath(),
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version(),
-      "--testclient", "%credentionalTestClientID%",
+      "--testclient", "%credentialTestClientID%",
       "--reportsxunit", "ГенераторОтчетаJUnitXML{out/junit/smoke.xml};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
       "--xddExitCodePath", "./xddExitCodePath.txt",
       "--xddConfig", optional.getXddConfig()
@@ -130,11 +130,11 @@ def xunit(PipelineConfiguration config, TddOptional optional) {
       "vrunner",
       "xunit",
       optional.getTestPath(),
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version(),
-      "--testclient", "%credentionalTestClientID%",
+      "--testclient", "%credentialTestClientID%",
       "--reportsxunit", "ГенераторОтчетаJUnitXML{out/junit/xdd.xml};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
       "--xddExitCodePath", "./xddExitCodePath.txt",
       "--xddConfig", optional.getXddConfig()
@@ -146,7 +146,7 @@ def vanessa(PipelineConfiguration config, BddOptional optional) {
   def command = [
       "vrunner",
       "vanessa",
-      "%credentionalID%",
+      "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version()

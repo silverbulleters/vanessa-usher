@@ -34,18 +34,18 @@ def call(PipelineConfiguration config) {
 
 private def check() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentional.exist(auth)) {
+  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credentional = credentional.getAuthString()
-      runSyntaxCheck(credentional)
+      def credential = credentialHelper.getAuthString()
+      runSyntaxCheck(credential)
     }
   } else {
     runSyntaxCheck('')
   }
 }
 
-private def runSyntaxCheck(credentional) {
+private def runSyntaxCheck(credential) {
   command = vrunner.syntaxCheck(config, stageOptional)
-  command = command.replace("%credentionalID%", credentional)
+  command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
