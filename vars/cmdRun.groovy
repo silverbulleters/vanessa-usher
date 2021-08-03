@@ -2,10 +2,6 @@
  * Функция исполнения команд. Установка локализации при использовании MS Windows
  * Пример вызова: cmdRun.Выполнить("dir /w")
  */
-def call(String command, Map buildEnv) {
-  call(command)
-}
-
 def call(String command) {
   if (isUnix()) {
     sh "${command}"
