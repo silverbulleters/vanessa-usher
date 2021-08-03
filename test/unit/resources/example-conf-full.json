@@ -1,0 +1,64 @@
+{
+  "mode": "ci",
+  "agent": "any",
+  "v8Version": "8.3",
+  "debug": true,
+  "emailForNotification": "main@localhost",
+  "vrunnerConfig": "./tools/JSON/vRunner.json",
+  "timeout": 100,
+  "defaultInfobase": {
+    "connectionString": "/SLocalhost/infobase",
+    "auth": "auth-db-mybase"
+  },
+  "stages": {
+    "gitsync": true,
+    "prepareBase": false,
+    "syntaxCheck": false,
+    "smoke": false,
+    "tdd": false,
+    "bdd": false,
+    "sonarqube": false,
+    "build": false,
+    "deploy": false
+  },
+  "gitsync": {
+    "timeout": 40,
+    "repoPath": "//share/repo1c",
+    "repoAuth": "auth-repo-repo1c",
+    "configPath": "./tools/JSON/gitsync_conf.JSON"
+  },
+  "prepareBase": {
+    "timeout": 40,
+    "sourcePath": "./src/cf",
+    "template": "./example/demo.dt"
+  },
+  "syntaxCheck": {
+    "timeout": 40
+  },
+  "smoke": {
+    "timeout": 40
+  },
+  "tdd": {
+    "timeout": 60
+  },
+  "bdd": {
+    "timeout": 40
+  },
+  "sonarqube": {
+    "timeout": 60,
+    "agent": "all",
+    "toolId": "SonarQube",
+    "debug": true
+  },
+  "build": {
+    "timeout": 20,
+    "projectName": "PIPELINE_NAME",
+    "buildDir": ".",
+    "distPath": "./dist/.packman/1cv8.cf"
+  },
+  "deploy": {
+    "ras": "localhost:1545",
+    "unCode": "locked",
+    "lockedMessage": "Регламентные работы"
+  }
+}
