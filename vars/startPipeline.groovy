@@ -31,17 +31,17 @@ void start(String pathToConnfig) {
     init(pathToConnfig)
 
     // gitsync
-    gitsync(config) // скрипт
+    gitsync(config)
 
     // ci
-    prepareBase(config) // скрипт
-    syntaxCheck(config) // скрипт
-    sonarAnalyze(config) // скрипт
-    smoke(config) // скрипт
-    tdd(config) // скрипт
-    bdd(config) // скрипт
-    reportPublish(config) // скрипт
-    build(config) // скрипт
+    prepareBase(config)
+    syntaxCheck(config)
+    smoke(config)
+    tdd(config)
+    bdd(config)
+    sonarAnalyze(config)
+    build(config)
+    reportPublish(config)
   }
 }
 
