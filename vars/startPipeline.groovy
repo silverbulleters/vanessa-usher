@@ -9,7 +9,7 @@ import org.silverbulleters.usher.config.ConfigurationReader
 JobConfiguration config
 
 void call() {
-  call('gitsync_config.json')
+  call('pipeline.json')
 }
 
 void call(String pathToConnfig) {
