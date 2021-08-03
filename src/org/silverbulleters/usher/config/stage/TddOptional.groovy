@@ -6,6 +6,7 @@ class TddOptional extends BaseOptional {
     String xddConfig = "./tools/JSON/xddTestRunnerConf.json"
     String testPath = './tests/unit'
     String allurePath = "./out/tdd/allure"
+    String junitPath = "./out/junit/xdd.xml"
 
     TddOptional() {
         name = "TDD"

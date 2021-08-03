@@ -13,7 +13,7 @@ void call(PipelineConfiguration config) {
 
   this.config = config
 
-  stage("Allure publish") {
+  stage("Reports publish") {
     node(config.getAgent()) {
       checkout scm
       publish()
@@ -23,30 +23,31 @@ void call(PipelineConfiguration config) {
 }
 
 private def publish() {
-  reports = []
+  def reports = []
 
   if (config.getStages().isSyntaxCheck()) {
-    def path = getPrettyPath(config.getSyntaxCheckOptional().getAllurePath())
-    reports.add([path: path])
+    addToReport(reports, config.getSyntaxCheckOptional().getAllurePath())
   }
 
   if (config.getStages().isSmoke()) {
-    def path = getPrettyPath(config.getSmokeOptional().getAllurePath())
-    reports.add([path: path])
+    addToReport(reports, config.getSmokeOptional().getAllurePath())
   }
 
   if (config.getStages().isTdd()) {
-    def path = getPrettyPath(config.getTddOptional().getAllurePath())
-    reports.add([path: path])
+    addToReport(reports, config.getTddOptional().getAllurePath())
   }
 
   if (config.getStages().isBdd()) {
-    def path = getPrettyPath(config.getBddOptional().getAllurePath())
-    reports.add([path: path])
+    addToReport(reports, config.getBddOptional().getAllurePath())
   }
 
-  junit allowEmptyResults: true, testResults: '**/out/junit/*.xml '
+  junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
   allure includeProperties: false, jdk: '', results: reports
+}
+
+private addToReport(reports, String allurePath) {
+  def path = getPrettyPath(allurePath)
+  reports.add([path: path])
 }
 
 private String getPrettyPath(String path) {

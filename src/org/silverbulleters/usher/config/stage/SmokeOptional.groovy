@@ -6,6 +6,7 @@ class SmokeOptional extends BaseOptional {
     String xddConfig = "./tools/JSON/smokeTestRunnerConf.json"
     String testPath = '$addroot/tests/smoke'
     String allurePath = "./out/smoke/allure"
+    String junitPath = "./out/junit/smoke.xml"
 
     SmokeOptional() {
         name = "Smoke"

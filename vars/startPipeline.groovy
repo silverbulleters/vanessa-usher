@@ -40,7 +40,7 @@ void start(String pathToConnfig) {
     smoke(config) // скрипт
     tdd(config) // скрипт
     bdd(config) // скрипт
-    allurePublish(config) // скрипт
+    reportPublish(config) // скрипт
     build(config) // скрипт
   }
 }

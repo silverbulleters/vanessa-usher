@@ -99,7 +99,7 @@ def syntaxCheck(PipelineConfiguration config, SyntaxCheckOptional optional) {
       "%credentialID%",
       "--settings", config.getVrunnerConfig(),
       "--allure-results2", optional.getAllurePath(),
-      "--junitpath", "./out/junit/syntaxCheck.xml",
+      "--junitpath", optional.getJunitPath(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version()
   ]
@@ -117,7 +117,7 @@ def smoke(PipelineConfiguration config, SmokeOptional optional) {
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version(),
       "--testclient", "%credentialTestClientID%",
-      "--reportsxunit", "ГенераторОтчетаJUnitXML{out/junit/smoke.xml};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
+      "--reportsxunit", "ГенераторОтчетаJUnitXML{${optional.getJunitPath()}};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
       "--xddExitCodePath", "./xddExitCodePath.txt",
       "--xddConfig", optional.getXddConfig()
   ]
@@ -135,7 +135,7 @@ def xunit(PipelineConfiguration config, TddOptional optional) {
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version(),
       "--testclient", "%credentialTestClientID%",
-      "--reportsxunit", "ГенераторОтчетаJUnitXML{out/junit/xdd.xml};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
+      "--reportsxunit", "ГенераторОтчетаJUnitXML{${optional.getJunitPath()}};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
       "--xddExitCodePath", "./xddExitCodePath.txt",
       "--xddConfig", optional.getXddConfig()
   ]
