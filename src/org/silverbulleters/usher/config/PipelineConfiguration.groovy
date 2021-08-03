@@ -6,7 +6,7 @@ import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.stage.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-class JobConfiguration implements Serializable {
+class PipelineConfiguration implements Serializable {
     /**
      * Режим запуска: ci, gitsync, cd
      */

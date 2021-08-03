@@ -1,15 +1,15 @@
 import groovy.transform.Field
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 
 @Field
-JobConfiguration config
+PipelineConfiguration config
 
 @Field
 SyntaxCheckOptional stageOptional
 
-def call(JobConfiguration config) {
+def call(PipelineConfiguration config) {
   if (!config.getStages().isSyntaxCheck()) {
     return
   }

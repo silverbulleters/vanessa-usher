@@ -1,15 +1,15 @@
 import groovy.transform.Field
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.SmokeOptional
 
 @Field
-JobConfiguration config
+PipelineConfiguration config
 
 @Field
 BddOptional stageOptional
 
-void call(JobConfiguration config) {
+void call(PipelineConfiguration config) {
   if (!config.getStages().isBdd()) {
     return
   }

@@ -1,7 +1,7 @@
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.InfoBase
 
-public void setDatabase(JobConfiguration config, String credentional) {
+public void setDatabase(PipelineConfiguration config, String credentional) {
   def command = [
       "packman",
       "set-database", infobaseHelper.getConnectionString(config),
@@ -11,7 +11,7 @@ public void setDatabase(JobConfiguration config, String credentional) {
   cmdRun(command)
 }
 
-public void makeCf(JobConfiguration config) {
+public void makeCf(PipelineConfiguration config) {
   def command = [
       "packman",
       "make-cf",

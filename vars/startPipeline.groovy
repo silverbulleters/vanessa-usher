@@ -1,12 +1,12 @@
 import com.cloudbees.groovy.cps.NonCPS
 import groovy.transform.Field
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.additional.Repo
 import org.silverbulleters.usher.config.ConfigurationReader
 
 @Field
-JobConfiguration config
+PipelineConfiguration config
 
 void call() {
   call('pipeline.json')
@@ -47,7 +47,7 @@ void start(String pathToConnfig) {
 
 void init(String pathToConnfig) {
   stage('Initializing') {
-    config = getJobConfiguration(pathToConnfig)
+    config = getPipelineConfiguration(pathToConnfig)
   }
 }
 

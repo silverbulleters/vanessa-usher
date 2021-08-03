@@ -1,9 +1,9 @@
 import groovy.transform.Field
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 
 @Field
-JobConfiguration config
+PipelineConfiguration config
 
 @Field
 PrepareBaseOptional stageOptional
@@ -13,7 +13,7 @@ PrepareBaseOptional stageOptional
  *
  * @param config
  */
-void call(JobConfiguration config) {
+void call(PipelineConfiguration config) {
   if (!config.getStages().isPrepareBase()) {
     return
   }

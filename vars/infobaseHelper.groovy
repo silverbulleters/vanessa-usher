@@ -1,7 +1,7 @@
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.InfoBase
 
-String getConnectionString(JobConfiguration config) {
+String getConnectionString(PipelineConfiguration config) {
   def connectionString = ""
   if (config.getDefaultInfobase() != InfoBase.EMPTY) {
     connectionString = config.getDefaultInfobase().getConnectionString()

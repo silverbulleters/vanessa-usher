@@ -3,7 +3,7 @@ package org.silverbulleters.usher.config
 import com.cloudbees.groovy.cps.NonCPS
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 
 class ConfigurationReader {
 
@@ -14,12 +14,12 @@ class ConfigurationReader {
     }
 
     @NonCPS
-    static JobConfiguration create(String config) {
-        return mapper.readValue(config, JobConfiguration.class)
+    static PipelineConfiguration create(String config) {
+        return mapper.readValue(config, PipelineConfiguration.class)
     }
 
-    static JobConfiguration create() {
-        return new JobConfiguration()
+    static PipelineConfiguration create() {
+        return new PipelineConfiguration()
     }
 
 }

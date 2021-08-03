@@ -1,4 +1,4 @@
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 import org.silverbulleters.usher.config.additional.InfoBase
@@ -6,7 +6,7 @@ import org.silverbulleters.usher.config.stage.SmokeOptional
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 import org.silverbulleters.usher.config.stage.TddOptional
 
-def initDevFromSource(JobConfiguration config, PrepareBaseOptional optional) {
+def initDevFromSource(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "init-dev",
@@ -20,7 +20,7 @@ def initDevFromSource(JobConfiguration config, PrepareBaseOptional optional) {
   return command.join(" ")
 }
 
-def initDevWithTemplate(JobConfiguration config, PrepareBaseOptional optional) {
+def initDevWithTemplate(PipelineConfiguration config, PrepareBaseOptional optional) {
   // TODO: проверить существование `optional.getTemplate()`
   def command = [
       "vrunner",
@@ -35,7 +35,7 @@ def initDevWithTemplate(JobConfiguration config, PrepareBaseOptional optional) {
   return command.join(" ")
 }
 
-def compile(JobConfiguration config, PrepareBaseOptional optional) {
+def compile(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "compile",
@@ -51,7 +51,7 @@ def compile(JobConfiguration config, PrepareBaseOptional optional) {
   return command.join(" ")
 }
 
-def loadRepo(JobConfiguration config, PrepareBaseOptional optional) {
+def loadRepo(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "loadrepo",
@@ -66,7 +66,7 @@ def loadRepo(JobConfiguration config, PrepareBaseOptional optional) {
   return command.join(" ")
 }
 
-def updateDB(JobConfiguration config, PrepareBaseOptional optional) {
+def updateDB(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "updatedb",
@@ -79,7 +79,7 @@ def updateDB(JobConfiguration config, PrepareBaseOptional optional) {
   return command.join(" ")
 }
 
-def migrate(JobConfiguration config, PrepareBaseOptional optional) {
+def migrate(PipelineConfiguration config, PrepareBaseOptional optional) {
   def command = [
       "vrunner",
       "run",
@@ -92,7 +92,7 @@ def migrate(JobConfiguration config, PrepareBaseOptional optional) {
   return command.join(" ")
 }
 
-def syntaxCheck(JobConfiguration config, SyntaxCheckOptional optional) {
+def syntaxCheck(PipelineConfiguration config, SyntaxCheckOptional optional) {
   def command = [
       "vrunner",
       "syntax-check",
@@ -106,7 +106,7 @@ def syntaxCheck(JobConfiguration config, SyntaxCheckOptional optional) {
   return command.join(" ")
 }
 
-def smoke(JobConfiguration config, SmokeOptional optional) {
+def smoke(PipelineConfiguration config, SmokeOptional optional) {
   def pathToAllure = "${optional.getAllurePath()}/allure-smoke.xml"
   def command = [
       "vrunner",
@@ -124,7 +124,7 @@ def smoke(JobConfiguration config, SmokeOptional optional) {
   return command.join(" ")
 }
 
-def xunit(JobConfiguration config, TddOptional optional) {
+def xunit(PipelineConfiguration config, TddOptional optional) {
   def pathToAllure = "${optional.getAllurePath()}/allure-xdd.xml"
   def command = [
       "vrunner",
@@ -142,7 +142,7 @@ def xunit(JobConfiguration config, TddOptional optional) {
   return command.join(" ")
 }
 
-def vanessa(JobConfiguration config, BddOptional optional) {
+def vanessa(PipelineConfiguration config, BddOptional optional) {
   def command = [
       "vrunner",
       "vanessa",

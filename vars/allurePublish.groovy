@@ -1,10 +1,10 @@
 import groovy.transform.Field
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 
 @Field
-JobConfiguration config
+PipelineConfiguration config
 
-void call(JobConfiguration config) {
+void call(PipelineConfiguration config) {
   boolean needPublish = config.getStages().isSyntaxCheck() || config.getStages().isSmoke() || config.getStages().isTdd() || config.getStages().isBdd()
 
   if (!needPublish) {

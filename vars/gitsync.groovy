@@ -1,15 +1,15 @@
 import groovy.transform.Field
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.GitsyncOptional
 import org.silverbulleters.usher.config.additional.InfoBase
 
 @Field
-JobConfiguration config
+PipelineConfiguration config
 
 @Field
 GitsyncOptional stageOptional
 
-void call(JobConfiguration config) {
+void call(PipelineConfiguration config) {
   if (!config.getStages().isGitsync()) {
     return
   }

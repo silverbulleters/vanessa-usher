@@ -1,14 +1,14 @@
 import groovy.transform.Field
-import org.silverbulleters.usher.config.JobConfiguration
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.SonarQubeOptional
 
 @Field
-JobConfiguration config
+PipelineConfiguration config
 
 @Field
 SonarQubeOptional stageOptional
 
-void call(JobConfiguration config) {
+void call(PipelineConfiguration config) {
   if (!config.getStages().isSonarqube()) {
     return
   }
