@@ -47,7 +47,9 @@ void start(String pathToConnfig) {
 
 void init(String pathToConnfig) {
   stage('Initializing') {
-    config = getPipelineConfiguration(pathToConnfig)
+    node() {
+      config = getPipelineConfiguration(pathToConnfig)
+    }
   }
 }
 

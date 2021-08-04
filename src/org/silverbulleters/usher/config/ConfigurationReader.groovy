@@ -18,6 +18,7 @@ class ConfigurationReader {
     return mapper.readValue(config, PipelineConfiguration.class)
   }
 
+  @NonCPS
   static PipelineConfiguration create() {
     return new PipelineConfiguration()
   }
