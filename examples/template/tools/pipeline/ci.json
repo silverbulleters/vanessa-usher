@@ -1,0 +1,27 @@
+{
+  "agent": "slave",
+  "v8Version": "8.3",
+  "emailForNotification": "mailer@localhost",
+  "defaultInfobase": {
+    "connectionString": "/F./build/ib",
+    "auth": ""
+  },
+  "stages": {
+    "prepareBase": true,
+    "syntaxCheck": true,
+    "sonarqube": true,
+    "smoke": true,
+    "tdd": true,
+    "bdd": true,
+    "build": true
+  },
+  "prepareBase": {
+    "sourcePath": "./src/cf"
+  },
+  "sonarqube": {
+    "agent": "sonarqube",
+    "toolId": "sonar-scanner",
+    "serverId": "SonarQube",
+    "debug": false
+  }
+}

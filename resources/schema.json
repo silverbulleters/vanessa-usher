@@ -1,0 +1,214 @@
+{
+  "type" : "object",
+  "id" : "urn:jsonschema:org:silverbulleters:usher:config:PipelineConfiguration",
+  "properties" : {
+    "v8Version" : {
+      "type" : "string"
+    },
+    "agent" : {
+      "type" : "string"
+    },
+    "debug" : {
+      "type" : "boolean"
+    },
+    "emailForNotification" : {
+      "type" : "string"
+    },
+    "vrunnerConfig" : {
+      "type" : "string"
+    },
+    "timeout" : {
+      "type" : "integer"
+    },
+    "defaultInfobase" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:InfoBase",
+      "properties" : {
+        "connectionString" : {
+          "type" : "string"
+        },
+        "auth" : {
+          "type" : "string"
+        }
+      }
+    },
+    "stages" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:Stages",
+      "properties" : {
+        "gitsync" : {
+          "type" : "boolean"
+        },
+        "prepareBase" : {
+          "type" : "boolean"
+        },
+        "syntaxCheck" : {
+          "type" : "boolean"
+        },
+        "smoke" : {
+          "type" : "boolean"
+        },
+        "tdd" : {
+          "type" : "boolean"
+        },
+        "bdd" : {
+          "type" : "boolean"
+        },
+        "sonarqube" : {
+          "type" : "boolean"
+        },
+        "build" : {
+          "type" : "boolean"
+        },
+        "deploy" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "gitsync" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:GitsyncOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "repo" : {
+          "type" : "object",
+          "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo",
+          "properties" : {
+            "path" : {
+              "type" : "string"
+            },
+            "auth" : {
+              "type" : "string"
+            }
+          }
+        },
+        "configPath" : {
+          "type" : "string"
+        }
+      }
+    },
+    "preparebase" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:PrepareBaseOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "sourcePath" : {
+          "type" : "string"
+        },
+        "template" : {
+          "type" : "string"
+        },
+        "repo" : {
+          "type" : "object",
+          "$ref" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo"
+        }
+      }
+    },
+    "syntaxCheck" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SyntaxCheckOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "allurePath" : {
+          "type" : "string"
+        },
+        "junitPath" : {
+          "type" : "string"
+        }
+      }
+    },
+    "smoke" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SmokeOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "xddConfig" : {
+          "type" : "string"
+        },
+        "testPath" : {
+          "type" : "string"
+        },
+        "allurePath" : {
+          "type" : "string"
+        },
+        "junitPath" : {
+          "type" : "string"
+        }
+      }
+    },
+    "tdd" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:TddOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "xddConfig" : {
+          "type" : "string"
+        },
+        "testPath" : {
+          "type" : "string"
+        },
+        "allurePath" : {
+          "type" : "string"
+        },
+        "junitPath" : {
+          "type" : "string"
+        }
+      }
+    },
+    "bdd" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:BddOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "allurePath" : {
+          "type" : "string"
+        }
+      }
+    },
+    "sonarqube" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SonarQubeOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "agent" : {
+          "type" : "string"
+        },
+        "toolId" : {
+          "type" : "string"
+        },
+        "serverId" : {
+          "type" : "string"
+        },
+        "debug" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "build" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:BuildOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "distPath" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+${title}
+Copyright (C) ${years} ${owner} - All Rights Reserved.
+Unauthorized copying of this file in any way is strictly prohibited.
+Proprietary and confidential.
