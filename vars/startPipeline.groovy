@@ -1,5 +1,6 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.util.Common
 
 @Field
 PipelineConfiguration config
@@ -9,6 +10,9 @@ void call() {
 }
 
 void call(String pathToConfig) {
+
+  def libraryVersion = Common.getLibraryVersion()
+  print("Версия Vanessa.Usher: ${libraryVersion}")
 
   catchError(buildResult: 'FAILURE') {
     start(pathToConfig);

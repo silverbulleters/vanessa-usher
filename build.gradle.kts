@@ -1,5 +1,8 @@
 val junitVersion = "5.6.1"
 
+group = "org.github.silverbulleters"
+version = "0.5.0"
+
 plugins {
     java
     groovy
