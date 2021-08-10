@@ -1,0 +1,74 @@
+{
+  "v8Version" : "8.3",
+  "agent" : "any",
+  "debug" : false,
+  "emailForNotification" : "",
+  "vrunnerConfig" : "./tools/JSON/vRunner.json",
+  "timeout" : 100,
+  "defaultInfobase" : {
+    "connectionString" : "",
+    "auth" : ""
+  },
+  "stages" : {
+    "gitsync" : false,
+    "prepareBase" : false,
+    "syntaxCheck" : false,
+    "smoke" : false,
+    "tdd" : false,
+    "bdd" : false,
+    "sonarqube" : false,
+    "build" : false,
+    "deploy" : false
+  },
+  "gitsync" : {
+    "timeout" : 40,
+    "repo" : {
+      "path" : "",
+      "auth" : ""
+    },
+    "configPath" : "./tools/JSON/gitsync_conf.JSON"
+  },
+  "preparebase" : {
+    "timeout" : 100,
+    "sourcePath" : "./src/cf",
+    "template" : "",
+    "repo" : {
+      "path" : "",
+      "auth" : ""
+    }
+  },
+  "syntaxCheck" : {
+    "timeout" : 100,
+    "allurePath" : "./out/syntaxCheck/allure",
+    "junitPath" : "./out/junit/syntaxCheck.xml"
+  },
+  "smoke" : {
+    "timeout" : 100,
+    "xddConfig" : "./tools/JSON/smokeTestRunnerConf.json",
+    "testPath" : "$addroot/tests/smoke",
+    "allurePath" : "./out/smoke/allure",
+    "junitPath" : "./out/junit/smoke.xml"
+  },
+  "tdd" : {
+    "timeout" : 100,
+    "xddConfig" : "./tools/JSON/xddTestRunnerConf.json",
+    "testPath" : "./tests/unit",
+    "allurePath" : "./out/tdd/allure",
+    "junitPath" : "./out/junit/xdd.xml"
+  },
+  "bdd" : {
+    "timeout" : 100,
+    "allurePath" : "./out/bddallure"
+  },
+  "sonarqube" : {
+    "timeout" : 100,
+    "agent" : "any",
+    "toolId" : "sonar-scanner",
+    "serverId" : "SonarQube",
+    "debug" : false
+  },
+  "build" : {
+    "timeout" : 100,
+    "distPath" : ".packman/1cv8.cf"
+  }
+}
