@@ -8,6 +8,7 @@ plugins {
     groovy
     id("com.mkobit.jenkins.pipelines.shared-library") version "0.10.1"
     id("com.github.ben-manes.versions") version "0.21.0"
+    id("net.kyori.indra.license-header") version "2.0.6"
 }
 
 dependencies {
@@ -66,4 +67,17 @@ sharedLibrary {
         dependency("org.jenkinsci.plugins", "pipeline-model-definition", declarativePluginsVersion)
         dependency("org.jenkinsci.plugins", "pipeline-model-extensions", declarativePluginsVersion)
     }
+}
+
+license {
+    header(rootProject.file("/license/header.txt"))
+    ext["title"] = "Vanessa-Usher"
+    ext["years"] = "2019-2021"
+    ext["owner"] = "SilverBulleters, LLC"
+    exclude("**/*.properties")
+    exclude("**/*.xml")
+    exclude("**/*.json")
+    exclude("**/*.txt")
+    exclude("**/*.java.orig")
+    exclude("**/*.impl")
 }
