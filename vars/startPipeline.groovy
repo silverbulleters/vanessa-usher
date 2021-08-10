@@ -1,9 +1,5 @@
-import com.cloudbees.groovy.cps.NonCPS
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
-import org.silverbulleters.usher.config.additional.InfoBase
-import org.silverbulleters.usher.config.additional.Repo
-import org.silverbulleters.usher.config.ConfigurationReader
 
 @Field
 PipelineConfiguration config
