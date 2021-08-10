@@ -39,7 +39,7 @@
 startPipeline('tools/pipeline/gitsync.json')
 ```
 
-![image-20210810132241700](C:\Develop\Projects\vanessa-usher2\resources\images\pipe_gitsync.png)
+![image-20210810132241700](/resources/images/pipe_gitsync.png)
 
 Запуск проверочного контура (`Jenkinsfile_gitsync`):
 
@@ -49,7 +49,7 @@ startPipeline('tools/pipeline/gitsync.json')
 startPipeline('tools/pipeline/ci.json')
 ```
 
-![image-20210810132219338](C:\Develop\Projects\vanessa-usher2\resources\images\pipe_ci.png)
+![image-20210810132219338](/resources/images/pipe_ci.png)
 
 ### Настройка конфигурации
 
