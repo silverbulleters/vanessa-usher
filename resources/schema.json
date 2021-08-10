@@ -39,6 +39,9 @@
         "gitsync" : {
           "type" : "boolean"
         },
+        "edtTransform" : {
+          "type" : "boolean"
+        },
         "prepareBase" : {
           "type" : "boolean"
         },
@@ -73,6 +76,27 @@
           "type" : "integer"
         },
         "configPath" : {
+          "type" : "string"
+        }
+      }
+    },
+    "edtTransform" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:EdtTransformOptional",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer"
+        },
+        "edt" : {
+          "type" : "string"
+        },
+        "workspacePath" : {
+          "type" : "string"
+        },
+        "sourcePath" : {
+          "type" : "string"
+        },
+        "outPath" : {
           "type" : "string"
         }
       }
