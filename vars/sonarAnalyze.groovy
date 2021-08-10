@@ -25,16 +25,16 @@ void call(PipelineConfiguration config) {
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage('Sonarqube static analysis') {
       node(stageOptional.getAgent()) {
-        checkout scm
+        def scmVars = checkout scm
         catchError(message: 'Ошибка во время выполнения sonar-scanner', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          analyze()
+          analyze(scmVars)
         }
       }
     }
   }
 }
 
-private def analyze() {
+private def analyze(scmVars) {
   def projectVersion = getProjectVersion()
   def scannerHome = tool stageOptional.getToolId()
 
@@ -42,7 +42,17 @@ private def analyze() {
   if (stageOptional.isDebug()) {
     sonarDebugKey = '-X'
   }
-  sonarCommand = "${scannerHome}/bin/sonar-scanner ${sonarDebugKey} ${projectVersion}"
+
+  def sonarBranch = ''
+  if (stageOptional.isUseBranch()) {
+    def branch = "${scmVars.GIT_BRANCH}"
+    if (branch.startsWith('origin/')) {
+      branch = branch.substring(7)
+    }
+    sonarBranch = "-Dsonar.branch.name=${branch}"
+  }
+
+  sonarCommand = "${scannerHome}/bin/sonar-scanner ${sonarDebugKey} ${projectVersion} ${sonarBranch}"
   withSonarQubeEnv("${stageOptional.getServerId()}") {
     cmdRun(sonarCommand)
   }

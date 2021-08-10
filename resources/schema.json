@@ -215,6 +215,9 @@
         },
         "debug" : {
           "type" : "boolean"
+        },
+        "useBranch" : {
+          "type" : "boolean"
         }
       }
     },
