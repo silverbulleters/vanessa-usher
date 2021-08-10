@@ -9,15 +9,12 @@ class ConfigurationSchemeGenerator {
 
   static void main(args) {
     def mapper = new ObjectMapper()
-    def generator = new JsonSchemaGenerator(mapper);
-    def jsonSchema = generator.generateSchema(PipelineConfiguration.class);
+    def generator = new JsonSchemaGenerator(mapper)
+    def jsonSchema = generator.generateSchema(PipelineConfiguration.class)
 
-    def json = new StringWriter();
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    mapper.writeValue(json, jsonSchema);
-
-    def jsonSchemaFile = new File("resources/schema.json");
-    mapper.writeValue(jsonSchemaFile, jsonSchema);
+    def jsonSchemaFile = new File("resources/schema.json")
+    mapper.configure(SerializationFeature.INDENT_OUTPUT, true)
+    mapper.writeValue(jsonSchemaFile, jsonSchema)
   }
 
 }
