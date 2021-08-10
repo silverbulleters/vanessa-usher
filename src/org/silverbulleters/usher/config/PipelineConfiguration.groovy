@@ -57,6 +57,9 @@ class PipelineConfiguration implements Serializable {
   @JsonProperty("gitsync")
   GitsyncOptional gitsyncOptional = GitsyncOptional.EMPTY
 
+  @JsonProperty("edtTransform")
+  EdtTransformOptional edtTransformOptional = EdtTransformOptional.EMPTY
+
   @JsonProperty("preparebase")
   PrepareBaseOptional prepareBaseOptional = PrepareBaseOptional.EMPTY
 
