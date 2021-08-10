@@ -7,6 +7,7 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.config.additional.Repo
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 
 @Field

@@ -72,18 +72,6 @@
         "timeout" : {
           "type" : "integer"
         },
-        "repo" : {
-          "type" : "object",
-          "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo",
-          "properties" : {
-            "path" : {
-              "type" : "string"
-            },
-            "auth" : {
-              "type" : "string"
-            }
-          }
-        },
         "configPath" : {
           "type" : "string"
         }
@@ -104,7 +92,15 @@
         },
         "repo" : {
           "type" : "object",
-          "$ref" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo"
+          "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo",
+          "properties" : {
+            "path" : {
+              "type" : "string"
+            },
+            "auth" : {
+              "type" : "string"
+            }
+          }
         }
       }
     },
