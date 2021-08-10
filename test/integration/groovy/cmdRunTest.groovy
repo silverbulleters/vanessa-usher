@@ -31,7 +31,7 @@ class cmdRunTest {
         def workflowJob = jenkinsRule.createProject(WorkflowJob, 'project')
         workflowJob.definition = flowDefinition
 
-        jenkinsRule.assertLogContains('Проверка', jenkinsRule.buildAndAssertSuccess(workflowJob))
+        jenkinsRule.assertLogContains('Check', jenkinsRule.buildAndAssertSuccess(workflowJob))
     }
 
     static String getPipelineScript() {
@@ -41,7 +41,7 @@ class cmdRunTest {
             stages {
                 stage('test') {
                     steps {
-                        cmdRun("echo Проверка")
+                        cmdRun("echo Check")
                     }
                 }
             }

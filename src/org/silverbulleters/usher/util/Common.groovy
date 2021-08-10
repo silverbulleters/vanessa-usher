@@ -1,12 +1,11 @@
 package org.silverbulleters.usher.util
 
-import com.cloudbees.groovy.cps.NonCPS
+import org.silverbulleters.usher.UsherConstant
 
 class Common {
 
-  @NonCPS
   static String getLibraryVersion() {
-    return getClass().getPackage().getImplementationVersion()
+    return UsherConstant.PROJECT_VERSION
   }
 
 }
