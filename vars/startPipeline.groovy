@@ -12,10 +12,10 @@ void call() {
   call('pipeline.json')
 }
 
-void call(String pathToConnfig) {
+void call(String pathToConfig) {
 
   catchError(buildResult: 'FAILURE') {
-    start(pathToConnfig);
+    start(pathToConfig);
   }
 
   if (currentBuild.result == 'FAILURE') {
@@ -25,10 +25,10 @@ void call(String pathToConnfig) {
   }
 }
 
-void start(String pathToConnfig) {
+void start(String pathToConfig) {
   node {
     checkout scm
-    init(pathToConnfig)
+    init(pathToConfig)
 
     // gitsync
     gitsync(config)
@@ -45,11 +45,9 @@ void start(String pathToConnfig) {
   }
 }
 
-void init(String pathToConnfig) {
+void init(String pathToConfig) {
   stage('Initializing') {
-    node() {
-      config = getPipelineConfiguration(pathToConnfig)
-    }
+    config = getPipelineConfiguration(pathToConfig)
   }
 }
 

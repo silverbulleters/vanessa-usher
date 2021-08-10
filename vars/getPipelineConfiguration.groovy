@@ -9,7 +9,6 @@ PipelineConfiguration call(String pathToConfig) {
     def content = readFile(pathToConfig)
     return ConfigurationReader.create(content)
   } else {
-    println("Конфигурационный файл не найден")
+    throw new Exception("Конфигурационный файл не найден")
   }
-  return ConfigurationReader.create()
 }
