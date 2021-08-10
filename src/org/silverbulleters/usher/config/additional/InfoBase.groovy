@@ -7,6 +7,7 @@
 package org.silverbulleters.usher.config.additional
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import org.silverbulleters.usher.UsherConstant
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class InfoBase {
@@ -15,9 +16,9 @@ class InfoBase {
     /**
      * Строка подключения к информационной базе
      */
-    String connectionString = ""
+    String connectionString = UsherConstant.EMPTY_VALUE
     /**
      * Идентификатор секрета авторизации в информационной базе
      */
-    String auth = ""
+    String auth = UsherConstant.EMPTY_VALUE
 }

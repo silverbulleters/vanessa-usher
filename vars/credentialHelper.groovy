@@ -1,3 +1,5 @@
+import org.silverbulleters.usher.UsherConstant
+
 /*
  * Vanessa-Usher
  * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
@@ -31,6 +33,9 @@ String getCustomAuth(String userName, String passName) {
   return credential
 }
 
+boolean authIsPresent(String auth) {
+  return !(auth == UsherConstant.EMPTY_VALUE || auth.isEmpty())
+}
 
 boolean exist(String id) {
   boolean result = false

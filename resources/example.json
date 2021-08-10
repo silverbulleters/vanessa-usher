@@ -2,12 +2,12 @@
   "v8Version" : "8.3",
   "agent" : "any",
   "debug" : false,
-  "emailForNotification" : "",
+  "emailForNotification" : "EMPTY_VALUE",
   "vrunnerConfig" : "./tools/JSON/vRunner.json",
   "timeout" : 100,
   "defaultInfobase" : {
-    "connectionString" : "",
-    "auth" : ""
+    "connectionString" : "EMPTY_VALUE",
+    "auth" : "EMPTY_VALUE"
   },
   "stages" : {
     "gitsync" : false,
@@ -23,18 +23,18 @@
   "gitsync" : {
     "timeout" : 40,
     "repo" : {
-      "path" : "",
-      "auth" : ""
+      "path" : "EMPTY_VALUE",
+      "auth" : "EMPTY_VALUE"
     },
     "configPath" : "./tools/JSON/gitsync_conf.JSON"
   },
   "preparebase" : {
     "timeout" : 100,
     "sourcePath" : "./src/cf",
-    "template" : "",
+    "template" : "EMPTY_VALUE",
     "repo" : {
-      "path" : "",
-      "auth" : ""
+      "path" : "EMPTY_VALUE",
+      "auth" : "EMPTY_VALUE"
     }
   },
   "syntaxCheck" : {

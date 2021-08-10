@@ -5,6 +5,7 @@
  * Proprietary and confidential.
  */
 import groovy.transform.Field
+import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 
@@ -39,7 +40,7 @@ void call(PipelineConfiguration config) {
 
 private def prepare() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
+  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       prepareInternal(credential)
@@ -50,7 +51,7 @@ private def prepare() {
 }
 
 private def prepareInternal(String credential) {
-  if (stageOptional.getTemplate().isEmpty()) {
+  if (stageOptional.getTemplate().isEmpty() || stageOptional.getTemplate() == UsherConstant.EMPTY_VALUE) {
     if (stageOptional.getRepo() != Repo.EMPTY) {
       loadRepo(credential)
       updateDB(credential)

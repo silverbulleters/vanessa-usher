@@ -40,7 +40,7 @@ void call(PipelineConfiguration config) {
 
 private def testing() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
+  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       bddTesting(credential)

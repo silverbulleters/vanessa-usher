@@ -8,6 +8,7 @@ package org.silverbulleters.usher.config
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.stage.*
 
@@ -31,7 +32,7 @@ class PipelineConfiguration implements Serializable {
   /**
    * E-mail для уведомлений
    */
-  String emailForNotification = ""
+  String emailForNotification = UsherConstant.EMPTY_VALUE
 
   /**
    * Путь к общему конфигу vrunner

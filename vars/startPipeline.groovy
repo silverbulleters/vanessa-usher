@@ -5,6 +5,7 @@
  * Proprietary and confidential.
  */
 import groovy.transform.Field
+import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.util.Common
 
@@ -25,7 +26,7 @@ void call(String pathToConfig) {
   }
 
   if (currentBuild.result == 'FAILURE') {
-    sendNotification()
+    sendEmailNotification()
   } else {
     // success
   }
@@ -57,7 +58,10 @@ void init(String pathToConfig) {
   }
 }
 
-def sendNotification() {
+def sendEmailNotification() {
+  if (config.getEmailForNotification() == UsherConstant.EMPTY_VALUE) {
+    return
+  }
   emailext(
       body: "Подробности по ссылке ${env.BUILD_URL}.",
       subject: "Ошибка. Задача '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",

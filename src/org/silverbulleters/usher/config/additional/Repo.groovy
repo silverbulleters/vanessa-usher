@@ -7,11 +7,12 @@
 package org.silverbulleters.usher.config.additional
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import org.silverbulleters.usher.UsherConstant
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Repo {
     static final Repo EMPTY = new Repo()
 
-    String path = ""
-    String auth = ""
+    String path = UsherConstant.EMPTY_VALUE
+    String auth = UsherConstant.EMPTY_VALUE
 }

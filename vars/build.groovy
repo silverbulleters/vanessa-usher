@@ -39,7 +39,7 @@ void call(PipelineConfiguration config) {
 
 private void runBuild() {
   def auth = config.getDefaultInfobase().getAuth()
-  if (!auth.isEmpty() && credentialHelper.exist(auth)) {
+  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getCustomAuth("-db-user", "-db-pwd")
       packman.setDatabase(config, credential)
