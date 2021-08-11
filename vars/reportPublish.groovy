@@ -5,6 +5,7 @@
  * Proprietary and confidential.
  */
 import groovy.transform.Field
+import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 
 @Field
@@ -20,7 +21,7 @@ void call(PipelineConfiguration config) {
   this.config = config
 
   stage("Reports publish") {
-    node(config.getAgent()) {
+    node() {
       checkout scm
       publish()
     }
@@ -33,18 +34,22 @@ private def publish() {
 
   if (config.getStages().isSyntaxCheck()) {
     addToReport(reports, config.getSyntaxCheckOptional().getAllurePath())
+    unpackTestResults(config.getSyntaxCheckOptional().getAllurePath(), 'syntax-allure', 'syntax-junit')
   }
 
   if (config.getStages().isSmoke()) {
     addToReport(reports, config.getSmokeOptional().getAllurePath())
+    unpackTestResults(config.getSmokeOptional().getAllurePath(), 'smoke-allure', 'smoke-junit')
   }
 
   if (config.getStages().isTdd()) {
     addToReport(reports, config.getTddOptional().getAllurePath())
+    unpackTestResults(config.getTddOptional().getAllurePath(), 'tdd-allure', 'tdd-junit')
   }
 
   if (config.getStages().isBdd()) {
     addToReport(reports, config.getBddOptional().getAllurePath())
+    unpackTestResults(config.getBddOptional().getAllurePath(), 'bdd-allure', 'bdd-junit')
   }
 
   junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
@@ -61,4 +66,13 @@ private String getPrettyPath(String path) {
     return path.substring(2)
   }
   return path
+}
+
+private unpackTestResults(String path, String allure, String junit) {
+  dir(path) {
+    unstash allure
+  }
+  dir(UsherConstant.JUNIT_PATH) {
+    unstash junit
+  }
 }

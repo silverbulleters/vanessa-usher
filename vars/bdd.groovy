@@ -5,6 +5,7 @@
  * Proprietary and confidential.
  */
 import groovy.transform.Field
+import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.SmokeOptional
@@ -32,6 +33,7 @@ void call(PipelineConfiguration config) {
         }
         if (fileExists(stageOptional.getAllurePath())) {
           allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
+          archiveTestResults()
         }
       }
     }
@@ -54,4 +56,13 @@ private bddTesting(String credential) {
   def command = vrunner.vanessa(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
+}
+
+private def archiveTestResults() {
+  dir(stageOptional.getAllurePath()) {
+    stash includes: '*', name: 'bdd-allure'
+  }
+  dir(UsherConstant.JUNIT_PATH) {
+    stash includes: "*", name: 'bdd-junit'
+  }
 }

@@ -5,6 +5,7 @@
  * Proprietary and confidential.
  */
 import groovy.transform.Field
+import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.SmokeOptional
 import org.silverbulleters.usher.config.stage.TddOptional
@@ -32,6 +33,7 @@ void call(PipelineConfiguration config) {
         }
         if (fileExists(stageOptional.getAllurePath())) {
           allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
+          archiveTestResults()
         }
       }
     }
@@ -48,6 +50,15 @@ private def testing() {
     }
   } else {
     xddTesting('', '')
+  }
+}
+
+private def archiveTestResults() {
+  dir(stageOptional.getAllurePath()) {
+    stash includes: '*', name: 'tdd-allure'
+  }
+  dir(UsherConstant.JUNIT_PATH) {
+    stash includes: "*", name: 'tdd-junit'
   }
 }
 
