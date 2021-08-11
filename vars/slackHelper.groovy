@@ -1,9 +1,7 @@
 import org.silverbulleters.usher.NotificationInfo
 
 void sendNotification(NotificationInfo info) {
-
-  def block = getSuccessBlock(info)
-
+  def blocks = getSuccessBlock(info)
   slackSend(channel: info.channelId, blocks: blocks)
 }
 

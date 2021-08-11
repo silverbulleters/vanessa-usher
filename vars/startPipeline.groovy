@@ -6,7 +6,9 @@
  */
 
 
+import com.cloudbees.groovy.cps.NonCPS
 import groovy.transform.Field
+import hudson.tasks.test.AbstractTestResultAction
 import org.silverbulleters.usher.NotificationInfo
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.NotificationMode
@@ -33,6 +35,9 @@ void call(String pathToConfig) {
 
   notificationInfo.status = "${currentBuild.currentResult}"
   notificationInfo.showTestResults = common.needPublishTests(config)
+  if (notificationInfo.showTestResults) {
+    fillSummaryTestResults()
+  }
 
   if (currentBuild.currentResult == 'SUCCESS') {
     sendSuccessNotification()
@@ -87,6 +92,8 @@ void sendErrorNotification() {
 
   if (config.notification.mode == NotificationMode.SLACK) {
 
+    slackHelper.sendNotification(notificationInfo)
+
   } else if (config.notification.mode == NotificationMode.EMAIL) {
 
     emailHelper.sendNotification(config.notification.email, notificationInfo)
@@ -106,4 +113,12 @@ void fillNotificationInfo(scmVariables) {
   notificationInfo.branchName = "${scmVariables.GIT_BRANCH}"
   notificationInfo.commitId = "${scmVariables.GIT_COMMIT}"
   notificationInfo.commitMessage = ""
+}
+
+@NonCPS
+void fillSummaryTestResults() {
+  def testResultAction = currentBuild.rawBuild.getAction(AbstractTestResultAction.class)
+  notificationInfo.failedCount = testResultAction.getFailCount()
+  notificationInfo.skippedCount = testResultAction.getSkipCount()
+  notificationInfo.successCount = testResultAction.getTotalCount() - notificationInfo.failedCount - notificationInfo.skippedCount
 }
