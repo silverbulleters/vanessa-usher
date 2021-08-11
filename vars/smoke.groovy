@@ -51,11 +51,15 @@ private def testing() {
 }
 
 private smokeTesting(String credential, String credentialTestClient) {
+  def testClient = credentialTestClient.isEmpty() ? "::1538" : credentialTestClient
+
   command = vrunner.smoke(config, stageOptional)
   command = command.replace("%credentialID%", credential)
-  command = command.replace("%credentialTestClientID%", credentialTestClient)
+  command = command.replace("%credentialTestClientID%", testClient)
   cmdRun(command)
 }
+
+
 
 // FIXME: ДУБЛЬ
 private String getTestClient() {
