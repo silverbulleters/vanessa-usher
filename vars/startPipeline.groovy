@@ -32,6 +32,8 @@ void call(String pathToConfig) {
   }
 
   notificationInfo.status = "${currentBuild.currentResult}"
+  notificationInfo.showTestResults = common.needPublishTests(config)
+
   if (currentBuild.currentResult == 'SUCCESS') {
     sendSuccessNotification()
   } else if (currentBuild.currentResult == 'FAILURE') {
@@ -74,6 +76,8 @@ void sendSuccessNotification() {
 
   } else if (config.getNotification().getMode() == NotificationMode.EMAIL) {
 
+    emailHelper.sendNotification(config.notification.email, notificationInfo)
+
   } else {
     // TODO: вывод в лог
   }
@@ -84,14 +88,9 @@ void sendErrorNotification() {
   if (config.notification.mode == NotificationMode.SLACK) {
 
   } else if (config.notification.mode == NotificationMode.EMAIL) {
-    if (config.notification.email.isEmpty()) {
-      return
-    }
-    emailext(
-        body: "Подробности по ссылке ${env.BUILD_URL}.",
-        subject: "Ошибка. Задача '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-        to: config.getEmailForNotification()
-    )
+
+    emailHelper.sendNotification(config.notification.email, notificationInfo)
+
   } else {
     // TODO: вывод в лог
   }

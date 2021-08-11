@@ -12,7 +12,7 @@ import org.silverbulleters.usher.config.PipelineConfiguration
 PipelineConfiguration config
 
 void call(PipelineConfiguration config) {
-  boolean needPublish = config.getStages().isSyntaxCheck() || config.getStages().isSmoke() || config.getStages().isTdd() || config.getStages().isBdd()
+  boolean needPublish = common.needPublishTests(config)
 
   if (!needPublish) {
     return
