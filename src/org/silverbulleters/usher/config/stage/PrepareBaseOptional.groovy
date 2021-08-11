@@ -20,6 +20,7 @@ class PrepareBaseOptional extends BaseOptional {
 
   PrepareBaseOptional() {
     name = "Prepare base"
+    id = 'prepare-base'
     timeout = 100
   }
 }

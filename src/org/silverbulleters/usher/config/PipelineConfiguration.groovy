@@ -40,6 +40,11 @@ class PipelineConfiguration implements Serializable {
   String vrunnerConfig = "./tools/JSON/vRunner.json"
 
   /**
+   * Путь к каталогу с junit тестами
+   */
+  String junitPath = UsherConstant.JUNIT_PATH
+
+  /**
    * Общий таймаут на задание
    */
   int timeout = 100

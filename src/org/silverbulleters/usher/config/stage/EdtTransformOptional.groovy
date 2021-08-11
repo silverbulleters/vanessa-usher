@@ -12,7 +12,8 @@ class EdtTransformOptional extends BaseOptional {
   String outPath = "./build/out"
 
   EdtTransformOptional() {
-    name = "EDT transform to XML"
+    name = 'EDT transform to XML'
+    id = 'edt-transform'
     timeout = 30
   }
 

@@ -12,7 +12,8 @@ class BddOptional extends BaseOptional {
   String allurePath = "./out/bddallure"
 
   BddOptional() {
-    name = "BDD"
+    name = 'BDD'
+    id = 'bdd'
     timeout = 100
   }
 

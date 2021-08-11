@@ -13,7 +13,8 @@ class SyntaxCheckOptional extends BaseOptional {
   String junitPath = "./out/junit/syntaxCheck.xml"
 
   SyntaxCheckOptional() {
-    name = "Syntax check"
+    name = 'Syntax check'
+    id = 'syntax'
     timeout = 100
   }
 

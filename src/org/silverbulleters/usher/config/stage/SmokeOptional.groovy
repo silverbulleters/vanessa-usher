@@ -15,7 +15,8 @@ class SmokeOptional extends BaseOptional {
   String junitPath = "./out/junit/smoke.xml"
 
   SmokeOptional() {
-    name = "Smoke"
+    name = 'Smoke'
+    id = 'smoke'
     timeout = 100
   }
 
