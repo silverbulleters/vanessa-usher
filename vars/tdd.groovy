@@ -45,7 +45,7 @@ private def testing() {
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
-      def credentialTestClient = getTestClient()
+      def credentialTestClient = credentialHelper.getTestClientWithAuth()
       xddTesting(credential, credentialTestClient)
     }
   } else {
@@ -69,17 +69,4 @@ private xddTesting(String credential, String credentialTestClient) {
   command = command.replace("%credentialID%", credential)
   command = command.replace("%credentialTestClientID%", testClient)
   cmdRun(command)
-}
-
-// FIXME: ДУБЛЬ
-private String getTestClient() {
-  def baseValue = '%s:%s:1538'
-  login = "${USERNAME}"
-  pass = ""
-  try {
-    pass = "${PASSWORD}"
-  } catch (e) {
-  }
-  def credentialTestClient = String.format('%s:%s:1538', login, pass)
-  return credentialTestClient
 }

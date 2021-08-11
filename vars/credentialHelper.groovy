@@ -39,6 +39,18 @@ String getCustomAuth(String userName, String passName) {
   return credential
 }
 
+String getTestClientWithAuth() {
+  def baseValue = '%s:%s:1538'
+  login = "${USERNAME}"
+  pass = ""
+  try {
+    pass = "${PASSWORD}"
+  } catch (ignored) {
+  }
+  def credentialTestClient = String.format('%s:%s:1538', login, pass)
+  return credentialTestClient
+}
+
 boolean authIsPresent(String auth) {
   return !(auth == UsherConstant.EMPTY_VALUE || auth.isEmpty())
 }

@@ -4,8 +4,8 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
+
 import groovy.transform.Field
-import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.SmokeOptional
 
@@ -44,7 +44,7 @@ private def testing() {
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
-      def credentialTestClient = getTestClient()
+      def credentialTestClient = credentialHelper.getTestClientWithAuth()
       smokeTesting(credential, credentialTestClient)
     }
   } else {
@@ -68,17 +68,4 @@ private def archiveTestResults() {
   dir(config.getJunitPath()) {
     stash includes: "*", name: "${stageOptional.getId()}-junit"
   }
-}
-
-// FIXME: ДУБЛЬ
-private String getTestClient() {
-  def baseValue = '%s:%s:1538'
-  login = "${USERNAME}"
-  pass = ""
-  try {
-    pass = "${PASSWORD}"
-  } catch (e) {
-  }
-  def credentialTestClient = String.format('%s:%s:1538', login, pass)
-  return credentialTestClient
 }
