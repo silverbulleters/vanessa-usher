@@ -4,13 +4,19 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
+
+
 import groovy.transform.Field
-import org.silverbulleters.usher.UsherConstant
+import org.silverbulleters.usher.NotificationInfo
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.config.additional.NotificationMode
 import org.silverbulleters.usher.util.Common
 
 @Field
 PipelineConfiguration config
+
+@Field
+NotificationInfo notificationInfo = new NotificationInfo()
 
 void call() {
   call('pipeline.json')
@@ -25,17 +31,18 @@ void call(String pathToConfig) {
     start(pathToConfig);
   }
 
-  if (currentBuild.result == 'FAILURE') {
-    sendEmailNotification()
-  } else {
-    // success
+  notificationInfo.status = "${currentBuild.currentResult}"
+  if (currentBuild.currentResult == 'SUCCESS') {
+    sendSuccessNotification()
+  } else if (currentBuild.currentResult == 'FAILURE') {
+    sendErrorNotification()
   }
 }
 
 void start(String pathToConfig) {
   node {
-    checkout scm
-    init(pathToConfig)
+    def scmVariables = checkout scm
+    init(pathToConfig, scmVariables)
 
     // gitsync
     gitsync(config)
@@ -53,19 +60,51 @@ void start(String pathToConfig) {
   }
 }
 
-void init(String pathToConfig) {
+void init(String pathToConfig, scmVariables) {
   stage('Initializing') {
     config = getPipelineConfiguration(pathToConfig)
+    fillNotificationInfo(scmVariables)
   }
 }
 
-def sendEmailNotification() {
-  if (config.getEmailForNotification() == UsherConstant.EMPTY_VALUE) {
-    return
+void sendSuccessNotification() {
+  if (config.getNotification().getMode() == NotificationMode.SLACK) {
+
+    slackHelper.sendNotification(notificationInfo)
+
+  } else if (config.getNotification().getMode() == NotificationMode.EMAIL) {
+
+  } else {
+    // TODO: вывод в лог
   }
-  emailext(
-      body: "Подробности по ссылке ${env.BUILD_URL}.",
-      subject: "Ошибка. Задача '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      to: config.getEmailForNotification()
-  )
+}
+
+void sendErrorNotification() {
+
+  if (config.notification.mode == NotificationMode.SLACK) {
+
+  } else if (config.notification.mode == NotificationMode.EMAIL) {
+    if (config.notification.email.isEmpty()) {
+      return
+    }
+    emailext(
+        body: "Подробности по ссылке ${env.BUILD_URL}.",
+        subject: "Ошибка. Задача '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+        to: config.getEmailForNotification()
+    )
+  } else {
+    // TODO: вывод в лог
+  }
+
+}
+
+void fillNotificationInfo(scmVariables) {
+  // для slack only
+  notificationInfo.channelId = config.notification.slack.channelName
+  notificationInfo.projectName = "${env.JOB_NAME}"
+  notificationInfo.buildNumber = "${env.BUILD_NUMBER}"
+  notificationInfo.buildUrl = "${env.BUILD_URL}"
+  notificationInfo.branchName = "${scmVariables.GIT_BRANCH}"
+  notificationInfo.commitId = "${scmVariables.GIT_COMMIT}"
+  notificationInfo.commitMessage = ""
 }
