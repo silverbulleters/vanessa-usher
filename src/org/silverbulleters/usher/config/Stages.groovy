@@ -14,6 +14,7 @@ class Stages {
   static final EMPTY = createEmptyStages()
 
   boolean gitsync = false
+  boolean edtTransform = false
   boolean prepareBase = false
   boolean syntaxCheck = false
   boolean smoke = false

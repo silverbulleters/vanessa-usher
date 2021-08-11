@@ -32,6 +32,11 @@ class SonarQubeOptional extends BaseOptional {
    */
   boolean debug = false
 
+  /**
+   * Использовать ветки
+   */
+  boolean useBranch = false
+
   SonarQubeOptional() {
     name = "SonarQube static analysis"
     timeout = 100

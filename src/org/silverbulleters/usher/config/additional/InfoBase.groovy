@@ -16,7 +16,7 @@ class InfoBase {
     /**
      * Строка подключения к информационной базе
      */
-    String connectionString = UsherConstant.EMPTY_VALUE
+    String connectionString = "/F.build/ib"
     /**
      * Идентификатор секрета авторизации в информационной базе
      */

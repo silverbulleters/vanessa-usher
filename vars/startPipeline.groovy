@@ -41,6 +41,7 @@ void start(String pathToConfig) {
     gitsync(config)
 
     // ci
+    edtTransform(config)
     prepareBase(config)
     syntaxCheck(config)
     smoke(config)

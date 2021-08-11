@@ -52,9 +52,11 @@ private def testing() {
 }
 
 private xddTesting(String credential, String credentialTestClient) {
+  def testClient = credentialTestClient.isEmpty() ? "::1538" : credentialTestClient
+
   command = vrunner.xunit(config, stageOptional)
   command = command.replace("%credentialID%", credential)
-  command = command.replace("%credentialTestClientID%", credentialTestClient)
+  command = command.replace("%credentialTestClientID%", testClient)
   cmdRun(command)
 }
 
