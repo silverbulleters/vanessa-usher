@@ -9,9 +9,16 @@ package org.silverbulleters.usher.config.stage
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 class BaseOptional {
+  /**
+   * Имя опции, используется в названии stage
+   */
   @JsonIgnore
   String name = "Base stage"
-
+  /**
+   * Идентификатор опции
+   */
+  @JsonIgnore
+  String id = "base"
   /**
    * Таймаут работы stage
    */

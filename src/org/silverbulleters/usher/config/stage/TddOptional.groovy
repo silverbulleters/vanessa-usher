@@ -12,11 +12,12 @@ class TddOptional extends BaseOptional {
   String xddConfig = "./tools/JSON/xddTestRunnerConf.json"
   String testPath = './tests/unit'
   String allurePath = "./out/tdd/allure"
-  // FIXME: общий путь к junit
+  // FIXME: проверять каталог с общим путем к junit
   String junitPath = "./out/junit/xdd.xml"
 
   TddOptional() {
     name = "TDD"
+    id = 'tdd'
     timeout = 100
   }
 

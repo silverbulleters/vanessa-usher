@@ -15,7 +15,8 @@ class GitsyncOptional extends BaseOptional {
   String configPath = "./tools/JSON/gitsync_conf.JSON"
 
   GitsyncOptional() {
-    name = "Gitsync"
+    name = 'Gitsync'
+    id = 'gitsync'
     timeout = 40
   }
 }

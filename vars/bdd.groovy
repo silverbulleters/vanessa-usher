@@ -60,9 +60,9 @@ private bddTesting(String credential) {
 
 private def archiveTestResults() {
   dir(stageOptional.getAllurePath()) {
-    stash includes: '*', name: 'bdd-allure'
+    stash includes: '*', name: "${stageOptional.getId()}-allure"
   }
-  dir(UsherConstant.JUNIT_PATH) {
-    stash includes: "*", name: 'bdd-junit'
+  dir(config.getJunitPath()) {
+    stash includes: "*", name: "${stageOptional.getId()}-junit"
   }
 }

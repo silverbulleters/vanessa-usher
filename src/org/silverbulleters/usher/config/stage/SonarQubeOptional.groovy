@@ -38,7 +38,8 @@ class SonarQubeOptional extends BaseOptional {
   boolean useBranch = false
 
   SonarQubeOptional() {
-    name = "SonarQube static analysis"
+    name = 'SonarQube static analysis'
+    id = 'sonar-scanner'
     timeout = 100
   }
 

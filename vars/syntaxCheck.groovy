@@ -60,9 +60,9 @@ private def runSyntaxCheck(credential) {
 
 private def archiveTestResults() {
   dir(stageOptional.getAllurePath()) {
-    stash includes: '*', name: 'syntax-allure'
+    stash includes: '*', name: "${stageOptional.getId()}-allure"
   }
-  dir(UsherConstant.JUNIT_PATH) {
-    stash includes: "*", name: 'syntax-junit'
+  dir(config.getJunitPath()) {
+    stash includes: "*", name: "${stageOptional.getId()}-junit"
   }
 }

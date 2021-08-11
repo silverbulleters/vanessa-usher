@@ -12,7 +12,8 @@ class BuildOptional extends BaseOptional {
   String distPath = '.packman/1cv8.cf'
 
   BuildOptional() {
-    name = "Build"
+    name = 'Build'
+    id = 'build'
     timeout = 100
   }
 

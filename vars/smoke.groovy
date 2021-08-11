@@ -63,10 +63,10 @@ private smokeTesting(String credential, String credentialTestClient) {
 
 private def archiveTestResults() {
   dir(stageOptional.getAllurePath()) {
-    stash includes: '*', name: 'smoke-allure'
+    stash includes: '*', name: "${stageOptional.getId()}-allure"
   }
-  dir(UsherConstant.JUNIT_PATH) {
-    stash includes: "*", name: 'smoke-junit'
+  dir(config.getJunitPath()) {
+    stash includes: "*", name: "${stageOptional.getId()}-junit"
   }
 }
 

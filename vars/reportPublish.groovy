@@ -21,8 +21,7 @@ void call(PipelineConfiguration config) {
   this.config = config
 
   stage("Reports publish") {
-    node() {
-      checkout scm
+    node {
       publish()
     }
   }
@@ -34,22 +33,22 @@ private def publish() {
 
   if (config.getStages().isSyntaxCheck()) {
     addToReport(reports, config.getSyntaxCheckOptional().getAllurePath())
-    unpackTestResults(config.getSyntaxCheckOptional().getAllurePath(), 'syntax-allure', 'syntax-junit')
+    unpackTestResults(config.getSyntaxCheckOptional().getAllurePath(), config.getSyntaxCheckOptional().getId())
   }
 
   if (config.getStages().isSmoke()) {
     addToReport(reports, config.getSmokeOptional().getAllurePath())
-    unpackTestResults(config.getSmokeOptional().getAllurePath(), 'smoke-allure', 'smoke-junit')
+    unpackTestResults(config.getSmokeOptional().getAllurePath(), config.getSmokeOptional().getId())
   }
 
   if (config.getStages().isTdd()) {
     addToReport(reports, config.getTddOptional().getAllurePath())
-    unpackTestResults(config.getTddOptional().getAllurePath(), 'tdd-allure', 'tdd-junit')
+    unpackTestResults(config.getTddOptional().getAllurePath(), config.getTddOptional().getId())
   }
 
   if (config.getStages().isBdd()) {
     addToReport(reports, config.getBddOptional().getAllurePath())
-    unpackTestResults(config.getBddOptional().getAllurePath(), 'bdd-allure', 'bdd-junit')
+    unpackTestResults(config.getBddOptional().getAllurePath(), config.getBddOptional().getId())
   }
 
   junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
@@ -68,11 +67,11 @@ private String getPrettyPath(String path) {
   return path
 }
 
-private unpackTestResults(String path, String allure, String junit) {
+private unpackTestResults(String path, String id) {
   dir(path) {
-    unstash allure
+    unstash "${id}-allure"
   }
-  dir(UsherConstant.JUNIT_PATH) {
-    unstash junit
+  dir(config.getJunitPath()) {
+    unstash "${id}-junit"
   }
 }
