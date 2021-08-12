@@ -109,6 +109,10 @@ void fillNotificationInfo(scmVariables) {
 @NonCPS
 void fillSummaryTestResults() {
   def testResultAction = currentBuild.rawBuild.getAction(AbstractTestResultAction.class)
+  if (testResultAction == null) {
+    notificationInfo.showTestResults = false
+    return
+  }
   notificationInfo.failedCount = testResultAction.getFailCount()
   notificationInfo.skippedCount = testResultAction.getSkipCount()
   notificationInfo.successCount = testResultAction.getTotalCount() - notificationInfo.failedCount - notificationInfo.skippedCount

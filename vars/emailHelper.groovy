@@ -5,21 +5,30 @@ void sendNotification(String email, NotificationInfo info) {
   if (info.status == 'SUCCESS') {
     message = getSuccessMessage(info)
   } else {
-    message = getErrorMessage(info)
+    message = getFailedMessage(info)
   }
-
-  subject = "${common.getEmojiStatusForEmail(info.status)} Проект \'${info.projectName}\', сборка #${info.buildNumber}"
 
   emailext(
       mimeType: 'text/html',
       body: message,
-      subject: subject,
+      subject: getSubject(info),
       to: email
   )
 }
 
 void sendErrorNotification(String email, NotificationInfo info) {
-  // FIXME: не реализовано
+  message = getErrorMessage(info)
+
+  emailext(
+      mimeType: 'text/html',
+      body: message,
+      subject: getSubject(info),
+      to: email
+  )
+}
+
+private String getSubject(NotificationInfo info) {
+  return "${common.getEmojiStatusForEmail(info.status)} Проект \'${info.projectName}\', сборка #${info.buildNumber}"
 }
 
 private static String getSuccessMessage(NotificationInfo info) {
@@ -51,8 +60,8 @@ private static String getSuccessMessage(NotificationInfo info) {
   return message
 }
 
-private static String getErrorMessage(NotificationInfo info) {
-  def message = """
+private static String getFailedMessage(NotificationInfo info) {
+  String message = """
   <html>
     <body>
       <b>Ссылка на сборку:</b>
@@ -71,6 +80,35 @@ private static String getErrorMessage(NotificationInfo info) {
       <b>Последний коммит</b>:
       <br />
       ${info.commitId}
+    </body>
+  </html>
+  """
+
+  message = replaceTestResults(info, message)
+
+  return message
+}
+
+private static String getErrorMessage(NotificationInfo info) {
+  String message = """
+  <html>
+    <body>
+      <b>Ссылка на сборку:</b>
+      <br />
+      ${info.buildUrl}
+      <br />
+      <b>Статус:</b>
+      <br />
+      ${info.status}
+      <br />
+      <b>Ветка</b>:
+      <br />
+      ${info.branchName}
+      <br />
+      %TEST_RESULTS%
+      <b>Лог выполнения</b>:
+      <br />
+      ${info.buildUrl}consoleText
     </body>
   </html>
   """
