@@ -2,15 +2,24 @@
   "v8Version" : "8.3",
   "agent" : "any",
   "debug" : false,
+  "notification" : {
+    "mode" : "NO_USE",
+    "email" : "test@localhost",
+    "slack" : {
+      "channelName" : "#build"
+    }
+  },
   "emailForNotification" : "EMPTY_VALUE",
   "vrunnerConfig" : "./tools/JSON/vRunner.json",
+  "junitPath" : "./out/junit",
   "timeout" : 100,
   "defaultInfobase" : {
-    "connectionString" : "EMPTY_VALUE",
+    "connectionString" : "/F.build/ib",
     "auth" : "EMPTY_VALUE"
   },
   "stages" : {
     "gitsync" : false,
+    "edtTransform" : false,
     "prepareBase" : false,
     "syntaxCheck" : false,
     "smoke" : false,
@@ -22,11 +31,14 @@
   },
   "gitsync" : {
     "timeout" : 40,
-    "repo" : {
-      "path" : "EMPTY_VALUE",
-      "auth" : "EMPTY_VALUE"
-    },
     "configPath" : "./tools/JSON/gitsync_conf.JSON"
+  },
+  "edtTransform" : {
+    "timeout" : 30,
+    "edt" : "edt",
+    "workspacePath" : "./build/workspace",
+    "sourcePath" : "./src/cf",
+    "outPath" : "./build/out"
   },
   "preparebase" : {
     "timeout" : 100,
@@ -65,7 +77,8 @@
     "agent" : "any",
     "toolId" : "sonar-scanner",
     "serverId" : "SonarQube",
-    "debug" : false
+    "debug" : false,
+    "useBranch" : false
   },
   "build" : {
     "timeout" : 100,

@@ -11,10 +11,35 @@
     "debug" : {
       "type" : "boolean"
     },
+    "notification" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional",
+      "properties" : {
+        "mode" : {
+          "type" : "string",
+          "enum" : [ "NO_USE", "EMAIL", "SLACK" ]
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "slack" : {
+          "type" : "object",
+          "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional:SlackSetting",
+          "properties" : {
+            "channelName" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
     "emailForNotification" : {
       "type" : "string"
     },
     "vrunnerConfig" : {
+      "type" : "string"
+    },
+    "junitPath" : {
       "type" : "string"
     },
     "timeout" : {

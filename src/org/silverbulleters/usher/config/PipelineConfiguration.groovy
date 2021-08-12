@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.InfoBase
+import org.silverbulleters.usher.config.additional.NotificationMode
+import org.silverbulleters.usher.config.additional.NotificationOptional
 import org.silverbulleters.usher.config.stage.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,6 +30,11 @@ class PipelineConfiguration implements Serializable {
    * Режим отладки
    */
   boolean debug = false
+
+  /**
+   * Настройка уведомлений
+   */
+  NotificationOptional notification = NotificationOptional.EMPTY
 
   /**
    * E-mail для уведомлений
