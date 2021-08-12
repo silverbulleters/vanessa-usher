@@ -1,12 +1,12 @@
 import org.silverbulleters.usher.NotificationInfo
 
-void sendNotification(NotificationInfo info) {
-  def blocks = getSuccessBlock(info)
-  slackSend(channel: info.channelId, blocks: blocks)
+void sendNotification(String channelId, NotificationInfo info) {
+  blocks = getSuccessBlock(info)
+  slackSend(channel: channelId, blocks: blocks)
 }
 
-private def getSuccessBlock(NotificationInfo info) {
-  def blocks = [
+void sendErrorNotification(String channelId, NotificationInfo info) {
+  blocks = [
       [
           "type": "divider"
       ],
@@ -30,19 +30,6 @@ private def getSuccessBlock(NotificationInfo info) {
           "text": [
               "type": "mrkdwn",
               "text": "*Статус:*\n ${info.status}"
-          ]
-      ],
-      [
-          "type"  : "section",
-          "fields": [
-              [
-                  "type": "mrkdwn",
-                  "text": "*Ветка:*\n ${info.branchName}"
-              ],
-              [
-                  "type": "mrkdwn",
-                  "text": "*Результат тестирования:*\n Успешно: ${info.successCount}, Упало: ${info.failedCount}, Пропущено: ${info.skippedCount}"
-              ]
           ]
       ],
       [
@@ -51,13 +38,38 @@ private def getSuccessBlock(NotificationInfo info) {
               "type": "mrkdwn",
               "text": "*Последний коммит:*\n ${info.commitId}: ${info.commitMessage}"
           ]
+      ],
+      [
+          "type": "section",
+          "text": [
+              "type": "mrkdwn",
+              "text": "*Лог выполнения:*\n ${info.buildUrl}consoleText"
+          ]
       ]
   ]
-  return blocks
+  slackSend(channel: channelId, blocks: blocks)
 }
 
-private def getErrorBlock(NotificationInfo info) {
-  def blocks = [
+private getSuccessBlock(NotificationInfo info) {
+  section3 = [
+      "type"  : "section",
+      "fields": [
+          [
+              "type": "mrkdwn",
+              "text": "*Ветка:*\n ${info.branchName}"
+          ]
+      ]
+  ]
+
+  if (info.showTestResults) {
+    testResults = [
+        "type": "mrkdwn",
+        "text": "*Результат тестирования:*\n Успешно: ${info.successCount}, Упало: ${info.failedCount}, Пропущено: ${info.skippedCount}"
+    ]
+    section3.fields.add(testResults)
+  }
+
+  blocks = [
       [
           "type": "divider"
       ],
@@ -83,19 +95,7 @@ private def getErrorBlock(NotificationInfo info) {
               "text": "*Статус:*\n ${info.status}"
           ]
       ],
-      [
-          "type"  : "section",
-          "fields": [
-              [
-                  "type": "mrkdwn",
-                  "text": "*Ветка:*\n ${info.branchName}"
-              ],
-              [
-                  "type": "mrkdwn",
-                  "text": "*Результат тестирования:*\n Успешно: ${info.successCount}, Упало: ${info.failedCount}, Пропущено: ${info.skippedCount}"
-              ]
-          ]
-      ],
+      section3,
       [
           "type": "section",
           "text": [

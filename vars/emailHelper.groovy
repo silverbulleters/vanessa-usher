@@ -1,15 +1,14 @@
 import org.silverbulleters.usher.NotificationInfo
-import org.silverbulleters.usher.config.additional.NotificationMode
 
 void sendNotification(String email, NotificationInfo info) {
-  def message = ""
+  message = ""
   if (info.status == 'SUCCESS') {
     message = getSuccessMessage(info)
   } else {
     message = getErrorMessage(info)
   }
 
-  def subject = "${common.getEmojiStatusForEmail(info.status)} Проект \'${info.projectName}\', сборка #${info.buildNumber}"
+  subject = "${common.getEmojiStatusForEmail(info.status)} Проект \'${info.projectName}\', сборка #${info.buildNumber}"
 
   emailext(
       mimeType: 'text/html',
@@ -17,6 +16,10 @@ void sendNotification(String email, NotificationInfo info) {
       subject: subject,
       to: email
   )
+}
+
+void sendErrorNotification(String email, NotificationInfo info) {
+  // FIXME: не реализовано
 }
 
 private static String getSuccessMessage(NotificationInfo info) {

@@ -5,7 +5,6 @@
  * Proprietary and confidential.
  */
 
-
 import com.cloudbees.groovy.cps.NonCPS
 import groovy.transform.Field
 import hudson.tasks.test.AbstractTestResultAction
@@ -40,9 +39,11 @@ void call(String pathToConfig) {
   }
 
   if (currentBuild.currentResult == 'SUCCESS') {
-    sendSuccessNotification()
+    if (!config.stages.gitsync) {
+      sendNotification()
+    }
   } else if (currentBuild.currentResult == 'FAILURE') {
-    sendErrorNotification()
+    sendNotification()
   }
 }
 
@@ -74,34 +75,24 @@ void init(String pathToConfig, scmVariables) {
   }
 }
 
-void sendSuccessNotification() {
+void sendNotification() {
+  address = ""
+  def providerNotification
   if (config.getNotification().getMode() == NotificationMode.SLACK) {
-
-    slackHelper.sendNotification(notificationInfo)
-
+    providerNotification = slackHelper
+    address = config.notification.slack.channelName
   } else if (config.getNotification().getMode() == NotificationMode.EMAIL) {
-
-    emailHelper.sendNotification(config.notification.email, notificationInfo)
-
+    providerNotification = emailHelper
+    address = config.notification.email
   } else {
-    // TODO: вывод в лог
-  }
-}
-
-void sendErrorNotification() {
-
-  if (config.notification.mode == NotificationMode.SLACK) {
-
-    slackHelper.sendNotification(notificationInfo)
-
-  } else if (config.notification.mode == NotificationMode.EMAIL) {
-
-    emailHelper.sendNotification(config.notification.email, notificationInfo)
-
-  } else {
-    // TODO: вывод в лог
+    return
   }
 
+  if (config.stages.gitsync) {
+    providerNotification.sendErrorNotification(address, notificationInfo)
+  } else {
+    providerNotification.sendNotification(address, notificationInfo)
+  }
 }
 
 void fillNotificationInfo(scmVariables) {

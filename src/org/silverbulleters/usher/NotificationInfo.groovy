@@ -10,6 +10,7 @@ class NotificationInfo {
   String commitId = "<Не заполнено>"
   String commitMessage = "<Не заполнено>"
 
+  String errorMessage = ""
 
   boolean showTestResults = false
   int successCount = 0
