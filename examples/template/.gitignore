@@ -1,0 +1,9 @@
+.env
+build/
+allure-report/
+
+ConfigDumpInfo.xml
+dumplist.txt
+build
+out
+.scannerwork
