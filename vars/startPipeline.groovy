@@ -38,18 +38,18 @@ void start(String pathToConfig) {
     init(pathToConfig)
 
     // gitsync
-    gitsync(config)
+    stageGitsync(config)
 
     // ci
-    edtTransform(config)
-    prepareBase(config)
-    syntaxCheck(config)
-    smoke(config)
-    tdd(config)
-    bdd(config)
-    sonarAnalyze(config)
-    build(config)
-    reportPublish(config)
+    stageEdtTransform(config)
+    stagePrepareBase(config)
+    stageSyntaxCheck(config)
+    stageSmoke(config)
+    stageTdd(config)
+    stageBdd(config)
+    stageSonarAnalyze(config)
+    stageBuild(config)
+    stageReportPublish(config)
   }
 }
 
