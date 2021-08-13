@@ -93,7 +93,7 @@ def migrate(PipelineConfiguration config, PrepareBaseOptional optional) {
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--settings", config.getVrunnerConfig(),
       "--command", "'ЗапуститьОбновлениеИнформационнойБазы;ЗавершитьРаботуСистемы;'",
-      "--execute", '$runnerRoot/epf/ЗакрытьПредприятие.epf'
+      "--execute", '"$runnerRoot/epf/ЗакрытьПредприятие.epf"'
   ]
   return command.join(" ")
 }

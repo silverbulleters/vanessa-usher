@@ -12,8 +12,16 @@ def call(String command) {
   if (isUnix()) {
     sh "${command}"
   } else {
-    commands = ["chcp 65001"]
-    commands.add(command)
-    bat "${commands.join(" && ")}"
+    toRun = [
+        'chcp 65001',
+        "${command}"
+    ].join('\n')
+
+    bat toRun
+//    bat " chcp 65001\n" +
+//        "${command}"
+//    commands = ["chcp 65001"]
+//    commands.add(command)
+//    bat "${commands.join(" && ")}"
   }
 }
