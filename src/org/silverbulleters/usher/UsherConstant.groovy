@@ -8,6 +8,6 @@ package org.silverbulleters.usher;
 
 class UsherConstant {
   static final String EMPTY_VALUE = "EMPTY_VALUE"
-  static final String PROJECT_VERSION = "0.6.0"
+  static final String PROJECT_VERSION = "0.7.0"
   static final String JUNIT_PATH = "./out/junit"
 }
