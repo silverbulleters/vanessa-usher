@@ -33,7 +33,7 @@ void call(PipelineConfiguration config) {
         }
         if (fileExists(stageOptional.getAllurePath())) {
           allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-          archiveTestResults()
+          testResultsHelper.archive(config, stageOptional)
         }
       }
     }
@@ -50,15 +50,6 @@ private def testing() {
     }
   } else {
     xddTesting('', '')
-  }
-}
-
-private def archiveTestResults() {
-  dir(stageOptional.getAllurePath()) {
-    stash includes: '*', name: "${stageOptional.getId()}-allure"
-  }
-  dir(config.getJunitPath()) {
-    stash includes: "*", name: "${stageOptional.getId()}-junit"
   }
 }
 

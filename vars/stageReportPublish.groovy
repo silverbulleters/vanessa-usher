@@ -4,8 +4,8 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
+
 import groovy.transform.Field
-import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 
 @Field
@@ -53,6 +53,8 @@ private def publish() {
 
   junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
   allure includeProperties: false, jdk: '', results: reports
+
+  cleanup()
 }
 
 private addToReport(reports, String allurePath) {
@@ -73,5 +75,11 @@ private unpackTestResults(String path, String id) {
   }
   dir(config.getJunitPath()) {
     unstash "${id}-junit"
+  }
+}
+
+private void cleanup() {
+  dir('out') {
+    deleteDir()
   }
 }

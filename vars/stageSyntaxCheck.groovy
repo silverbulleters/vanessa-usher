@@ -33,7 +33,7 @@ def call(PipelineConfiguration config) {
         }
         if (fileExists(stageOptional.getAllurePath())) {
           allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-          archiveTestResults()
+          testResultsHelper.archive(config, stageOptional)
         }
       }
     }
@@ -56,13 +56,4 @@ private def runSyntaxCheck(credential) {
   command = vrunner.syntaxCheck(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
-}
-
-private def archiveTestResults() {
-  dir(stageOptional.getAllurePath()) {
-    stash includes: '*', name: "${stageOptional.getId()}-allure"
-  }
-  dir(config.getJunitPath()) {
-    stash includes: "*", name: "${stageOptional.getId()}-junit"
-  }
 }
