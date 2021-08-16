@@ -11,8 +11,8 @@ import org.silverbulleters.usher.UsherConstant
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Repo {
-    static final Repo EMPTY = new Repo()
+  static final Repo EMPTY = new Repo()
 
-    String path = UsherConstant.EMPTY_VALUE
-    String auth = UsherConstant.EMPTY_VALUE
+  String path = UsherConstant.EMPTY_VALUE
+  String auth = UsherConstant.EMPTY_VALUE
 }

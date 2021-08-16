@@ -5,9 +5,7 @@
  * Proprietary and confidential.
  */
 import groovy.transform.Field
-import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
-import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 
 @Field
