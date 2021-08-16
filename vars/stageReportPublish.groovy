@@ -4,7 +4,6 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
-
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 

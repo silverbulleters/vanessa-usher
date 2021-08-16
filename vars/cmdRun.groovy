@@ -4,6 +4,7 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
+
 /**
  * Функция исполнения команд. Установка локализации при использовании MS Windows
  * Пример вызова: cmdRun.Выполнить("dir /w")
