@@ -11,14 +11,14 @@ import org.silverbulleters.usher.UsherConstant
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class InfoBase {
-    static final EMPTY = new InfoBase()
+  static final EMPTY = new InfoBase()
 
-    /**
-     * Строка подключения к информационной базе
-     */
-    String connectionString = "/F.build/ib"
-    /**
-     * Идентификатор секрета авторизации в информационной базе
-     */
-    String auth = UsherConstant.EMPTY_VALUE
+  /**
+   * Строка подключения к информационной базе
+   */
+  String connectionString = "/F.build/ib"
+  /**
+   * Идентификатор секрета авторизации в информационной базе
+   */
+  String auth = UsherConstant.EMPTY_VALUE
 }

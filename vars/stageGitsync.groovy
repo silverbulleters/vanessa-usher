@@ -7,7 +7,6 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.GitsyncOptional
-import org.silverbulleters.usher.config.additional.InfoBase
 
 @Field
 PipelineConfiguration config

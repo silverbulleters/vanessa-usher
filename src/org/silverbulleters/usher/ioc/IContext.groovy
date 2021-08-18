@@ -7,5 +7,5 @@
 package org.silverbulleters.usher.ioc
 
 interface IContext {
-    IStepExecutor getStepExecutor()
+  IStepExecutor getStepExecutor()
 }

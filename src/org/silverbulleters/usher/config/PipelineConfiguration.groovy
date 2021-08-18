@@ -10,9 +10,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.InfoBase
-import org.silverbulleters.usher.config.additional.NotificationMode
 import org.silverbulleters.usher.config.additional.NotificationOptional
-import org.silverbulleters.usher.config.stage.*
+import org.silverbulleters.usher.config.stage.BddOptional
+import org.silverbulleters.usher.config.stage.BuildOptional
+import org.silverbulleters.usher.config.stage.EdtTransformOptional
+import org.silverbulleters.usher.config.stage.GitsyncOptional
+import org.silverbulleters.usher.config.stage.PrepareBaseOptional
+import org.silverbulleters.usher.config.stage.SmokeOptional
+import org.silverbulleters.usher.config.stage.SonarQubeOptional
+import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
+import org.silverbulleters.usher.config.stage.TddOptional
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PipelineConfiguration implements Serializable {

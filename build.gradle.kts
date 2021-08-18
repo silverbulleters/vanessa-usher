@@ -80,4 +80,5 @@ license {
     exclude("**/*.txt")
     exclude("**/*.java.orig")
     exclude("**/*.impl")
+    exclude("**/*.java")
 }

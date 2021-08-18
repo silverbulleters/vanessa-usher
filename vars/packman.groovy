@@ -5,7 +5,6 @@
  * Proprietary and confidential.
  */
 import org.silverbulleters.usher.config.PipelineConfiguration
-import org.silverbulleters.usher.config.additional.InfoBase
 
 public void setDatabase(PipelineConfiguration config, String credential) {
   def command = [

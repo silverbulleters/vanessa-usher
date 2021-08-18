@@ -4,7 +4,6 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
-
 import com.cloudbees.groovy.cps.NonCPS
 import groovy.transform.Field
 import hudson.tasks.test.AbstractTestResultAction

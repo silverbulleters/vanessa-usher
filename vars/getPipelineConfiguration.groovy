@@ -4,8 +4,8 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
-import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.ConfigurationReader
+import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.ioc.ContextRegistry
 
 PipelineConfiguration call(String pathToConfig) {
