@@ -96,7 +96,7 @@ private def initDevFromSource(credential) {
 }
 
 private def compile(credential) {
-  command = vrunner.initDevWithTemplate(config, stageOptional)
+  command = vrunner.compile(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
