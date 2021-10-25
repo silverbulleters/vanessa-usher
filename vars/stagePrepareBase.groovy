@@ -62,6 +62,7 @@ private def prepareInternal(String credential) {
   } else {
     initDevWithTemplate(credential)
     compile(credential)
+    updateDB(credential)
   }
   migrate(credential)
 }
