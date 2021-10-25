@@ -18,7 +18,7 @@ class UsherConstant {
   /**
    * Версия проекта
    */
-  static final String PROJECT_VERSION = "0.7.0"
+  static final String PROJECT_VERSION = "2.0.0-rc.1"
 
   /**
    * Путь к каталогу с отчетами в формате jUnit
