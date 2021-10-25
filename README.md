@@ -32,7 +32,7 @@
 
 Рассмотрим примеры из шаблона проекта `examples/template`.
 
-Запуск экспорта истории хранилища 1С (`Jenkinsfile`):
+Запуск экспорта истории хранилища 1С (`Jenkinsfile_gitsync`):
 
 ```groovy
 @Library('usher2') _
@@ -42,7 +42,7 @@ startPipeline('tools/pipeline/gitsync.json')
 
 ![image-20210810132241700](/resources/images/pipe_gitsync.png)
 
-Запуск проверочного контура (`Jenkinsfile_gitsync`):
+Запуск проверочного контура (`Jenkinsfile`):
 
 ```groovy
 @Library('usher2') _
