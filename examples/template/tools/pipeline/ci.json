@@ -1,10 +1,12 @@
 {
   "agent": "slave",
   "v8Version": "8.3",
-  "emailForNotification": "mailer@localhost",
   "defaultInfobase": {
-    "connectionString": "/F./build/ib",
-    "auth": ""
+    "connectionString": "/F./build/ib"
+  },
+  "notification": {
+    "mode": "EMAIL",
+    "email": "test@mail.ru"
   },
   "stages": {
     "prepareBase": true,
