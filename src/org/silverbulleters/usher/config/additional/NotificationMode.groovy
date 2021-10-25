@@ -6,6 +6,16 @@
  */
 package org.silverbulleters.usher.config.additional
 
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
+
+/**
+ * Режим уведомлений
+ */
 enum NotificationMode {
-  NO_USE, EMAIL, SLACK
+  @JsonPropertyDescription("Не использовать уведомления")
+  NO_USE,
+  @JsonPropertyDescription("Уведомления по email")
+  EMAIL,
+  @JsonPropertyDescription("Уведомления в Slack")
+  SLACK
 }

@@ -9,7 +9,6 @@
       "channelName" : "#build"
     }
   },
-  "emailForNotification" : "EMPTY_VALUE",
   "vrunnerConfig" : "./tools/JSON/vRunner.json",
   "junitPath" : "./out/junit",
   "timeout" : 100,
@@ -26,8 +25,7 @@
     "tdd" : false,
     "bdd" : false,
     "sonarqube" : false,
-    "build" : false,
-    "deploy" : false
+    "build" : false
   },
   "gitsync" : {
     "timeout" : 40,

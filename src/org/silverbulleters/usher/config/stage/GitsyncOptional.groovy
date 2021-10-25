@@ -8,10 +8,14 @@ package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
+/**
+ * Настройки этапа выгрузки истории хранилища 1С с помощью утилиты `gitsync`
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GitsyncOptional extends BaseOptional {
   static final EMPTY = new GitsyncOptional()
 
+  @JsonIgnoreProperties("Путь к файлу настроек")
   String configPath = "./tools/JSON/gitsync_conf.JSON"
 
   GitsyncOptional() {

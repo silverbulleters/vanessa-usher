@@ -7,18 +7,19 @@
 package org.silverbulleters.usher.config.additional
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 import org.silverbulleters.usher.UsherConstant
 
+/**
+ * Настройки подключения информационной базе
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class InfoBase {
   static final EMPTY = new InfoBase()
 
-  /**
-   * Строка подключения к информационной базе
-   */
+  @JsonPropertyDescription("Строка подключения к информационной базе, например, `/F.build/ib`")
   String connectionString = "/F.build/ib"
-  /**
-   * Идентификатор секрета авторизации в информационной базе
-   */
+
+  @JsonPropertyDescription("Id секрета Jenkins для авторизации в информационной базе")
   String auth = UsherConstant.EMPTY_VALUE
 }

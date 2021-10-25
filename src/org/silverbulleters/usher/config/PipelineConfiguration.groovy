@@ -21,82 +21,74 @@ import org.silverbulleters.usher.config.stage.SonarQubeOptional
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 import org.silverbulleters.usher.config.stage.TddOptional
 
+/**
+ * Настройки pipeline
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PipelineConfiguration implements Serializable {
-  /**
-   * Версия платформы 1С
-   */
+
+  @JsonIgnoreProperties("Версия платформы 1С. Например, `8.3.20.1549`")
   String v8Version = "8.3"
 
-  /**
-   * Агент по умолчанию
-   */
+  @JsonIgnoreProperties("""Имя/метки агента для запуска этапа. Например, `sonar-scanner`. 
+  Используется для всех этапов, кроме `sonarqube`.
+  """)
   String agent = "any"
 
-  /**
-   * Режим отладки
-   */
+  @JsonIgnoreProperties("Режим отладки")
   boolean debug = false
 
-  /**
-   * Настройка уведомлений
-   */
+  @JsonIgnoreProperties("Настройки уведомлений")
   NotificationOptional notification = NotificationOptional.EMPTY
 
-  /**
-   * E-mail для уведомлений
-   */
-  String emailForNotification = UsherConstant.EMPTY_VALUE
-
-  /**
-   * Путь к общему конфигу vrunner
-   */
+  @JsonIgnoreProperties("Путь к конфигурационному файлу vanessa-runner")
   String vrunnerConfig = "./tools/JSON/vRunner.json"
 
-  /**
-   * Путь к каталогу с junit тестами
-   */
+  @JsonIgnoreProperties("Путь к каталогу с отчетами в в формате jUnit")
   String junitPath = UsherConstant.JUNIT_PATH
 
-  /**
-   * Общий таймаут на задание
-   */
+  @JsonIgnoreProperties("Общий таймаут на время работы pipeline")
   int timeout = 100
 
-  /**
-   * Информационная база по умолчанию
-   */
+  @JsonIgnoreProperties("Информационная база по умолчанию")
   InfoBase defaultInfobase = InfoBase.EMPTY
 
-  /**
-   * Шаги задания
-   */
+  @JsonIgnoreProperties("Настройка использования этапов")
   Stages stages = Stages.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа выгрузки истории хранилища 1С с помощью утилиты `gitsync`")
   @JsonProperty("gitsync")
   GitsyncOptional gitsyncOptional = GitsyncOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройка этапа трансформации edt-формата конфигурации в xml")
   @JsonProperty("edtTransform")
   EdtTransformOptional edtTransformOptional = EdtTransformOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа подготовки информационной базы")
   @JsonProperty("preparebase")
   PrepareBaseOptional prepareBaseOptional = PrepareBaseOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа синтакс-проверки конфигурации 1С")
   @JsonProperty("syntaxCheck")
   SyntaxCheckOptional syntaxCheckOptional = SyntaxCheckOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа дымового тестирования")
   @JsonProperty("smoke")
   SmokeOptional smokeOptional = SmokeOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа TDD (Test-driven development)")
   @JsonProperty("tdd")
   TddOptional tddOptional = TddOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа BDD (Behavior-driven development)")
   @JsonProperty("bdd")
   BddOptional bddOptional = BddOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа статического анализа для SonarQube")
   @JsonProperty("sonarqube")
   SonarQubeOptional sonarQubeOptional = SonarQubeOptional.EMPTY
 
+  @JsonIgnoreProperties("Настройки этапа сборки CF на поставке")
   @JsonProperty("build")
   BuildOptional buildOptional = BuildOptional.EMPTY
 }

@@ -8,13 +8,25 @@ package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
+/**
+ * Настройка этапа трансформации edt-формата конфигурации в xml
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class EdtTransformOptional extends BaseOptional {
   static final EMPTY = new EdtTransformOptional()
 
+  @JsonIgnoreProperties("""Модуль edt для утилиты ring. По умолчанию используется `edt`.
+  Для использования, например, версии 2021.2 нужно указать `edt@2021.2.0`.
+  """)
   String edt = "edt"
+
+  @JsonIgnoreProperties("Каталог рабочей области проекта")
   String workspacePath = "./build/workspace"
+
+  @JsonIgnoreProperties("Каталог edt-выгрузки конфигурации")
   String sourcePath = "./src/cf"
+
+  @JsonIgnoreProperties("Каталог xml-выгрузки конфигурации")
   String outPath = "./build/out"
 
   EdtTransformOptional() {

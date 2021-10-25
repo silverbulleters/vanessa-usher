@@ -11,6 +11,9 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator
 import org.silverbulleters.usher.config.PipelineConfiguration
 
+/**
+ * Генератор json-схемы pipeline
+ */
 class ConfigurationSchemeGenerator {
 
   static void main(args) {

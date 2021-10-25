@@ -17,24 +17,25 @@
       "properties" : {
         "mode" : {
           "type" : "string",
+          "description" : "Режим уведомлений",
           "enum" : [ "NO_USE", "EMAIL", "SLACK" ]
         },
         "email" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Почтовый ящик для уведомлений по email"
         },
         "slack" : {
           "type" : "object",
           "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional:SlackSetting",
+          "description" : "Настройки уведомлений в Slack",
           "properties" : {
             "channelName" : {
-              "type" : "string"
+              "type" : "string",
+              "description" : "Канал уведомлений"
             }
           }
         }
       }
-    },
-    "emailForNotification" : {
-      "type" : "string"
     },
     "vrunnerConfig" : {
       "type" : "string"
@@ -50,10 +51,12 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:InfoBase",
       "properties" : {
         "connectionString" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Строка подключения к информационной базе, например, `/F.build/ib`"
         },
         "auth" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Id секрета Jenkins для авторизации в информационной базе"
         }
       }
     },
@@ -87,9 +90,6 @@
         },
         "build" : {
           "type" : "boolean"
-        },
-        "deploy" : {
-          "type" : "boolean"
         }
       }
     },
@@ -98,7 +98,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:GitsyncOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "configPath" : {
           "type" : "string"
@@ -110,7 +111,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:EdtTransformOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "edt" : {
           "type" : "string"
@@ -131,7 +133,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:PrepareBaseOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "sourcePath" : {
           "type" : "string"
@@ -158,7 +161,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SyntaxCheckOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "allurePath" : {
           "type" : "string"
@@ -173,7 +177,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SmokeOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "xddConfig" : {
           "type" : "string"
@@ -194,7 +199,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:TddOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "xddConfig" : {
           "type" : "string"
@@ -215,7 +221,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:BddOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "allurePath" : {
           "type" : "string"
@@ -227,7 +234,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SonarQubeOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "agent" : {
           "type" : "string"
@@ -251,7 +259,8 @@
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:BuildOptional",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "distPath" : {
           "type" : "string"
