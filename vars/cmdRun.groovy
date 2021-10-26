@@ -10,7 +10,9 @@
  */
 def call(String command) {
   if (isUnix()) {
-    sh "${command}"
+    // в linux необходимо экранировать символы $, например для `$runnerRoot`
+    def newCommand = common.shieldSymbols(command)
+    sh "${newCommand}"
   } else {
     toRun = [
         'chcp 65001',

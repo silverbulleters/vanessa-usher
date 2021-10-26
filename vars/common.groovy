@@ -20,6 +20,16 @@ static String getEmojiStatusForSlack(String status) {
   return ":x:"
 }
 
+/**
+ * Экранировать символы
+ *
+ * @param value произвольная строка, например строка с командой
+ * @return новое экранированное значение
+ */
+static String shieldSymbols(String value) {
+  return value.replace('$', '\\\$').replace(';', '\\;')
+}
+
 static boolean needPublishTests(PipelineConfiguration config) {
   return config.getStages().isSyntaxCheck() || config.getStages().isSmoke() || config.getStages().isTdd() || config.getStages().isBdd()
 }
