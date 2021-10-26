@@ -7,15 +7,17 @@
 package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 
 /**
  * Настройки этапа сборки CF на поставке
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 class BuildOptional extends BaseOptional {
   static final EMPTY = new BuildOptional()
 
   /* TODO: реализовать смену рабочего каталога packman */
-  @JsonIgnoreProperties("Путь к собранной cf на поставке")
+  @JsonPropertyDescription("Путь к собранной cf на поставке")
   String distPath = '.packman/1cv8.cf'
 
   BuildOptional() {

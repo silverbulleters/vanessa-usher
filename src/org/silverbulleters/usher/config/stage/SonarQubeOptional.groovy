@@ -7,26 +7,28 @@
 package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 
 /**
  * Настройки этапа статического анализа для SonarQube
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 class SonarQubeOptional extends BaseOptional {
   static final EMPTY = new SonarQubeOptional()
 
-  @JsonIgnoreProperties("Имя/метки агента для запуска этапа. Например, `sonar-scanner`")
+  @JsonPropertyDescription("Имя/метки агента для запуска этапа. Например, `sonar-scanner`")
   String agent = "any"
 
-  @JsonIgnoreProperties("Id утилиты sonar-scanner (глобальные инструменты Jenkins)")
+  @JsonPropertyDescription("Id утилиты sonar-scanner (глобальные инструменты Jenkins)")
   String toolId = "sonar-scanner"
 
-  @JsonIgnoreProperties("Id настроек сервера SonarQube")
+  @JsonPropertyDescription("Id настроек сервера SonarQube")
   String serverId = "SonarQube"
 
-  @JsonIgnoreProperties("Режим отладки sonar-scanner")
+  @JsonPropertyDescription("Режим отладки sonar-scanner")
   boolean debug = false
 
-  @JsonIgnoreProperties("Использовать ветки при анализе")
+  @JsonPropertyDescription("Использовать ветки при анализе")
   boolean useBranch = false
 
   SonarQubeOptional() {

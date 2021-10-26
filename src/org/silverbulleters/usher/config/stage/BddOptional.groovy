@@ -7,14 +7,16 @@
 package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 
 /**
  * Настройки этапа BDD (Behavior-driven development)
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 class BddOptional extends BaseOptional {
   static final EMPTY = new BddOptional()
 
-  @JsonIgnoreProperties("Путь к каталогу выгрузки отчета в формате Allure. Например, `./out/bddallure`")
+  @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure. Например, `./out/bddallure`")
   String allurePath = "./out/bddallure"
 
   BddOptional() {

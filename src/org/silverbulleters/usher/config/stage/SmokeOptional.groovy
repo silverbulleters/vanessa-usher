@@ -7,23 +7,25 @@
 package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 
 /**
  * Настройки этапа дымового тестирования
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 class SmokeOptional extends BaseOptional {
   static final EMPTY = new SmokeOptional()
 
-  @JsonIgnoreProperties("Путь к конфигурационному файлу xUnitFor1c")
+  @JsonPropertyDescription("Путь к конфигурационному файлу xUnitFor1c")
   String xddConfig = "./tools/JSON/smokeTestRunnerConf.json"
 
-  @JsonIgnoreProperties("Путь к каталогу или к файлу с тестами")
+  @JsonPropertyDescription("Путь к каталогу или к файлу с тестами")
   String testPath = '$addroot/tests/smoke'
 
-  @JsonIgnoreProperties("Путь к каталогу выгрузки отчета в формате Allure")
+  @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure")
   String allurePath = "./out/smoke/allure"
 
-  @JsonIgnoreProperties("Путь к файлу выгрузки отчета в формате jUnit")
+  @JsonPropertyDescription("Путь к файлу выгрузки отчета в формате jUnit")
   String junitPath = "./out/junit/smoke.xml"
 
   SmokeOptional() {

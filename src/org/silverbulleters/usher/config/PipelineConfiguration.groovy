@@ -8,6 +8,7 @@ package org.silverbulleters.usher.config
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.additional.NotificationOptional
@@ -27,68 +28,68 @@ import org.silverbulleters.usher.config.stage.TddOptional
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PipelineConfiguration implements Serializable {
 
-  @JsonIgnoreProperties("Версия платформы 1С. Например, `8.3.20.1549`")
+  @JsonPropertyDescription("Версия платформы 1С. Например, `8.3.20.1549`")
   String v8Version = "8.3"
 
-  @JsonIgnoreProperties("""Имя/метки агента для запуска этапа. Например, `sonar-scanner`. 
+  @JsonPropertyDescription("""Имя/метки агента для запуска этапа. Например, `sonar-scanner`. 
   Используется для всех этапов, кроме `sonarqube`.
   """)
   String agent = "any"
 
-  @JsonIgnoreProperties("Режим отладки")
+  @JsonPropertyDescription("Режим отладки")
   boolean debug = false
 
-  @JsonIgnoreProperties("Настройки уведомлений")
+  @JsonPropertyDescription("Настройки уведомлений")
   NotificationOptional notification = NotificationOptional.EMPTY
 
-  @JsonIgnoreProperties("Путь к конфигурационному файлу vanessa-runner")
+  @JsonPropertyDescription("Путь к конфигурационному файлу vanessa-runner")
   String vrunnerConfig = "./tools/JSON/vRunner.json"
 
-  @JsonIgnoreProperties("Путь к каталогу с отчетами в в формате jUnit")
+  @JsonPropertyDescription("Путь к каталогу с отчетами в в формате jUnit")
   String junitPath = UsherConstant.JUNIT_PATH
 
-  @JsonIgnoreProperties("Общий таймаут на время работы pipeline")
+  @JsonPropertyDescription("Общий таймаут на время работы pipeline")
   int timeout = 100
 
-  @JsonIgnoreProperties("Информационная база по умолчанию")
+  @JsonPropertyDescription("Информационная база по умолчанию")
   InfoBase defaultInfobase = InfoBase.EMPTY
 
-  @JsonIgnoreProperties("Настройка использования этапов")
+  @JsonPropertyDescription("Настройка использования этапов")
   Stages stages = Stages.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа выгрузки истории хранилища 1С с помощью утилиты `gitsync`")
+  @JsonPropertyDescription("Настройки этапа выгрузки истории хранилища 1С с помощью утилиты `gitsync`")
   @JsonProperty("gitsync")
   GitsyncOptional gitsyncOptional = GitsyncOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройка этапа трансформации edt-формата конфигурации в xml")
+  @JsonPropertyDescription("Настройка этапа трансформации edt-формата конфигурации в xml")
   @JsonProperty("edtTransform")
   EdtTransformOptional edtTransformOptional = EdtTransformOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа подготовки информационной базы")
+  @JsonPropertyDescription("Настройки этапа подготовки информационной базы")
   @JsonProperty("preparebase")
   PrepareBaseOptional prepareBaseOptional = PrepareBaseOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа синтакс-проверки конфигурации 1С")
+  @JsonPropertyDescription("Настройки этапа синтакс-проверки конфигурации 1С")
   @JsonProperty("syntaxCheck")
   SyntaxCheckOptional syntaxCheckOptional = SyntaxCheckOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа дымового тестирования")
+  @JsonPropertyDescription("Настройки этапа дымового тестирования")
   @JsonProperty("smoke")
   SmokeOptional smokeOptional = SmokeOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа TDD (Test-driven development)")
+  @JsonPropertyDescription("Настройки этапа TDD (Test-driven development)")
   @JsonProperty("tdd")
   TddOptional tddOptional = TddOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа BDD (Behavior-driven development)")
+  @JsonPropertyDescription("Настройки этапа BDD (Behavior-driven development)")
   @JsonProperty("bdd")
   BddOptional bddOptional = BddOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа статического анализа для SonarQube")
+  @JsonPropertyDescription("Настройки этапа статического анализа для SonarQube")
   @JsonProperty("sonarqube")
   SonarQubeOptional sonarQubeOptional = SonarQubeOptional.EMPTY
 
-  @JsonIgnoreProperties("Настройки этапа сборки CF на поставке")
+  @JsonPropertyDescription("Настройки этапа сборки CF на поставке")
   @JsonProperty("build")
   BuildOptional buildOptional = BuildOptional.EMPTY
 }

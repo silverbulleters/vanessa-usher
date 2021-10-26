@@ -8,6 +8,7 @@ package org.silverbulleters.usher.config
 
 import com.cloudbees.groovy.cps.NonCPS
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 
 /**
  * Настройка использования этапов
@@ -16,31 +17,31 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 class Stages {
   static final EMPTY = createEmptyStages()
 
-  @JsonIgnoreProperties("Выгрузить историю хранилища 1С с помощью утилиты `gitsync`")
+  @JsonPropertyDescription("Выгрузить историю хранилища 1С с помощью утилиты `gitsync`")
   boolean gitsync = false
 
-  @JsonIgnoreProperties("Трансформировать edt-формат конфигурации в xml")
+  @JsonPropertyDescription("Трансформировать edt-формат конфигурации в xml")
   boolean edtTransform = false
 
-  @JsonIgnoreProperties("Подготовить информационную базу")
+  @JsonPropertyDescription("Подготовить информационную базу")
   boolean prepareBase = false
 
-  @JsonIgnoreProperties("Проверить конфигурацию с помощью синтакс-проверки")
+  @JsonPropertyDescription("Проверить конфигурацию с помощью синтакс-проверки")
   boolean syntaxCheck = false
 
-  @JsonIgnoreProperties("Запустить дымовое тестирование")
+  @JsonPropertyDescription("Запустить дымовое тестирование")
   boolean smoke = false
 
-  @JsonIgnoreProperties("Запустить TDD")
+  @JsonPropertyDescription("Запустить TDD")
   boolean tdd = false
 
-  @JsonIgnoreProperties("Запустить BDD")
+  @JsonPropertyDescription("Запустить BDD")
   boolean bdd = false
 
-  @JsonIgnoreProperties("Запустить статический анализ")
+  @JsonPropertyDescription("Запустить статический анализ")
   boolean sonarqube = false
 
-  @JsonIgnoreProperties("Собрать cf на поставке с помощью `packman`")
+  @JsonPropertyDescription("Собрать cf на поставке с помощью `packman`")
   boolean build = false
 
   @NonCPS
