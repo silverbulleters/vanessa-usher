@@ -5,14 +5,21 @@
  * Proprietary and confidential.
  */
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.config.stage.BaseOptional
 
-void archive(PipelineConfiguration config, stageOptional) {
+void archive(PipelineConfiguration config, BaseOptional stageOptional) {
   dir(stageOptional.getAllurePath()) {
-    stash includes: '*', name: "${stageOptional.getId()}-allure"
+    def name = UUID.randomUUID().toString()
+//    stageOptional.stashes += name
+    stageOptional.stashes.put(name, stageOptional.getAllurePath())
+    stash includes: '*', name: name
     deleteDir()
   }
   dir(config.getJunitPath()) {
-    stash includes: "*", name: "${stageOptional.getId()}-junit"
+    def name = UUID.randomUUID().toString()
+//    stageOptional.stashes += name
+    stageOptional.stashes.put(name, config.getJunitPath())
+    stash includes: "*", name: name
     deleteDir()
   }
 }

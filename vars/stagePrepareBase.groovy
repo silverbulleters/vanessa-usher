@@ -31,9 +31,12 @@ void call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage('Prepare base') {
-      node(config.getAgent()) {
-        checkout scm
-        prepare()
+      prepare()
+
+      // архивация рабочей области для тестов и сборки
+      dir('build') {
+        stageOptional.localBuildFolder = true
+        stash name: 'build-folder', useDefaultExcludes: false
       }
     }
   }

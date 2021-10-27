@@ -24,15 +24,18 @@ def call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          check()
-        }
-        if (fileExists(stageOptional.getAllurePath())) {
-          allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-          testResultsHelper.archive(config, stageOptional)
-        }
+      if (config.stages.prepareBase && config.prepareBaseOptional.localBuildFolder) {
+        print('Распаковка каталога "build"')
+        unstash 'build-folder'
+      }
+
+      catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        check()
+      }
+
+      if (fileExists(stageOptional.getAllurePath())) {
+        allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
+        testResultsHelper.archive(config, stageOptional)
       }
     }
   }

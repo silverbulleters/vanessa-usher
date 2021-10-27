@@ -24,12 +24,14 @@ void call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        catchError(message: 'Ошибка во время сборки поставки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          runBuild()
-          archiving()
-        }
+      if (config.stages.prepareBase && config.prepareBaseOptional.localBuildFolder) {
+        print('Распаковка каталога "build"')
+        unstash 'build-folder'
+      }
+
+      catchError(message: 'Ошибка во время сборки поставки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        runBuild()
+        archiving()
       }
     }
   }

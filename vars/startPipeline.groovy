@@ -52,17 +52,25 @@ void start(String pathToConfig) {
     init(pathToConfig, scmVariables)
 
     // gitsync
-    stageGitsync(config)
+    node(config.getAgent()) {
+      stageGitsync(config)
+    }
 
     // ci
-    stageEdtTransform(config)
-    stagePrepareBase(config)
-    stageSyntaxCheck(config)
-    stageSmoke(config)
-    stageTdd(config)
-    stageBdd(config)
-    stageSonarAnalyze(config)
-    stageBuild(config)
+    node(config.getAgent()) {
+      checkout scm
+
+      stageEdtTransform(config)
+      stagePrepareBase(config)
+      stageSyntaxCheck(config)
+
+      testing(config)
+
+      stageSonarAnalyze(config)
+
+      stageBuild(config)
+    }
+
     stageReportPublish(config)
   }
 }
@@ -72,6 +80,34 @@ void init(String pathToConfig, scmVariables) {
     config = getPipelineConfiguration(pathToConfig)
     fillNotificationInfo(scmVariables)
   }
+}
+
+void testing(PipelineConfiguration config) {
+
+  if (config.matrixTesting.agents.size() == 0) {
+    performTesting(config)
+  } else {
+    def jobs = [:]
+    def count = 1
+    config.matrixTesting.agents.each { agentName ->
+      def name = "${count}. ${agentName}"
+      jobs[name] = {
+        node(agentName) {
+          performTesting(config)
+        }
+      }
+      count++
+    }
+
+    parallel jobs
+  }
+
+}
+
+void performTesting(PipelineConfiguration config) {
+  stageSmoke(config)
+  stageTdd(config)
+  stageBdd(config)
 }
 
 void sendNotification() {
