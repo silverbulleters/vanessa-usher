@@ -10,11 +10,24 @@ import hudson.tasks.test.AbstractTestResultAction
 import org.silverbulleters.usher.NotificationInfo
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.NotificationMode
+import org.silverbulleters.usher.state.PipelineState
 import org.silverbulleters.usher.util.Common
 
+/**
+ * Конфигурация
+ */
 @Field
 PipelineConfiguration config
 
+/**
+ * Состояние
+ */
+@Field
+PipelineState state
+
+/**
+ * Информация для уведомления
+ */
 @Field
 NotificationInfo notificationInfo = new NotificationInfo()
 
@@ -23,6 +36,8 @@ void call() {
 }
 
 void call(String pathToConfig) {
+
+  state = new PipelineState()
 
   def libraryVersion = Common.getLibraryVersion()
   print("Версия Vanessa.Usher: ${libraryVersion}")
@@ -61,17 +76,17 @@ void start(String pathToConfig) {
       checkout scm
 
       stageEdtTransform(config)
-      stagePrepareBase(config)
-      stageSyntaxCheck(config)
+      stagePrepareBase(config, state)
+      stageSyntaxCheck(config, state)
 
-      testing(config)
+      testing()
 
       stageSonarAnalyze(config)
 
-      stageBuild(config)
+      stageBuild(config, state)
     }
 
-    stageReportPublish(config)
+    stageReportPublish(config, state)
   }
 }
 
@@ -82,10 +97,10 @@ void init(String pathToConfig, scmVariables) {
   }
 }
 
-void testing(PipelineConfiguration config) {
+void testing() {
 
   if (config.matrixTesting.agents.size() == 0) {
-    performTesting(config)
+    performTesting()
   } else {
     def jobs = [:]
     def count = 1
@@ -93,7 +108,7 @@ void testing(PipelineConfiguration config) {
       def name = "${count}. ${agentName}"
       jobs[name] = {
         node(agentName) {
-          performTesting(config)
+          performTesting()
         }
       }
       count++
@@ -104,10 +119,10 @@ void testing(PipelineConfiguration config) {
 
 }
 
-void performTesting(PipelineConfiguration config) {
-  stageSmoke(config)
-  stageTdd(config)
-  stageBdd(config)
+void performTesting() {
+  stageSmoke(config, state)
+  stageTdd(config, state)
+  stageBdd(config, state)
 }
 
 void sendNotification() {

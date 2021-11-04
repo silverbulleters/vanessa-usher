@@ -7,24 +7,29 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.BuildOptional
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
 @Field
+PipelineState state
+
+@Field
 BuildOptional stageOptional
 
-void call(PipelineConfiguration config) {
+void call(PipelineConfiguration config, PipelineState state) {
   if (!config.getStages().isBuild()) {
     return
   }
 
   this.config = config
   this.stageOptional = config.getBuildOptional()
+  this.state = state
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      if (config.stages.prepareBase && config.prepareBaseOptional.localBuildFolder) {
+      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
         print('Распаковка каталога "build"')
         unstash 'build-folder'
       }

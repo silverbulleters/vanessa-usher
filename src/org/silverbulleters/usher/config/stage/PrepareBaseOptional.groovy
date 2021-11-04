@@ -6,7 +6,6 @@
  */
 package org.silverbulleters.usher.config.stage
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
 import org.silverbulleters.usher.UsherConstant
@@ -27,12 +26,6 @@ class PrepareBaseOptional extends BaseOptional {
 
   @JsonPropertyDescription("Настройки подключения к хранилище конфигурации 1С")
   Repo repo = Repo.EMPTY
-
-  /**
-   * В этапе используется каталог build, который нужно доставить на другие этапы
-   */
-  @JsonIgnore
-  boolean localBuildFolder
 
   PrepareBaseOptional() {
     name = "Prepare base"

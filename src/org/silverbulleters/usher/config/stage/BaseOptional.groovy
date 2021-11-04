@@ -28,10 +28,4 @@ class BaseOptional {
   @JsonPropertyDescription("Таймаут времени работы таймаута")
   int timeout = 0
 
-  /**
-   * Для хранения списка стешей
-   */
-  @JsonIgnore
-  Map stashes = [:]
-
 }

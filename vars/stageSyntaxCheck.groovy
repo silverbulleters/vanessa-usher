@@ -7,24 +7,29 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
 @Field
+PipelineState state
+
+@Field
 SyntaxCheckOptional stageOptional
 
-def call(PipelineConfiguration config) {
+def call(PipelineConfiguration config, PipelineState state) {
   if (!config.getStages().isSyntaxCheck()) {
     return
   }
 
   this.config = config
   this.stageOptional = config.getSyntaxCheckOptional()
+  this.state = state
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      if (config.stages.prepareBase && config.prepareBaseOptional.localBuildFolder) {
+      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
         print('Распаковка каталога "build"')
         unstash 'build-folder'
       }
@@ -35,7 +40,7 @@ def call(PipelineConfiguration config) {
 
       if (fileExists(stageOptional.getAllurePath())) {
         allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-        testResultsHelper.archive(config, stageOptional)
+        testResultsHelper.archive(config, stageOptional, state.syntaxCheck)
       }
     }
   }

@@ -6,11 +6,15 @@
  */
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
-void call(PipelineConfiguration config) {
+@Field
+PipelineState state
+
+void call(PipelineConfiguration config, PipelineState state) {
   boolean needPublish = common.needPublishTests(config)
 
   if (!needPublish) {
@@ -18,6 +22,7 @@ void call(PipelineConfiguration config) {
   }
 
   this.config = config
+  this.state = state
 
   stage("Reports publish") {
     publish()
@@ -30,23 +35,26 @@ private def publish() {
 
   if (config.getStages().isSyntaxCheck()) {
     addToReport(reports, config.getSyntaxCheckOptional().getAllurePath())
-    unpackResult(config.getSyntaxCheckOptional().stashes)
+    unpackResult(state.syntaxCheck.stashes)
   }
 
   if (config.getStages().isSmoke()) {
     addToReport(reports, config.getSmokeOptional().getAllurePath())
-    unpackResult(config.getSmokeOptional().stashes)
+    unpackResult(state.smoke.stashes)
   }
 
   if (config.getStages().isTdd()) {
     addToReport(reports, config.getTddOptional().getAllurePath())
-    unpackResult(config.getTddOptional().stashes)
+    unpackResult(state.tdd.stashes)
   }
 
   if (config.getStages().isBdd()) {
     addToReport(reports, config.getBddOptional().getAllurePath())
-    unpackResult(config.getBddOptional().stashes)
+    unpackResult(state.bdd.stashes)
   }
+
+  print("Каталоги: ")
+  reports.each { value -> print(value.toString())}
 
   junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
   allure includeProperties: false, jdk: '', results: reports
@@ -67,19 +75,10 @@ private String getPrettyPath(String path) {
 }
 
 private unpackResult(Map stashes) {
-  stashes.every {entry ->
-    dir(entry.value) {
-      unstash entry.key
+  stashes.each { key, value ->
+    dir(value) {
+      unstash key
     }
-  }
-}
-
-private unpackTestResults(String path, String id) {
-  dir(path) {
-    unstash "${id}-allure"
-  }
-  dir(config.getJunitPath()) {
-    unstash "${id}-junit"
   }
 }
 
