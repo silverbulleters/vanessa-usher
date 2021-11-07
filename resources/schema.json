@@ -137,6 +137,10 @@
         "configPath" : {
           "type" : "string",
           "description" : "Путь к файлу настроек"
+        },
+        "auth" : {
+          "type" : "string",
+          "description" : "Идентификатор секрета Jenkins для авторизации в хранилище конфигурации"
         }
       }
     },

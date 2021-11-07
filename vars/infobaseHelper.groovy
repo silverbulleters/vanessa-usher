@@ -10,7 +10,7 @@ import org.silverbulleters.usher.config.additional.InfoBase
 
 String getConnectionString(PipelineConfiguration config) {
   def connectionString = ""
-  if (config.getDefaultInfobase() != InfoBase.EMPTY && config.getDefaultInfobase().getConnectionString() != UsherConstant.EMPTY_VALUE) {
+  if (config.getDefaultInfobase().getConnectionString() != UsherConstant.EMPTY_VALUE) {
     connectionString = config.getDefaultInfobase().getConnectionString()
   }
   return connectionString;

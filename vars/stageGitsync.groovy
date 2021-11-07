@@ -36,22 +36,41 @@ private def syncInternal() {
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
-      runSync(credential)
+
+      def authStorage = stageOptional.auth
+      if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
+        withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          runSync(credential, credentialHelper.getAuthRepoString())
+        }
+        return
+      }
+      runSync(credential, '')
     }
   } else {
-    runSync('')
+    def authStorage = stageOptional.auth
+    if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
+      withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        runSync('', credentialHelper.getAuthRepoString())
+      }
+      return
+    }
+    runSync('', '')
   }
 }
 
-private def runSync(String credential) {
+private void runSync(String credential, String credentialStorage) {
   def command = [
       "gitsync",
       "%credentialID%",
       "--v8version", config.getV8Version(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
-      "all", stageOptional.getConfigPath()
+      "all",
+      "%credentialStorageID%",
+      stageOptional.getConfigPath()
   ].join(" ")
   command = command.replace("%credentialID%", credential)
+  command = command.replace("%credentialStorageID%", credentialStorage)
+
   // TODO: ищем ошибку "КРИТИЧНАЯОШИБКА" в логах, если есть - фейлим сборку этой ошибкой
   cmdRun(command)
 }
