@@ -38,10 +38,11 @@ void call(PipelineConfiguration config, PipelineState state) {
     stage('Prepare base') {
       prepare()
 
-      // архивация рабочей области для тестов и сборки
-      dir('build') {
+      // архивация информационной базы
+      if (fileExists('build/ib')) {
         state.prepareBase.localBuildFolder = true
-        stash name: 'build-folder', useDefaultExcludes: false
+
+        stash name: 'build-ib-folder', includes: 'build/ib/*'
       }
     }
   }

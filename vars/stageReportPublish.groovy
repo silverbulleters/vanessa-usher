@@ -53,9 +53,6 @@ private def publish() {
     unpackResult(state.bdd.stashes)
   }
 
-  print("Каталоги: ")
-  reports.each { value -> print(value.toString())}
-
   junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
   allure includeProperties: false, jdk: '', results: reports
 

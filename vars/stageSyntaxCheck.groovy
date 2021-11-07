@@ -30,8 +30,8 @@ def call(PipelineConfiguration config, PipelineState state) {
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
       if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
-        print('Распаковка каталога "build"')
-        unstash 'build-folder'
+        print('Распаковка каталога "build/ib"')
+        unstash 'build-ib-folder'
       }
 
       catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
