@@ -108,6 +108,7 @@ void testing() {
       def name = "${count}. ${agentName}"
       jobs[name] = {
         node(agentName) {
+          checkout scm
           performTesting()
         }
       }
