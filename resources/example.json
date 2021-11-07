@@ -32,7 +32,8 @@
   },
   "gitsync" : {
     "timeout" : 40,
-    "configPath" : "./tools/JSON/gitsync_conf.JSON"
+    "configPath" : "./tools/JSON/gitsync_conf.JSON",
+    "auth" : "EMPTY_VALUE"
   },
   "edtTransform" : {
     "timeout" : 30,
