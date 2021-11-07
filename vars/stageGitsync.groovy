@@ -31,31 +31,27 @@ void call(PipelineConfiguration config) {
   }
 }
 
-private def syncInternal() {
+private void syncInternal() {
   def auth = config.getDefaultInfobase().getAuth()
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credential = credentialHelper.getAuthString()
-
-      def authStorage = stageOptional.auth
-      if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
-        withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          runSync(credential, credentialHelper.getAuthRepoString())
-        }
-        return
-      }
-      runSync(credential, '')
-    }
-  } else {
-    def authStorage = stageOptional.auth
-    if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
-      withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        runSync('', credentialHelper.getAuthRepoString())
-      }
+      syncInternalWithRepoAuth(credentialHelper.getAuthString())
       return
     }
-    runSync('', '')
   }
+
+  syncInternalWithRepoAuth('')
+}
+
+private void syncInternalWithRepoAuth(String credential) {
+  def authStorage = stageOptional.auth
+  if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
+    withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+      runSync(credential, credentialHelper.getAuthRepoString())
+    }
+    return
+  }
+  runSync(credential, '')
 }
 
 private void runSync(String credential, String credentialStorage) {
