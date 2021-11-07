@@ -38,10 +38,10 @@ def call(PipelineConfiguration config, PipelineState state) {
         check()
       }
 
-      if (fileExists(stageOptional.getAllurePath())) {
-        allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-        testResultsHelper.archive(config, stageOptional, state.syntaxCheck)
+      catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        testResultsHelper.packTestResults(config, stageOptional, state.syntaxCheck)
       }
+
     }
   }
 }

@@ -37,10 +37,11 @@ void call(PipelineConfiguration config, PipelineState state) {
       catchError(message: 'Ошибка во время выполнения bdd тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
         testing()
       }
-      if (fileExists(stageOptional.getAllurePath())) {
-        allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-        testResultsHelper.archive(config, stageOptional, state.bdd)
+
+      catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        testResultsHelper.packTestResults(config, stageOptional, state.bdd)
       }
+
     }
   }
 }
