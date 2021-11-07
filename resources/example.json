@@ -84,6 +84,7 @@
   },
   "build" : {
     "timeout" : 100,
-    "distPath" : ".packman/1cv8.cf"
+    "distPath" : ".packman/1cv8.cf",
+    "errorIfJobStatusOfFailure" : false
   }
 }

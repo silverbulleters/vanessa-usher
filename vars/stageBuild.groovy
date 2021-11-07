@@ -35,8 +35,15 @@ void call(PipelineConfiguration config, PipelineState state) {
       }
 
       catchError(message: 'Ошибка во время сборки поставки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+
+        if (stageOptional.errorIfJobStatusOfFailure && currentBuild.currentResult == 'FAILURE') {
+          def message = "Сборка поставки отменена. Статус выполнения предыдущих этапов $currentBuild.currentResult"
+          throw new Exception(message)
+        }
+
         runBuild()
         archiving()
+
       }
     }
   }

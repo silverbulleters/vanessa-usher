@@ -4,6 +4,7 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
+
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.state.BaseTestingState
 
@@ -21,4 +22,15 @@ void archive(PipelineConfiguration config, stageOptional, BaseTestingState state
     stash includes: "*", name: name
     deleteDir()
   }
+}
+
+/**
+ * Упаковка результата о тестировании
+ * @param config конфигурация пайплайна
+ * @param stageOptional - настройки этапа
+ * @param state - состояние этапа
+ */
+void packTestResults(PipelineConfiguration config, stageOptional, BaseTestingState state) {
+  allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
+  archive(config, stageOptional, state)
 }

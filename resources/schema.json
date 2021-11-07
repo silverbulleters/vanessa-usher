@@ -334,6 +334,10 @@
         "distPath" : {
           "type" : "string",
           "description" : "Путь к собранной cf на поставке"
+        },
+        "errorIfJobStatusOfFailure" : {
+          "type" : "boolean",
+          "description" : "Прерывать этап если статус задачи равен FAILURE"
         }
       }
     }
