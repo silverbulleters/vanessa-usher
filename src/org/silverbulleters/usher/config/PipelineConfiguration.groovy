@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
 import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.InfoBase
+import org.silverbulleters.usher.config.additional.MatrixTesting
 import org.silverbulleters.usher.config.additional.NotificationOptional
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.BuildOptional
@@ -35,6 +36,9 @@ class PipelineConfiguration implements Serializable {
   Используется для всех этапов, кроме `sonarqube`.
   """)
   String agent = "any"
+
+  @JsonPropertyDescription("Настройка для мульти-тестирования на разных ос / версиях 1С")
+  MatrixTesting matrixTesting = []
 
   @JsonPropertyDescription("Режим отладки")
   boolean debug = false

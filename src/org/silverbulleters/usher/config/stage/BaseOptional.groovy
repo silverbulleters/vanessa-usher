@@ -27,4 +27,5 @@ class BaseOptional {
 
   @JsonPropertyDescription("Таймаут времени работы таймаута")
   int timeout = 0
+
 }

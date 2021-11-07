@@ -10,11 +10,24 @@ import hudson.tasks.test.AbstractTestResultAction
 import org.silverbulleters.usher.NotificationInfo
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.NotificationMode
+import org.silverbulleters.usher.state.PipelineState
 import org.silverbulleters.usher.util.Common
 
+/**
+ * Конфигурация
+ */
 @Field
 PipelineConfiguration config
 
+/**
+ * Состояние
+ */
+@Field
+PipelineState state
+
+/**
+ * Информация для уведомления
+ */
 @Field
 NotificationInfo notificationInfo = new NotificationInfo()
 
@@ -23,6 +36,8 @@ void call() {
 }
 
 void call(String pathToConfig) {
+
+  state = new PipelineState()
 
   def libraryVersion = Common.getLibraryVersion()
   print("Версия Vanessa.Usher: ${libraryVersion}")
@@ -52,18 +67,26 @@ void start(String pathToConfig) {
     init(pathToConfig, scmVariables)
 
     // gitsync
-    stageGitsync(config)
+    node(config.getAgent()) {
+      stageGitsync(config)
+    }
 
     // ci
-    stageEdtTransform(config)
-    stagePrepareBase(config)
-    stageSyntaxCheck(config)
-    stageSmoke(config)
-    stageTdd(config)
-    stageBdd(config)
-    stageSonarAnalyze(config)
-    stageBuild(config)
-    stageReportPublish(config)
+    node(config.getAgent()) {
+      checkout scm
+
+      stageEdtTransform(config)
+      stagePrepareBase(config, state)
+      stageSyntaxCheck(config, state)
+
+      testing()
+
+      stageSonarAnalyze(config)
+
+      stageBuild(config, state)
+    }
+
+    stageReportPublish(config, state)
   }
 }
 
@@ -72,6 +95,34 @@ void init(String pathToConfig, scmVariables) {
     config = getPipelineConfiguration(pathToConfig)
     fillNotificationInfo(scmVariables)
   }
+}
+
+void testing() {
+
+  if (config.matrixTesting.agents.size() == 0) {
+    performTesting()
+  } else {
+    def jobs = [:]
+    def count = 1
+    config.matrixTesting.agents.each { agentName ->
+      def name = "${count}. ${agentName}"
+      jobs[name] = {
+        node(agentName) {
+          performTesting()
+        }
+      }
+      count++
+    }
+
+    parallel jobs
+  }
+
+}
+
+void performTesting() {
+  stageSmoke(config, state)
+  stageTdd(config, state)
+  stageBdd(config, state)
 }
 
 void sendNotification() {

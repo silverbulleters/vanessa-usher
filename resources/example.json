@@ -1,6 +1,9 @@
 {
   "v8Version" : "8.3",
   "agent" : "any",
+  "matrixTesting" : {
+    "agents" : [ ]
+  },
   "debug" : false,
   "notification" : {
     "mode" : "NO_USE",

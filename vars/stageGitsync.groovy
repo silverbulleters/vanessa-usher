@@ -24,10 +24,9 @@ void call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: config.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        syncInternal()
-      }
+      checkout scm
+
+      syncInternal()
     }
   }
 }

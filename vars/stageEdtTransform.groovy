@@ -24,13 +24,10 @@ def call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        catchError(message: 'Ошибка во время выполнения трансформации EDT в XML', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          def workspace = pwd()
-          clearSpace()
-          transform(workspace)
-        }
+      catchError(message: 'Ошибка во время выполнения трансформации EDT в XML', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        def workspace = pwd()
+        clearSpace()
+        transform(workspace)
       }
     }
   }

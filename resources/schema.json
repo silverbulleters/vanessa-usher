@@ -10,6 +10,20 @@
       "type" : "string",
       "description" : "Имя/метки агента для запуска этапа. Например, `sonar-scanner`. \n  Используется для всех этапов, кроме `sonarqube`.\n  "
     },
+    "matrixTesting" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:MatrixTesting",
+      "description" : "Настройка для мульти-тестирования на разных ос / версиях 1С",
+      "properties" : {
+        "agents" : {
+          "type" : "array",
+          "description" : "Агенты для запуска тестирования. Например, `windows``.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
     "debug" : {
       "type" : "boolean",
       "description" : "Режим отладки"
@@ -26,7 +40,7 @@
         },
         "email" : {
           "type" : "string",
-          "description" : "Почтовый ящик для уведомлений по email"
+          "description" : "Почтовый ящик для уведомлений по email (несколько значений указывать через запятую)."
         },
         "slack" : {
           "type" : "object",

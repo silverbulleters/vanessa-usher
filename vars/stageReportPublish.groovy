@@ -6,11 +6,15 @@
  */
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
-void call(PipelineConfiguration config) {
+@Field
+PipelineState state
+
+void call(PipelineConfiguration config, PipelineState state) {
   boolean needPublish = common.needPublishTests(config)
 
   if (!needPublish) {
@@ -18,11 +22,10 @@ void call(PipelineConfiguration config) {
   }
 
   this.config = config
+  this.state = state
 
   stage("Reports publish") {
-    node {
-      publish()
-    }
+    publish()
   }
 
 }
@@ -32,22 +35,22 @@ private def publish() {
 
   if (config.getStages().isSyntaxCheck()) {
     addToReport(reports, config.getSyntaxCheckOptional().getAllurePath())
-    unpackTestResults(config.getSyntaxCheckOptional().getAllurePath(), config.getSyntaxCheckOptional().getId())
+    unpackResult(state.syntaxCheck.stashes)
   }
 
   if (config.getStages().isSmoke()) {
     addToReport(reports, config.getSmokeOptional().getAllurePath())
-    unpackTestResults(config.getSmokeOptional().getAllurePath(), config.getSmokeOptional().getId())
+    unpackResult(state.smoke.stashes)
   }
 
   if (config.getStages().isTdd()) {
     addToReport(reports, config.getTddOptional().getAllurePath())
-    unpackTestResults(config.getTddOptional().getAllurePath(), config.getTddOptional().getId())
+    unpackResult(state.tdd.stashes)
   }
 
   if (config.getStages().isBdd()) {
     addToReport(reports, config.getBddOptional().getAllurePath())
-    unpackTestResults(config.getBddOptional().getAllurePath(), config.getBddOptional().getId())
+    unpackResult(state.bdd.stashes)
   }
 
   junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
@@ -68,12 +71,11 @@ private String getPrettyPath(String path) {
   return path
 }
 
-private unpackTestResults(String path, String id) {
-  dir(path) {
-    unstash "${id}-allure"
-  }
-  dir(config.getJunitPath()) {
-    unstash "${id}-junit"
+private unpackResult(Map stashes) {
+  stashes.each { key, value ->
+    dir(value) {
+      unstash key
+    }
   }
 }
 

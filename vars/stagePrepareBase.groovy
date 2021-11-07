@@ -9,9 +9,13 @@ import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.Repo
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
+
+@Field
+PipelineState state
 
 @Field
 PrepareBaseOptional stageOptional
@@ -21,19 +25,24 @@ PrepareBaseOptional stageOptional
  *
  * @param config
  */
-void call(PipelineConfiguration config) {
+void call(PipelineConfiguration config, PipelineState state) {
   if (!config.getStages().isPrepareBase()) {
     return
   }
 
   this.config = config
   this.stageOptional = config.getPrepareBaseOptional()
+  this.state = state
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage('Prepare base') {
-      node(config.getAgent()) {
-        checkout scm
-        prepare()
+      prepare()
+
+      // архивация информационной базы
+      if (fileExists('build/ib')) {
+        state.prepareBase.localBuildFolder = true
+
+        stash name: 'build-ib-folder', includes: 'build/ib/*'
       }
     }
   }

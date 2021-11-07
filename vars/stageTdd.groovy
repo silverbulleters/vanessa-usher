@@ -7,32 +7,41 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.TddOptional
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
 @Field
+PipelineState state
+
+@Field
 TddOptional stageOptional
 
-void call(PipelineConfiguration config) {
+void call(PipelineConfiguration config, PipelineState state) {
   if (!config.getStages().isTdd()) {
     return
   }
 
   this.config = config
   this.stageOptional = config.getTddOptional()
+  this.state = state
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        catchError(message: 'Ошибка во время выполнения модульного тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          testing()
-        }
-        if (fileExists(stageOptional.getAllurePath())) {
-          allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-          testResultsHelper.archive(config, stageOptional)
-        }
+
+      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
+        print('Распаковка каталога "build/ib"')
+        unstash 'build-ib-folder'
+      }
+
+      catchError(message: 'Ошибка во время выполнения модульного тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        testing()
+      }
+
+      if (fileExists(stageOptional.getAllurePath())) {
+        allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
+        testResultsHelper.archive(config, stageOptional, state.tdd)
       }
     }
   }
