@@ -7,7 +7,6 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.GitsyncOptional
-import org.silverbulleters.usher.config.additional.InfoBase
 
 @Field
 PipelineConfiguration config
@@ -25,35 +24,49 @@ void call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: config.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        syncInternal()
-      }
+      checkout scm
+
+      syncInternal()
     }
   }
 }
 
-private def syncInternal() {
+private void syncInternal() {
   def auth = config.getDefaultInfobase().getAuth()
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credential = credentialHelper.getAuthString()
-      runSync(credential)
+      syncInternalWithRepoAuth(credentialHelper.getAuthString())
+      return
     }
-  } else {
-    runSync('')
   }
+
+  syncInternalWithRepoAuth('')
 }
 
-private def runSync(String credential) {
+private void syncInternalWithRepoAuth(String credential) {
+  def authStorage = stageOptional.auth
+  if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
+    withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+      runSync(credential, credentialHelper.getAuthRepoString())
+    }
+    return
+  }
+  runSync(credential, '')
+}
+
+private void runSync(String credential, String credentialStorage) {
   def command = [
       "gitsync",
       "%credentialID%",
       "--v8version", config.getV8Version(),
       "--ibconnection", infobaseHelper.getConnectionString(config),
-      "all", stageOptional.getConfigPath()
+      "all",
+      "%credentialStorageID%",
+      stageOptional.getConfigPath()
   ].join(" ")
   command = command.replace("%credentialID%", credential)
+  command = command.replace("%credentialStorageID%", credentialStorage)
+
   // TODO: ищем ошибку "КРИТИЧНАЯОШИБКА" в логах, если есть - фейлим сборку этой ошибкой
   cmdRun(command)
 }

@@ -1,10 +1,13 @@
 {
   "agent": "gitsync",
   "v8Version": "8.3",
-  "emailForNotification": "mailer@localhost",
   "defaultInfobase": {
     "connectionString": "/F./build/ib",
     "auth": ""
+  },
+  "notification": {
+    "mode": "EMAIL",
+    "email": "test@mail.ru"
   },
   "stages": {
     "gitsync": true

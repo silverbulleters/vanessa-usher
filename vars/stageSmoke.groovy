@@ -7,32 +7,42 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.SmokeOptional
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
 @Field
+PipelineState state
+
+@Field
 SmokeOptional stageOptional
 
-void call(PipelineConfiguration config) {
+void call(PipelineConfiguration config, PipelineState state) {
   if (!config.getStages().isSmoke()) {
     return
   }
 
   this.config = config
   this.stageOptional = config.getSmokeOptional()
+  this.state = state
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        catchError(message: 'Ошибка во время выполнения дымового тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          testing()
-        }
-        if (fileExists(stageOptional.getAllurePath())) {
-          allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-        }
+
+      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
+        print('Распаковка каталога "build/ib"')
+        unstash 'build-ib-folder'
       }
+
+      catchError(message: 'Ошибка во время выполнения дымового тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        testing()
+      }
+
+      catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        testResultsHelper.packTestResults(config, stageOptional, state.smoke)
+      }
+
     }
   }
 }
@@ -42,7 +52,7 @@ private def testing() {
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
-      def credentialTestClient = getTestClient()
+      def credentialTestClient = credentialHelper.getTestClientWithAuth()
       smokeTesting(credential, credentialTestClient)
     }
   } else {
@@ -57,19 +67,4 @@ private smokeTesting(String credential, String credentialTestClient) {
   command = command.replace("%credentialID%", credential)
   command = command.replace("%credentialTestClientID%", testClient)
   cmdRun(command)
-}
-
-
-
-// FIXME: ДУБЛЬ
-private String getTestClient() {
-  def baseValue = '%s:%s:1538'
-  login = "${USERNAME}"
-  pass = ""
-  try {
-    pass = "${PASSWORD}"
-  } catch (e) {
-  }
-  def credentialTestClient = String.format('%s:%s:1538', login, pass)
-  return credentialTestClient
 }

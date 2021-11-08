@@ -6,7 +6,22 @@
  */
 package org.silverbulleters.usher;
 
+/**
+ * Константы проекта
+ */
 class UsherConstant {
+  /**
+   * Пустое строковое значение
+   */
   static final String EMPTY_VALUE = "EMPTY_VALUE"
-  static final String PROJECT_VERSION = "0.6.0"
+
+  /**
+   * Версия проекта
+   */
+  static final String PROJECT_VERSION = "2.0.0"
+
+  /**
+   * Путь к каталогу с отчетами в формате jUnit
+   */
+  static final String JUNIT_PATH = "./out/junit"
 }

@@ -8,6 +8,9 @@ package org.silverbulleters.usher.util
 
 import org.silverbulleters.usher.UsherConstant
 
+/**
+ * Вспомогательный класс
+ */
 class Common {
 
   static String getLibraryVersion() {

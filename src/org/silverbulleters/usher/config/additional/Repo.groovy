@@ -9,10 +9,16 @@ package org.silverbulleters.usher.config.additional
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.silverbulleters.usher.UsherConstant
 
+/**
+ * Настройки подключения к хранилищу конфигурации 1С
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Repo {
-    static final Repo EMPTY = new Repo()
+  static final Repo EMPTY = new Repo()
 
-    String path = UsherConstant.EMPTY_VALUE
-    String auth = UsherConstant.EMPTY_VALUE
+  @JsonIgnoreProperties("Путь к хранилищу конфигурации. Например, `tcp://repo-server/repo`")
+  String path = UsherConstant.EMPTY_VALUE
+
+  @JsonIgnoreProperties("Идентификатор секрета Jenkins для авторизации в хранилище конфигурации")
+  String auth = UsherConstant.EMPTY_VALUE
 }

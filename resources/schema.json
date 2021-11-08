@@ -3,120 +3,195 @@
   "id" : "urn:jsonschema:org:silverbulleters:usher:config:PipelineConfiguration",
   "properties" : {
     "v8Version" : {
-      "type" : "string"
+      "type" : "string",
+      "description" : "Версия платформы 1С. Например, `8.3.20.1549`"
     },
     "agent" : {
-      "type" : "string"
+      "type" : "string",
+      "description" : "Имя/метки агента для запуска этапа. Например, `sonar-scanner`. \n  Используется для всех этапов, кроме `sonarqube`.\n  "
+    },
+    "matrixTesting" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:MatrixTesting",
+      "description" : "Настройка для мульти-тестирования на разных ос / версиях 1С",
+      "properties" : {
+        "agents" : {
+          "type" : "array",
+          "description" : "Агенты для запуска тестирования. Например, `windows``.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
     },
     "debug" : {
-      "type" : "boolean"
+      "type" : "boolean",
+      "description" : "Режим отладки"
     },
-    "emailForNotification" : {
-      "type" : "string"
+    "notification" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional",
+      "description" : "Настройки уведомлений",
+      "properties" : {
+        "mode" : {
+          "type" : "string",
+          "description" : "Режим уведомлений",
+          "enum" : [ "NO_USE", "EMAIL", "SLACK" ]
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Почтовый ящик для уведомлений по email (несколько значений указывать через запятую)."
+        },
+        "slack" : {
+          "type" : "object",
+          "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional:SlackSetting",
+          "description" : "Настройки уведомлений в Slack",
+          "properties" : {
+            "channelName" : {
+              "type" : "string",
+              "description" : "Канал уведомлений"
+            }
+          }
+        }
+      }
     },
     "vrunnerConfig" : {
-      "type" : "string"
+      "type" : "string",
+      "description" : "Путь к конфигурационному файлу vanessa-runner"
+    },
+    "junitPath" : {
+      "type" : "string",
+      "description" : "Путь к каталогу с отчетами в в формате jUnit"
     },
     "timeout" : {
-      "type" : "integer"
+      "type" : "integer",
+      "description" : "Общий таймаут на время работы pipeline"
     },
     "defaultInfobase" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:InfoBase",
+      "description" : "Информационная база по умолчанию",
       "properties" : {
         "connectionString" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Строка подключения к информационной базе, например, `/F.build/ib`"
         },
         "auth" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Id секрета Jenkins для авторизации в информационной базе"
         }
       }
     },
     "stages" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:Stages",
+      "description" : "Настройка использования этапов",
       "properties" : {
         "gitsync" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Выгрузить историю хранилища 1С с помощью утилиты `gitsync`"
         },
         "edtTransform" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Трансформировать edt-формат конфигурации в xml"
         },
         "prepareBase" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Подготовить информационную базу"
         },
         "syntaxCheck" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Проверить конфигурацию с помощью синтакс-проверки"
         },
         "smoke" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Запустить дымовое тестирование"
         },
         "tdd" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Запустить TDD"
         },
         "bdd" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Запустить BDD"
         },
         "sonarqube" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Запустить статический анализ"
         },
         "build" : {
-          "type" : "boolean"
-        },
-        "deploy" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Собрать cf на поставке с помощью `packman`"
         }
       }
     },
     "gitsync" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:GitsyncOptional",
+      "description" : "Настройки этапа выгрузки истории хранилища 1С с помощью утилиты `gitsync`",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "configPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к файлу настроек"
+        },
+        "auth" : {
+          "type" : "string",
+          "description" : "Идентификатор секрета Jenkins для авторизации в хранилище конфигурации"
         }
       }
     },
     "edtTransform" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:EdtTransformOptional",
+      "description" : "Настройка этапа трансформации edt-формата конфигурации в xml",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "edt" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Модуль edt для утилиты ring. По умолчанию используется `edt`.\n  Для использования, например, версии 2021.2 нужно указать `edt@2021.2.0`.\n  "
         },
         "workspacePath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Каталог рабочей области проекта"
         },
         "sourcePath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Каталог edt-выгрузки конфигурации"
         },
         "outPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Каталог xml-выгрузки конфигурации"
         }
       }
     },
     "preparebase" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:PrepareBaseOptional",
+      "description" : "Настройки этапа подготовки информационной базы",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "sourcePath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Каталог с исходниками в формате xml"
         },
         "template" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к шаблону базы в формате *.dt"
         },
         "repo" : {
           "type" : "object",
           "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo",
+          "description" : "Настройки подключения к хранилище конфигурации 1С",
           "properties" : {
             "path" : {
               "type" : "string"
@@ -131,105 +206,138 @@
     "syntaxCheck" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SyntaxCheckOptional",
+      "description" : "Настройки этапа синтакс-проверки конфигурации 1С",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "allurePath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к каталогу выгрузки отчета в формате Allure"
         },
         "junitPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к файлу выгрузки отчета в формате jUnit"
         }
       }
     },
     "smoke" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SmokeOptional",
+      "description" : "Настройки этапа дымового тестирования",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "xddConfig" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к конфигурационному файлу xUnitFor1c"
         },
         "testPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к каталогу или к файлу с тестами"
         },
         "allurePath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к каталогу выгрузки отчета в формате Allure"
         },
         "junitPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к файлу выгрузки отчета в формате jUnit"
         }
       }
     },
     "tdd" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:TddOptional",
+      "description" : "Настройки этапа TDD (Test-driven development)",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "xddConfig" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к конфигурационному файлу xUnitFor1c"
         },
         "testPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к каталогу или к файлу с тестами"
         },
         "allurePath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к каталогу выгрузки отчета в формате Allure"
         },
         "junitPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к файлу выгрузки отчета в формате jUnit"
         }
       }
     },
     "bdd" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:BddOptional",
+      "description" : "Настройки этапа BDD (Behavior-driven development)",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "allurePath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к каталогу выгрузки отчета в формате Allure. Например, `./out/bddallure`"
         }
       }
     },
     "sonarqube" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SonarQubeOptional",
+      "description" : "Настройки этапа статического анализа для SonarQube",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "agent" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Имя/метки агента для запуска этапа. Например, `sonar-scanner`"
         },
         "toolId" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Id утилиты sonar-scanner (глобальные инструменты Jenkins)"
         },
         "serverId" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Id настроек сервера SonarQube"
         },
         "debug" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Режим отладки sonar-scanner"
         },
         "useBranch" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Использовать ветки при анализе"
         }
       }
     },
     "build" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:BuildOptional",
+      "description" : "Настройки этапа сборки CF на поставке",
       "properties" : {
         "timeout" : {
-          "type" : "integer"
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
         },
         "distPath" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Путь к собранной cf на поставке"
+        },
+        "errorIfJobStatusOfFailure" : {
+          "type" : "boolean",
+          "description" : "Прерывать этап если статус задачи равен FAILURE"
         }
       }
     }

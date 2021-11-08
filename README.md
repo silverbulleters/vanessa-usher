@@ -15,6 +15,7 @@
   * Сборка поставки конфигурации
   * Отправка уведомлений
     * На электронную почту
+    * В Slack
 
 ## Состав библиотеки
 * Каталог `vars` - основной каталог с методами библиотеки.
@@ -31,7 +32,7 @@
 
 Рассмотрим примеры из шаблона проекта `examples/template`.
 
-Запуск экспорта истории хранилища 1С (`Jenkinsfile`):
+Запуск экспорта истории хранилища 1С (`Jenkinsfile_gitsync`):
 
 ```groovy
 @Library('usher2') _
@@ -41,7 +42,7 @@ startPipeline('tools/pipeline/gitsync.json')
 
 ![image-20210810132241700](/resources/images/pipe_gitsync.png)
 
-Запуск проверочного контура (`Jenkinsfile_gitsync`):
+Запуск проверочного контура (`Jenkinsfile`):
 
 ```groovy
 @Library('usher2') _
@@ -61,7 +62,10 @@ startPipeline('tools/pipeline/ci.json')
   "$schema": "https://gitlab.silverbulleters.org/products/avtoinfrastruktura/vanessa-usher2/-/raw/develop/resources/schema.json",
   "agent": "gitsync",
   "v8Version": "8.3",
-  "emailForNotification": "mailer@localhost",
+  "notification": {
+    "mode": "EMAIL",
+    "email": "test@mail.ru"
+  },
   "defaultInfobase": {
     "connectionString": "/F./build/ib",
     "auth": ""
@@ -77,7 +81,10 @@ startPipeline('tools/pipeline/ci.json')
 {
   "agent": "slave",
   "v8Version": "8.3.15",
-  "emailForNotification": "mailer@localhost",
+  "notification": {
+    "mode": "EMAIL",
+    "email": "test@mail.ru"
+  },
   "defaultInfobase": {
     "connectionString": "/F./build/ib"
   },

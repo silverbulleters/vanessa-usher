@@ -10,9 +10,14 @@
  */
 def call(String command) {
   if (isUnix()) {
-    sh "${command}"
+    // в linux необходимо экранировать символы $, например для `$runnerRoot`
+    def newCommand = common.shieldSymbols(command)
+    sh "${newCommand}"
   } else {
-    def logCmd = ""
-    bat " chcp 65001\n${logCmd}${command}"
+    toRun = [
+        'chcp 65001',
+        "${command}"
+    ].join('\n')
+    bat toRun
   }
 }

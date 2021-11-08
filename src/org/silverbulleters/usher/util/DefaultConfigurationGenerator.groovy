@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import org.silverbulleters.usher.config.ConfigurationReader
 
+/**
+ * Генератор полной json-конфигурации pipeline
+ */
 class DefaultConfigurationGenerator {
 
   static void main(args) {

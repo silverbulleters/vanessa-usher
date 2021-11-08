@@ -1,7 +1,7 @@
 val junitVersion = "5.6.1"
 
 group = "org.github.silverbulleters"
-version = "0.6.0"
+version = "2.0.0"
 
 plugins {
     java
@@ -80,4 +80,5 @@ license {
     exclude("**/*.txt")
     exclude("**/*.java.orig")
     exclude("**/*.impl")
+    exclude("**/*.java")
 }

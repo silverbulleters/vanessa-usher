@@ -7,19 +7,29 @@
 package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.Repo
 
+/**
+ * Настройки этапа подготовки информационной базы
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PrepareBaseOptional extends BaseOptional {
   static final EMPTY = new PrepareBaseOptional()
 
+  @JsonPropertyDescription("Каталог с исходниками в формате xml")
   String sourcePath = "./src/cf"
+
+  @JsonPropertyDescription("Путь к шаблону базы в формате *.dt")
   String template = UsherConstant.EMPTY_VALUE
+
+  @JsonPropertyDescription("Настройки подключения к хранилище конфигурации 1С")
   Repo repo = Repo.EMPTY
 
   PrepareBaseOptional() {
     name = "Prepare base"
+    id = 'prepare-base'
     timeout = 100
   }
 }

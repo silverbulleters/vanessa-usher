@@ -6,12 +6,6 @@
  */
 import org.silverbulleters.usher.UsherConstant
 
-/*
- * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
- * Unauthorized copying of this file in any way is strictly prohibited.
- * Proprietary and confidential.
- */
 String getAuthString() {
   def credential = "--db-user ${USERNAME}"
   try {
@@ -37,6 +31,18 @@ String getCustomAuth(String userName, String passName) {
   } catch (e) {
   }
   return credential
+}
+
+String getTestClientWithAuth() {
+  def baseValue = '%s:%s:1538'
+  login = "${USERNAME}"
+  pass = ""
+  try {
+    pass = "${PASSWORD}"
+  } catch (ignored) {
+  }
+  def credentialTestClient = String.format('%s:%s:1538', login, pass)
+  return credentialTestClient
 }
 
 boolean authIsPresent(String auth) {

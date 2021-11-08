@@ -6,24 +6,26 @@
  */
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
-void call(PipelineConfiguration config) {
-  boolean needPublish = config.getStages().isSyntaxCheck() || config.getStages().isSmoke() || config.getStages().isTdd() || config.getStages().isBdd()
+@Field
+PipelineState state
+
+void call(PipelineConfiguration config, PipelineState state) {
+  boolean needPublish = common.needPublishTests(config)
 
   if (!needPublish) {
     return
   }
 
   this.config = config
+  this.state = state
 
   stage("Reports publish") {
-    node(config.getAgent()) {
-      checkout scm
-      publish()
-    }
+    publish()
   }
 
 }
@@ -33,22 +35,28 @@ private def publish() {
 
   if (config.getStages().isSyntaxCheck()) {
     addToReport(reports, config.getSyntaxCheckOptional().getAllurePath())
+    unpackResult(state.syntaxCheck.stashes)
   }
 
   if (config.getStages().isSmoke()) {
     addToReport(reports, config.getSmokeOptional().getAllurePath())
+    unpackResult(state.smoke.stashes)
   }
 
   if (config.getStages().isTdd()) {
     addToReport(reports, config.getTddOptional().getAllurePath())
+    unpackResult(state.tdd.stashes)
   }
 
   if (config.getStages().isBdd()) {
     addToReport(reports, config.getBddOptional().getAllurePath())
+    unpackResult(state.bdd.stashes)
   }
 
   junit allowEmptyResults: true, skipPublishingChecks: true, skipMarkingBuildUnstable: true, testResults: '**/out/junit/*.xml'
   allure includeProperties: false, jdk: '', results: reports
+
+  cleanup()
 }
 
 private addToReport(reports, String allurePath) {
@@ -61,4 +69,18 @@ private String getPrettyPath(String path) {
     return path.substring(2)
   }
   return path
+}
+
+private unpackResult(Map stashes) {
+  stashes.each { key, value ->
+    dir(value) {
+      unstash key
+    }
+  }
+}
+
+private void cleanup() {
+  dir('out') {
+    deleteDir()
+  }
 }

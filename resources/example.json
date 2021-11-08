@@ -1,32 +1,46 @@
 {
   "v8Version" : "8.3",
   "agent" : "any",
+  "matrixTesting" : {
+    "agents" : [ ]
+  },
   "debug" : false,
-  "emailForNotification" : "EMPTY_VALUE",
+  "notification" : {
+    "mode" : "NO_USE",
+    "email" : "test@localhost",
+    "slack" : {
+      "channelName" : "#build"
+    }
+  },
   "vrunnerConfig" : "./tools/JSON/vRunner.json",
+  "junitPath" : "./out/junit",
   "timeout" : 100,
   "defaultInfobase" : {
-    "connectionString" : "EMPTY_VALUE",
+    "connectionString" : "/F.build/ib",
     "auth" : "EMPTY_VALUE"
   },
   "stages" : {
     "gitsync" : false,
+    "edtTransform" : false,
     "prepareBase" : false,
     "syntaxCheck" : false,
     "smoke" : false,
     "tdd" : false,
     "bdd" : false,
     "sonarqube" : false,
-    "build" : false,
-    "deploy" : false
+    "build" : false
   },
   "gitsync" : {
     "timeout" : 40,
-    "repo" : {
-      "path" : "EMPTY_VALUE",
-      "auth" : "EMPTY_VALUE"
-    },
-    "configPath" : "./tools/JSON/gitsync_conf.JSON"
+    "configPath" : "./tools/JSON/gitsync_conf.JSON",
+    "auth" : "EMPTY_VALUE"
+  },
+  "edtTransform" : {
+    "timeout" : 30,
+    "edt" : "edt",
+    "workspacePath" : "./build/workspace",
+    "sourcePath" : "./src/cf",
+    "outPath" : "./build/out"
   },
   "preparebase" : {
     "timeout" : 100,
@@ -65,10 +79,12 @@
     "agent" : "any",
     "toolId" : "sonar-scanner",
     "serverId" : "SonarQube",
-    "debug" : false
+    "debug" : false,
+    "useBranch" : false
   },
   "build" : {
     "timeout" : 100,
-    "distPath" : ".packman/1cv8.cf"
+    "distPath" : ".packman/1cv8.cf",
+    "errorIfJobStatusOfFailure" : false
   }
 }

@@ -9,8 +9,10 @@ package org.silverbulleters.usher.config
 import com.cloudbees.groovy.cps.NonCPS
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.silverbulleters.usher.config.PipelineConfiguration
 
+/**
+ * Чтец настроек pipeline
+ */
 class ConfigurationReader {
 
   private static ObjectMapper mapper

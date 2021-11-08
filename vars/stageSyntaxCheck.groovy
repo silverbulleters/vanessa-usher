@@ -6,34 +6,42 @@
  */
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
-import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
+import org.silverbulleters.usher.state.PipelineState
 
 @Field
 PipelineConfiguration config
 
 @Field
+PipelineState state
+
+@Field
 SyntaxCheckOptional stageOptional
 
-def call(PipelineConfiguration config) {
+def call(PipelineConfiguration config, PipelineState state) {
   if (!config.getStages().isSyntaxCheck()) {
     return
   }
 
   this.config = config
   this.stageOptional = config.getSyntaxCheckOptional()
+  this.state = state
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          check()
-        }
-        if (fileExists(stageOptional.getAllurePath())) {
-          allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
-        }
+      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
+        print('Распаковка каталога "build/ib"')
+        unstash 'build-ib-folder'
       }
+
+      catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        check()
+      }
+
+      catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        testResultsHelper.packTestResults(config, stageOptional, state.syntaxCheck)
+      }
+
     }
   }
 }

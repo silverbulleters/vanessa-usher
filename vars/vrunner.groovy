@@ -7,7 +7,6 @@
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
-import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.stage.SmokeOptional
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 import org.silverbulleters.usher.config.stage.TddOptional
@@ -93,7 +92,7 @@ def migrate(PipelineConfiguration config, PrepareBaseOptional optional) {
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--settings", config.getVrunnerConfig(),
       "--command", "'ЗапуститьОбновлениеИнформационнойБазы;ЗавершитьРаботуСистемы;'",
-      "--execute", '$runnerRoot/epf/ЗакрытьПредприятие.epf'
+      "--execute", '"$runnerRoot/epf/ЗакрытьПредприятие.epf"'
   ]
   return command.join(" ")
 }
@@ -123,7 +122,7 @@ def smoke(PipelineConfiguration config, SmokeOptional optional) {
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version(),
       "--testclient", "%credentialTestClientID%",
-      "--reportsxunit", "ГенераторОтчетаJUnitXML{${optional.getJunitPath()}};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
+      "--reportsxunit", "\"ГенераторОтчетаJUnitXML{${optional.getJunitPath()}};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}\"",
       "--xddExitCodePath", "./xddExitCodePath.txt",
       "--xddConfig", optional.getXddConfig()
   ]
@@ -141,7 +140,7 @@ def xunit(PipelineConfiguration config, TddOptional optional) {
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version(),
       "--testclient", "%credentialTestClientID%",
-      "--reportsxunit", "ГенераторОтчетаJUnitXML{${optional.getJunitPath()}};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}",
+      "--reportsxunit", "\"ГенераторОтчетаJUnitXML{${optional.getJunitPath()}};ГенераторОтчетаAllureXMLВерсия2{${pathToAllure}}\"",
       "--xddExitCodePath", "./xddExitCodePath.txt",
       "--xddConfig", optional.getXddConfig()
   ]

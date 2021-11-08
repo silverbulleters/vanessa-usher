@@ -8,21 +8,41 @@ package org.silverbulleters.usher.config
 
 import com.cloudbees.groovy.cps.NonCPS
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 
+/**
+ * Настройка использования этапов
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Stages {
   static final EMPTY = createEmptyStages()
 
+  @JsonPropertyDescription("Выгрузить историю хранилища 1С с помощью утилиты `gitsync`")
   boolean gitsync = false
+
+  @JsonPropertyDescription("Трансформировать edt-формат конфигурации в xml")
   boolean edtTransform = false
+
+  @JsonPropertyDescription("Подготовить информационную базу")
   boolean prepareBase = false
+
+  @JsonPropertyDescription("Проверить конфигурацию с помощью синтакс-проверки")
   boolean syntaxCheck = false
+
+  @JsonPropertyDescription("Запустить дымовое тестирование")
   boolean smoke = false
+
+  @JsonPropertyDescription("Запустить TDD")
   boolean tdd = false
+
+  @JsonPropertyDescription("Запустить BDD")
   boolean bdd = false
+
+  @JsonPropertyDescription("Запустить статический анализ")
   boolean sonarqube = false
+
+  @JsonPropertyDescription("Собрать cf на поставке с помощью `packman`")
   boolean build = false
-  boolean deploy = false
 
   @NonCPS
   private static Stages createEmptyStages() {

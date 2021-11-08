@@ -1,3 +1,9 @@
+/*
+ * Vanessa-Usher
+ * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Unauthorized copying of this file in any way is strictly prohibited.
+ * Proprietary and confidential.
+ */
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.EdtTransformOptional
@@ -18,13 +24,10 @@ def call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
     stage(stageOptional.getName()) {
-      node(config.getAgent()) {
-        checkout scm
-        catchError(message: 'Ошибка во время выполнения трансформации EDT в XML', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          def workspace = pwd()
-          clearSpace()
-          transform(workspace)
-        }
+      catchError(message: 'Ошибка во время выполнения трансформации EDT в XML', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        def workspace = pwd()
+        clearSpace()
+        transform(workspace)
       }
     }
   }

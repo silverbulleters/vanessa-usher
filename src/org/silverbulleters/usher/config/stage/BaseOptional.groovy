@@ -7,13 +7,25 @@
 package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonPropertyDescription
 
+/**
+ * Базовая реализация настроек этапа
+ */
 class BaseOptional {
+  /**
+   * Имя опции, используется в названии stage
+   */
   @JsonIgnore
   String name = "Base stage"
 
   /**
-   * Таймаут работы stage
+   * Идентификатор опции
    */
+  @JsonIgnore
+  String id = "base"
+
+  @JsonPropertyDescription("Таймаут времени работы таймаута")
   int timeout = 0
+
 }

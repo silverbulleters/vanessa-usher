@@ -4,9 +4,11 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
-package org.silverbulleters.usher.ioc
+package org.silverbulleters.usher.state
 
-interface IStepExecutor {
-    int sh(String command)
-    void error(String message)
+class BaseTestingState {
+  /**
+   * Хранение списка стешей
+   */
+  Map stashes = [:]
 }
