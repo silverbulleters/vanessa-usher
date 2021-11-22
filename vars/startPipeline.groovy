@@ -37,13 +37,13 @@ void call() {
 
 void call(String pathToConfig) {
 
-  state = new PipelineState()
+  state = newPipelineState()
 
   def libraryVersion = Common.getLibraryVersion()
   print("Версия Vanessa.Usher: ${libraryVersion}")
 
   catchError(buildResult: 'FAILURE') {
-    start(pathToConfig);
+    start(pathToConfig)
   }
 
   notificationInfo.status = "${currentBuild.currentResult}"

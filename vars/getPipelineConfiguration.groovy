@@ -7,6 +7,12 @@
 import org.silverbulleters.usher.config.ConfigurationReader
 import org.silverbulleters.usher.config.PipelineConfiguration
 
+/**
+ * Конфигурация конвейера из файла
+ *
+ * @param pathToConfig путь к конфигурации
+ * @return
+ */
 PipelineConfiguration call(String pathToConfig) {
 
   if (fileExists(pathToConfig)) {
@@ -15,4 +21,12 @@ PipelineConfiguration call(String pathToConfig) {
   } else {
     throw new Exception("Конфигурационный файл не найден")
   }
+}
+
+/**
+ * Конфигурация конвейера по умолчанию
+ * 
+ */
+PipelineConfiguration call() {
+  return ConfigurationReader.create()
 }

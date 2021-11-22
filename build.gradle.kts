@@ -11,6 +11,11 @@ plugins {
     id("net.kyori.indra.license-header") version "2.0.6"
 }
 
+repositories {
+    mavenCentral()
+    maven { url = uri("https://repo.jenkins-ci.org/releases/") }
+}
+
 dependencies {
     implementation("com.fasterxml.jackson.module", "jackson-module-jsonSchema", "2.9.8")
 
@@ -19,6 +24,9 @@ dependencies {
     // unit-tests
     testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.6.1")
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.6.1")
+
+    // https://repo.jenkins-ci.org/releases/com/lesfurets/jenkins-pipeline-unit/
+    testImplementation("com.lesfurets:jenkins-pipeline-unit:1.12")
 
     testImplementation("org.assertj", "assertj-core", "3.15.0")
 
