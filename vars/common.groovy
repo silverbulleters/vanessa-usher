@@ -33,3 +33,28 @@ static String shieldSymbols(String value) {
 static boolean needPublishTests(PipelineConfiguration config) {
   return config.getStages().isSyntaxCheck() || config.getStages().isSmoke() || config.getStages().isTdd() || config.getStages().isBdd()
 }
+
+/**
+ * Получить номер синхронизированной версии из файла VERSION
+ *
+ * @param pathToSource путь к исходному коду 1С, например, `./src/cf`
+ * @return номер синхронизированной версии или пустая строка
+ */
+static String getRepoVersion(String pathToSource) {
+  def pathToVersion = new File(pathToSource, "VERSION")
+  if (!pathToVersion.exists()) {
+    return ""
+  }
+
+  def version = ""
+
+  def xmlData = new XmlParser().parse(pathToVersion)
+  try {
+    version = xmlData.value()[0]
+  } catch (e) {
+    // todo: нужен logger
+    // не удалось прочитать файл с версией
+  }
+
+  return version
+}

@@ -80,6 +80,7 @@ private def loadRepo(credential) {
   command = vrunner.loadRepo(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   auth = stageOptional.getRepo().getAuth()
+  // fixme: есть кред пустой - ругаться
   withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     def credentialRepo = credentialHelper.getAuthRepoString()
     command = command.replace("%credentialStorageID%", credentialRepo)

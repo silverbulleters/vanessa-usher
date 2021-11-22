@@ -68,6 +68,12 @@ def loadRepo(PipelineConfiguration config, PrepareBaseOptional optional) {
       "--storage-name", optional.getRepo().getPath(),
       "--nocacheuse"
   ]
+
+  def repoVersion = common.getRepoVersion(optional.sourcePath)
+  if (!repoVersion.empty) {
+    command += "--storage-ver ${repoVersion}"
+  }
+
   return command.join(" ")
 }
 

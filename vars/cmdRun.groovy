@@ -8,7 +8,7 @@
  * Функция исполнения команд. Установка локализации при использовании MS Windows
  * Пример вызова: cmdRun.Выполнить("dir /w")
  */
-def call(String command) {
+void call(String command) {
   if (isUnix()) {
     // в linux необходимо экранировать символы $, например для `$runnerRoot`
     def newCommand = common.shieldSymbols(command)
