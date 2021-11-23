@@ -24,8 +24,6 @@ void call(PipelineConfiguration config) {
 
   timeout(unit: 'MINUTES', time: config.getTimeout()) {
     stage(stageOptional.getName()) {
-      checkout scm
-
       syncInternal()
     }
   }
