@@ -58,3 +58,39 @@ static String getRepoVersion(String pathToSource) {
 
   return version
 }
+
+/**
+ * Абсолютный путь к конфигурационному файлу на master узле
+ * @param pathToConfig относительный путь к конфигурационному файлу
+ * @return
+ */
+String getAbsolutePathToConfig(String pathToConfig) {
+  def jobName = getProjectPathFromWorkspace()
+  def pathToBuild = "${env.JENKINS_HOME}/workspace/${jobName}@script/"
+  return pathToBuild + pathToConfig
+}
+
+private String getProjectPathFromWorkspace() {
+  def data = [:]
+  def lines = new File("${env.JENKINS_HOME}/workspace/workspaces.txt") as String[]
+
+  def projectName = ''
+  def count = 1
+
+  lines.each {
+    if (count % 2 == 0) {
+      data[projectName] = it
+    } else {
+      projectName = it
+    }
+    count++
+  }
+
+  def entry = data.find { key, value -> key == "${env.JOB_NAME}"}
+  if (entry == null) {
+    return ''
+  } else {
+    return "${entry.value}"
+  }
+
+}

@@ -14,13 +14,16 @@ import org.silverbulleters.usher.config.PipelineConfiguration
  * @return
  */
 PipelineConfiguration call(String pathToConfig) {
-
-  if (fileExists(pathToConfig)) {
-    def content = readFile(pathToConfig)
-    return ConfigurationReader.create(content)
-  } else {
-    throw new Exception("Конфигурационный файл не найден")
+  def file = new File(pathToConfig)
+  if (!file.exists()) {
+    throw new Exception("Config file not found")
   }
+
+  def content = file.getText('UTF-8')
+
+  println(content)
+
+  return ConfigurationReader.create(content)
 }
 
 /**

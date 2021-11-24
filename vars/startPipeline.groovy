@@ -42,8 +42,10 @@ void call(String pathToConfig) {
   def libraryVersion = Common.getLibraryVersion()
   print("Версия Vanessa.Usher: ${libraryVersion}")
 
+  readConfig(pathToConfig)
+
   catchError(buildResult: 'FAILURE') {
-    start(pathToConfig)
+    start()
   }
 
   notificationInfo.status = "${currentBuild.currentResult}"
@@ -61,40 +63,61 @@ void call(String pathToConfig) {
   }
 }
 
-void start(String pathToConfig) {
-  node {
-    def scmVariables = checkout scm
-    init(pathToConfig, scmVariables)
-
-    // gitsync
-    node(config.getAgent()) {
-      stageGitsync(config)
-    }
-
-    // ci
-    node(config.getAgent()) {
+private void readConfig(String pathToConfig) {
+  def absolutePathToConfig = common.getAbsolutePathToConfig(pathToConfig)
+  def file = new File(absolutePathToConfig)
+  if (file.exists()) {
+    config = getPipelineConfiguration(absolutePathToConfig)
+  } else {
+    node('any') {
       checkout scm
-
-      stageEdtTransform(config)
-      stagePrepareBase(config, state)
-      stageSyntaxCheck(config, state)
-
-      testing()
-
-      stageSonarAnalyze(config)
-
-      stageBuild(config, state)
+      config = getPipelineConfiguration(pathToConfig)
     }
-
-    stageReportPublish(config, state)
   }
 }
 
-void init(String pathToConfig, scmVariables) {
-  stage('Initializing') {
-    config = getPipelineConfiguration(pathToConfig)
-    fillNotificationInfo(scmVariables)
+void start() {
+
+  if (config.stages.gitsync) {
+    startGitSync()
+  } else {
+    startBuildPipeline()
   }
+
+}
+
+private void startGitSync() {
+
+  node(config.getAgent()) {
+
+    def scmVariables = checkout scm
+    fillNotificationInfo(scmVariables)
+
+    stageGitsync(config)
+
+  }
+
+}
+
+private void startBuildPipeline() {
+
+  node(config.getAgent()) {
+    def scmVariables = checkout scm
+    fillNotificationInfo(scmVariables)
+
+    stageEdtTransform(config)
+    stagePrepareBase(config, state)
+    stageSyntaxCheck(config, state)
+
+    testing()
+
+    stageSonarAnalyze(config)
+
+    stageBuild(config, state)
+
+    stageReportPublish(config, state)
+  }
+
 }
 
 void testing() {
