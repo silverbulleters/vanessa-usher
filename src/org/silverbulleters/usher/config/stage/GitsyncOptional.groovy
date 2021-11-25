@@ -23,6 +23,11 @@ class GitsyncOptional extends BaseOptional {
   @JsonPropertyDescription("Идентификатор секрета Jenkins для авторизации в хранилище конфигурации")
   String auth = UsherConstant.EMPTY_VALUE
 
+  @JsonPropertyDescription("""Использовать временную информационную базу. База будет создана во временном 
+  каталоге gitsync.
+  """)
+  boolean useTemporaryInfobase = false
+
   GitsyncOptional() {
     name = 'Gitsync'
     id = 'gitsync'
