@@ -13,23 +13,42 @@ import org.silverbulleters.usher.config.PipelineConfiguration
  * @param pathToConfig путь к конфигурации
  * @return
  */
-PipelineConfiguration call(String pathToConfig) {
-  def file = new File(pathToConfig)
-  if (!file.exists()) {
-    throw new Exception("Config file not found")
+PipelineConfiguration call(String pathToConfig, boolean fromNode) {
+  if (fromNode) {
+    return readConfigurationFromNode(pathToConfig)
+  } else {
+    readConfigurationFromWorkspace(pathToConfig)
   }
+}
 
-  def content = file.getText('UTF-8')
-
-  println(content)
-
-  return ConfigurationReader.create(content)
+PipelineConfiguration call(String pathToConfig) {
+  return getPipelineConfiguration(pathToConfig, false)
 }
 
 /**
  * Конфигурация конвейера по умолчанию
- * 
+ *
  */
 PipelineConfiguration call() {
   return ConfigurationReader.create()
+}
+
+private PipelineConfiguration readConfigurationFromNode(String pathToConfig) {
+
+  if (fileExists(pathToConfig)) {
+    def content = readFile(pathToConfig)
+    return ConfigurationReader.create(content)
+  } else {
+    throw new Exception("Конфигурационный файл не найден")
+  }
+
+}
+
+private PipelineConfiguration readConfigurationFromWorkspace(String pathToConfig) {
+  def file = new File(pathToConfig)
+  if (!file.exists()) {
+    throw new Exception("Config file not found")
+  }
+  def content = file.getText('UTF-8')
+  return ConfigurationReader.create(content)
 }

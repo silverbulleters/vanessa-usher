@@ -49,6 +49,10 @@
     "repo" : {
       "path" : "EMPTY_VALUE",
       "auth" : "EMPTY_VALUE"
+    },
+    "extensions" : {
+      "name" : "",
+      "sourcePath" : ""
     }
   },
   "syntaxCheck" : {

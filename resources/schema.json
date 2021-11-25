@@ -200,6 +200,24 @@
               "type" : "string"
             }
           }
+        },
+        "extensions" : {
+          "type" : "array",
+          "description" : "Список расширений конфигурации 1С. Используется для обновления базы",
+          "items" : {
+            "type" : "object",
+            "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:ExtensionSource",
+            "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "Имя расширения конфигурации. Например, `МоеРасширениеКонфигурации`. \n  По умолчанию пустое значение и будет пропущено при обновлении информационной базы.\n  "
+              },
+              "sourcePath" : {
+                "type" : "string",
+                "description" : "Путь к исходному коду расширения 1С. По умолчанию пустое значение и будет пропущено\n  при обновлении информационной базы.\n  "
+              }
+            }
+          }
         }
       }
     },

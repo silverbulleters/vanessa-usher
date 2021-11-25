@@ -69,9 +69,9 @@ private void readConfig(String pathToConfig) {
   if (file.exists()) {
     config = getPipelineConfiguration(absolutePathToConfig)
   } else {
-    node('any') {
+    node {
       checkout scm
-      config = getPipelineConfiguration(pathToConfig)
+      config = getPipelineConfiguration(pathToConfig, true)
     }
   }
 }

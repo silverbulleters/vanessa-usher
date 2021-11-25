@@ -5,6 +5,7 @@
  * Proprietary and confidential.
  */
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.config.additional.ExtensionSource
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 import org.silverbulleters.usher.config.stage.SmokeOptional
@@ -53,6 +54,24 @@ def compile(PipelineConfiguration config, PrepareBaseOptional optional) {
       "--v8version", config.getV8Version(),
       "--nocacheuse"
   ]
+  return command.join(" ")
+}
+
+def compileExt(PipelineConfiguration config, ExtensionSource source) {
+
+  def command = [
+      "vrunner",
+      "compileext",
+      source.sourcePath,
+      source.name,
+      "--updatedb",
+      "%credentialID%",
+      "--ibconnection", infobaseHelper.getConnectionString(config),
+      "--v8version", config.getV8Version(),
+      "--settings", config.getVrunnerConfig(),
+      "--nocacheuse"
+  ]
+
   return command.join(" ")
 }
 
