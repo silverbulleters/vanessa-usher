@@ -37,8 +37,16 @@ private PipelineConfiguration readConfigurationFromNode(String pathToConfig) {
 
   if (fileExists(pathToConfig)) {
     def content = readFile(pathToConfig)
+
+    logger.debug("""Конфигурационный файл:
+    ${content}
+    """)
+
     return ConfigurationReader.create(content)
   } else {
+
+    logger.error("Не удалось прочитать конфигурационный файл проекта")
+
     throw new Exception("Конфигурационный файл не найден")
   }
 
@@ -47,8 +55,16 @@ private PipelineConfiguration readConfigurationFromNode(String pathToConfig) {
 private PipelineConfiguration readConfigurationFromWorkspace(String pathToConfig) {
   def file = new File(pathToConfig)
   if (!file.exists()) {
+
+    logger.error("Не удалось прочитать конфигурационный файл проекта")
+
     throw new Exception("Config file not found")
   }
   def content = file.getText('UTF-8')
+
+  logger.debug("""Конфигурационный файл:
+  ${content}
+  """)
+
   return ConfigurationReader.create(content)
 }
