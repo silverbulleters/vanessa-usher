@@ -141,6 +141,10 @@
         "auth" : {
           "type" : "string",
           "description" : "Идентификатор секрета Jenkins для авторизации в хранилище конфигурации"
+        },
+        "useTemporaryInfobase" : {
+          "type" : "boolean",
+          "description" : "Использовать временную информационную базу. База будет создана во временном \n  каталоге gitsync.\n  "
         }
       }
     },

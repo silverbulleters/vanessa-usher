@@ -33,7 +33,8 @@
   "gitsync" : {
     "timeout" : 40,
     "configPath" : "./tools/JSON/gitsync_conf.JSON",
-    "auth" : "EMPTY_VALUE"
+    "auth" : "EMPTY_VALUE",
+    "useTemporaryInfobase" : false
   },
   "edtTransform" : {
     "timeout" : 30,
@@ -50,10 +51,7 @@
       "path" : "EMPTY_VALUE",
       "auth" : "EMPTY_VALUE"
     },
-    "extensions" : {
-      "name" : "",
-      "sourcePath" : ""
-    }
+    "extensions" : [ ]
   },
   "syntaxCheck" : {
     "timeout" : 100,

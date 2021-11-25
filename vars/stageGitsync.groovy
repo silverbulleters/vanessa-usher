@@ -53,11 +53,16 @@ private void syncInternalWithRepoAuth(String credential) {
 }
 
 private void runSync(String credential, String credentialStorage) {
+  String ibConnection = ""
+  if (!stageOptional.useTemporaryInfobase) {
+    ibConnection = "--ibconnection ${config.defaultInfobase.connectionString}"
+  }
+
   def command = [
       "gitsync",
       "%credentialID%",
       "--v8version", config.getV8Version(),
-      "--ibconnection", infobaseHelper.getConnectionString(config),
+      ibConnection,
       "all",
       "%credentialStorageID%",
       stageOptional.getConfigPath()
