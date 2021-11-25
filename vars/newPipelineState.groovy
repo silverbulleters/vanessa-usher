@@ -11,5 +11,6 @@ import org.silverbulleters.usher.state.PipelineState
  * @return состояние конвейера
  */
 PipelineState call() {
+  logger.debug("Инициализация состояния конвейера")
   return new PipelineState()
 }

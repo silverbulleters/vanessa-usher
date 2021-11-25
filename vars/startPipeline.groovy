@@ -32,15 +32,21 @@ PipelineState state
 NotificationInfo notificationInfo = new NotificationInfo()
 
 void call() {
+
+  logger.debug("Путь к конфигурационному файлу по умолчанию pipeline.json")
+
   call('pipeline.json')
+
 }
 
 void call(String pathToConfig) {
 
+  logger.debug("Путь к конфигурационному файлу '${pathToConfig}'")
+
   state = newPipelineState()
 
   def libraryVersion = Common.getLibraryVersion()
-  print("Версия Vanessa.Usher: ${libraryVersion}")
+  logger.info("Версия Vanessa.Usher `${libraryVersion}`")
 
   readConfig(pathToConfig)
 
@@ -70,8 +76,10 @@ private void readConfig(String pathToConfig) {
   def absolutePathToConfig = common.getAbsolutePathToConfig(pathToConfig)
   def file = new File(absolutePathToConfig)
   if (file.exists()) {
+    logger.debug("Конфигурационный файл найден в workspace")
     config = getPipelineConfiguration(absolutePathToConfig)
   } else {
+    logger.debug("Чтение конфигурационного файла на узле с checkout scm")
     node {
       checkout scm
       config = getPipelineConfiguration(pathToConfig, true)
@@ -82,9 +90,15 @@ private void readConfig(String pathToConfig) {
 void start() {
 
   if (config.stages.gitsync) {
+
+    logger.info("Это конвейер с gitsync")
     startGitSync()
+
   } else {
+
+    logger.info("Это конвейер сборочной линии")
     startBuildPipeline()
+
   }
 
 }
@@ -94,6 +108,7 @@ private void startGitSync() {
   node(config.getAgent()) {
 
     def scmVariables = checkout scm
+    logger.debug("Чтение данных scm для уведомлений")
     fillNotificationInfo(scmVariables)
 
     stageGitsync(config)
@@ -106,6 +121,8 @@ private void startBuildPipeline() {
 
   node(config.getAgent()) {
     def scmVariables = checkout scm
+
+    logger.debug("Чтение данных scm для уведомлений")
     fillNotificationInfo(scmVariables)
 
     stageEdtTransform(config)
@@ -128,6 +145,7 @@ void testing() {
   if (config.matrixTesting.agents.size() == 0) {
     performTesting()
   } else {
+    logger.info("Используется матричное тестирование")
     def jobs = [:]
     def count = 1
     config.matrixTesting.agents.each { agentName ->
