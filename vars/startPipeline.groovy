@@ -64,6 +64,9 @@ void call(String pathToConfig) {
 }
 
 private void readConfig(String pathToConfig) {
+
+  logger.info("Чтение конфигурационного файла")
+
   def absolutePathToConfig = common.getAbsolutePathToConfig(pathToConfig)
   def file = new File(absolutePathToConfig)
   if (file.exists()) {
