@@ -9,6 +9,7 @@ package org.silverbulleters.usher.config.stage
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
 import org.silverbulleters.usher.UsherConstant
+import org.silverbulleters.usher.config.additional.ExtensionSource
 import org.silverbulleters.usher.config.additional.Repo
 
 /**
@@ -27,9 +28,13 @@ class PrepareBaseOptional extends BaseOptional {
   @JsonPropertyDescription("Настройки подключения к хранилище конфигурации 1С")
   Repo repo = Repo.EMPTY
 
+  @JsonPropertyDescription("Список расширений конфигурации 1С. Используется для обновления базы")
+  ExtensionSource[] extensions = []
+
   PrepareBaseOptional() {
     name = "Prepare base"
     id = 'prepare-base'
     timeout = 100
   }
+
 }

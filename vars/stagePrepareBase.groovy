@@ -7,6 +7,7 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
+import org.silverbulleters.usher.config.additional.ExtensionSource
 import org.silverbulleters.usher.config.additional.Repo
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 import org.silverbulleters.usher.state.PipelineState
@@ -61,6 +62,7 @@ private def prepare() {
 }
 
 private def prepareInternal(String credential) {
+
   if (stageOptional.getTemplate().isEmpty() || stageOptional.getTemplate() == UsherConstant.EMPTY_VALUE) {
     if (stageOptional.getRepo() != Repo.EMPTY) {
       loadRepo(credential)
@@ -73,6 +75,13 @@ private def prepareInternal(String credential) {
     compile(credential)
     updateDB(credential)
   }
+
+  stageOptional.extensions.each { source ->
+    if (!source.name.empty || !source.sourcePath.empty) {
+      compileExt(source, credential)
+    }
+  }
+
   migrate(credential)
 }
 
@@ -108,6 +117,12 @@ private def initDevFromSource(credential) {
 
 private def compile(credential) {
   command = vrunner.compile(config, stageOptional)
+  command = command.replace("%credentialID%", credential)
+  cmdRun(command)
+}
+
+private void compileExt(ExtensionSource source, String credential) {
+  def command = vrunner.compileExt(config, source)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
