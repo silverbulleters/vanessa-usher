@@ -122,6 +122,10 @@
         "build" : {
           "type" : "boolean",
           "description" : "Собрать cf на поставке с помощью `packman`"
+        },
+        "yard" : {
+          "type" : "boolean",
+          "description" : "Запустить загрузку и обработку релизов конфигураций 1С"
         }
       }
     },
@@ -360,6 +364,45 @@
         "errorIfJobStatusOfFailure" : {
           "type" : "boolean",
           "description" : "Прерывать этап если статус задачи равен FAILURE"
+        }
+      }
+    },
+    "yard" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:YardOptional",
+      "description" : "Настройки этапа загрузки и обработки релизов 1С",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
+        },
+        "appName" : {
+          "type" : "string",
+          "description" : "Имя конфигурации с сайта releases.1c.ru. Например, `EnterpriseERP20`"
+        },
+        "descriptionPath" : {
+          "type" : "string",
+          "description" : "Путь к файлу описания конфигурации"
+        },
+        "yardSettingsPath" : {
+          "type" : "string",
+          "description" : "Путь к файлу настроек yard"
+        },
+        "auth" : {
+          "type" : "string",
+          "description" : "Секрет для авторизации на сайте releases.1c.ru"
+        },
+        "workspacePath" : {
+          "type" : "string",
+          "description" : "Каталог запуска yard"
+        },
+        "branch" : {
+          "type" : "string",
+          "description" : "Имя ветки для git push"
+        },
+        "debug" : {
+          "type" : "boolean",
+          "description" : "Режим дебага yard"
         }
       }
     }

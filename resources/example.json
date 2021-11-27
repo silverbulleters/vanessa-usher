@@ -28,7 +28,8 @@
     "tdd" : false,
     "bdd" : false,
     "sonarqube" : false,
-    "build" : false
+    "build" : false,
+    "yard" : false
   },
   "gitsync" : {
     "timeout" : 40,
@@ -88,5 +89,15 @@
     "timeout" : 100,
     "distPath" : ".packman/1cv8.cf",
     "errorIfJobStatusOfFailure" : false
+  },
+  "yard" : {
+    "timeout" : 300,
+    "appName" : "",
+    "descriptionPath" : "./description.json",
+    "yardSettingsPath" : "./yardsettings.json",
+    "auth" : "EMPTY_VALUE",
+    "workspacePath" : "./",
+    "branch" : "master",
+    "debug" : false
   }
 }

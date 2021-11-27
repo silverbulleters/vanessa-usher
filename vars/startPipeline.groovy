@@ -94,6 +94,9 @@ void start() {
     logger.info("Это конвейер с gitsync")
     startGitSync()
 
+  } else if (config.stages.yard) {
+    logger.info("Это конвейер с yard")
+    startYard()
   } else {
 
     logger.info("Это конвейер сборочной линии")
@@ -112,6 +115,20 @@ private void startGitSync() {
     fillNotificationInfo(scmVariables)
 
     stageGitsync(config)
+
+  }
+
+}
+
+private void startYard() {
+
+  node(config.getAgent()) {
+
+    def scmVariables = checkout scm
+    logger.debug("Чтение данных scm для уведомлений")
+    fillNotificationInfo(scmVariables)
+
+    stageYard(config)
 
   }
 

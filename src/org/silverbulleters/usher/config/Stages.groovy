@@ -44,6 +44,9 @@ class Stages {
   @JsonPropertyDescription("Собрать cf на поставке с помощью `packman`")
   boolean build = false
 
+  @JsonPropertyDescription("Запустить загрузку и обработку релизов конфигураций 1С")
+  boolean yard = false
+
   @NonCPS
   private static Stages createEmptyStages() {
     return new Stages()
