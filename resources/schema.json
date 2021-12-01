@@ -245,6 +245,25 @@
         "junitPath" : {
           "type" : "string",
           "description" : "Путь к файлу выгрузки отчета в формате jUnit"
+        },
+        "checkExtensions" : {
+          "type" : "boolean",
+          "description" : "Проверять все расширения в информационной базе"
+        },
+        "groupByMetadata" : {
+          "type" : "boolean",
+          "description" : "Группировать результат проверки по метаданным"
+        },
+        "mode" : {
+          "type" : "array",
+          "description" : "Список параметров проверок",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "exceptionFile" : {
+          "type" : "string",
+          "description" : "Путь к файлу с исключениями"
         }
       }
     },

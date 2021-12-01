@@ -33,3 +33,32 @@ void packTestResults(PipelineConfiguration config, stageOptional, BaseTestingSta
   allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
   archive(config, stageOptional, state)
 }
+
+/**
+ * Архивация результатов тестирования
+ * @param result
+ */
+void archiveTestResults(Map result) {
+
+  result.junit.each {
+    def file = new File(it)
+    def directoryPath = file.getParent()
+    dir(directoryPath) {
+      def fileName = "junit_${file.name}"
+      result.stashes.put(fileName, "out/junit")
+      stash includes: "*", name: fileName
+      deleteDir()
+    }
+  }
+
+  result.allure.each {
+    allureHelper.createAllureCategories(result.name, it)
+    dir(it) {
+      def name = UUID.randomUUID().toString()
+      result.stashes.put(name, it)
+      stash includes: '*', name: name
+      deleteDir()
+    }
+  }
+
+}

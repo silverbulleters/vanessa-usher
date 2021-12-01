@@ -4,12 +4,12 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
+
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.ExtensionSource
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 import org.silverbulleters.usher.config.stage.SmokeOptional
-import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 import org.silverbulleters.usher.config.stage.TddOptional
 
 def initDevFromSource(PipelineConfiguration config, PrepareBaseOptional optional) {
@@ -122,19 +122,38 @@ def migrate(PipelineConfiguration config, PrepareBaseOptional optional) {
   return command.join(" ")
 }
 
-def syntaxCheck(PipelineConfiguration config, SyntaxCheckOptional optional) {
+def syntaxCheck(Map args) {
+  def config = args.config
+  def setting = args.setting
+
   def command = [
       "vrunner",
       "syntax-check",
       "%credentialID%",
       "--settings", config.getVrunnerConfig(),
-      "--allure-results2", optional.getAllurePath(),
-      "--junitpath", optional.getJunitPath(),
+      "--allure-results2", args.allurePath,
+      "--junitpath", args.junitPath,
       "--ibconnection", infobaseHelper.getConnectionString(config),
       "--v8version", config.getV8Version()
   ]
+
+  if (fileExists(setting.exceptionFile)) {
+    command += "--exception-file ${setting.exceptionFile}"
+  }
+
+  if (setting.groupByMetadata) {
+    command += "--groupbymetadata"
+  }
+
+  command += "--mode"
+  command += setting.mode.join(" ")
+  if (args.checkExtensions) {
+    command += "-AllExtensions"
+  }
+
   return command.join(" ")
 }
+
 
 def smoke(PipelineConfiguration config, SmokeOptional optional) {
   def pathToAllure = "${optional.getAllurePath()}/allure-smoke.xml"
