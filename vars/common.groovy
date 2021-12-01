@@ -71,8 +71,14 @@ String getAbsolutePathToConfig(String pathToConfig) {
 }
 
 private String getProjectPathFromWorkspace() {
+  def pathToWorkspaces = "${env.JENKINS_HOME}/workspace/workspaces.txt"
+  def file = new File(pathToWorkspaces)
+  if (!file.exists()) {
+    return ''
+  }
+  
   def data = [:]
-  def lines = new File("${env.JENKINS_HOME}/workspace/workspaces.txt") as String[]
+  def lines = file as String[]
 
   def projectName = ''
   def count = 1
