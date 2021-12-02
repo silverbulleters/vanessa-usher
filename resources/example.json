@@ -57,7 +57,11 @@
   "syntaxCheck" : {
     "timeout" : 100,
     "allurePath" : "./out/syntaxCheck/allure",
-    "junitPath" : "./out/junit/syntaxCheck.xml"
+    "junitPath" : "./out/junit/syntaxCheck.xml",
+    "checkExtensions" : false,
+    "groupByMetadata" : true,
+    "mode" : [ "-ThinClient", "-Server", "-ConfigLogIntegrity", "-HandlersExistence", "-ExtendedModulesCheck" ],
+    "exceptionFile" : "./tools/syntax-check/exceptionFile.txt"
   },
   "smoke" : {
     "timeout" : 100,
