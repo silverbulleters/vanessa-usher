@@ -20,6 +20,12 @@ import org.silverbulleters.usher.util.Common
 PipelineConfiguration config
 
 /**
+ * Метка или имя узла для чтения конфигурационного файла
+ */
+@Field
+String nodeForReadConfig
+
+/**
  * Состояние
  */
 @Field
@@ -39,11 +45,17 @@ void call() {
 
 }
 
-void call(String pathToConfig) {
+/**
+ * Запустить конвейер 1С
+ * @param pathToConfig путь к конфигурационному файлу
+ * @param nodeForReadConfig (опционально) имя узла или метки для чтения конфигурационного файла
+ */
+void call(String pathToConfig, String nodeForReadConfig = '') {
 
   logger.debug("Путь к конфигурационному файлу '${pathToConfig}'")
 
-  state = newPipelineState()
+  this.nodeForReadConfig = nodeForReadConfig
+  this.state = newPipelineState()
 
   def libraryVersion = Common.getLibraryVersion()
   logger.info("Версия Vanessa.Usher `${libraryVersion}`")
@@ -70,7 +82,6 @@ void call(String pathToConfig) {
 }
 
 private void readConfig(String pathToConfig) {
-
   logger.info("Чтение конфигурационного файла")
 
   def absolutePathToConfig = common.getAbsolutePathToConfig(pathToConfig)
@@ -79,15 +90,32 @@ private void readConfig(String pathToConfig) {
     logger.debug("Конфигурационный файл найден в workspace")
     config = getPipelineConfiguration(absolutePathToConfig)
   } else {
+
     logger.debug("Чтение конфигурационного файла на узле с checkout scm")
-    node {
+
+    readConfigInternal(nodeForReadConfig) {
       checkout scm
       config = getPipelineConfiguration(pathToConfig, true)
     }
+
   }
 }
 
-void start() {
+private void readConfigInternal(String label, Closure body) {
+
+  if (label.isEmpty()) {
+    node {
+      body()
+    }
+  } else {
+    node(label) {
+      body()
+    }
+  }
+
+}
+
+private void start() {
 
   if (config.stages.gitsync) {
 
@@ -157,7 +185,7 @@ private void startBuildPipeline() {
 
 }
 
-void testing() {
+private void testing() {
 
   if (config.matrixTesting.agents.size() == 0) {
     performTesting()
@@ -181,13 +209,13 @@ void testing() {
 
 }
 
-void performTesting() {
+private void performTesting() {
   stageSmoke(config, state)
   stageTdd(config, state)
   stageBdd(config, state)
 }
 
-void sendNotification() {
+private void sendNotification() {
   address = ""
   def providerNotification
   if (config.getNotification().getMode() == NotificationMode.SLACK) {
@@ -207,7 +235,7 @@ void sendNotification() {
   }
 }
 
-void fillNotificationInfo(scmVariables) {
+private void fillNotificationInfo(scmVariables) {
   // для slack only
   notificationInfo.channelId = config.notification.slack.channelName
   notificationInfo.projectName = "${env.JOB_NAME}"
@@ -219,7 +247,7 @@ void fillNotificationInfo(scmVariables) {
 }
 
 @NonCPS
-void fillSummaryTestResults() {
+private void fillSummaryTestResults() {
   def testResultAction = currentBuild.rawBuild.getAction(AbstractTestResultAction.class)
   if (testResultAction == null) {
     notificationInfo.showTestResults = false
