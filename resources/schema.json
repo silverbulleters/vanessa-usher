@@ -149,6 +149,10 @@
         "useTemporaryInfobase" : {
           "type" : "boolean",
           "description" : "Использовать временную информационную базу. База будет создана во временном \n  каталоге gitsync.\n  "
+        },
+        "tempPath" : {
+          "type" : "string",
+          "description" : "Путь к каталогу временных файлов"
         }
       }
     },
