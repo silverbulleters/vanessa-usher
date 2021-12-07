@@ -35,7 +35,8 @@
     "timeout" : 40,
     "configPath" : "./tools/JSON/gitsync_conf.JSON",
     "auth" : "EMPTY_VALUE",
-    "useTemporaryInfobase" : false
+    "useTemporaryInfobase" : false,
+    "tempPath" : "EMPTY_VALUE"
   },
   "edtTransform" : {
     "timeout" : 30,

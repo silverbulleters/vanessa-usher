@@ -28,6 +28,9 @@ class GitsyncOptional extends BaseOptional {
   """)
   boolean useTemporaryInfobase = false
 
+  @JsonPropertyDescription("Путь к каталогу временных файлов")
+  String tempPath = UsherConstant.EMPTY_VALUE
+
   GitsyncOptional() {
     name = 'Gitsync'
     id = 'gitsync'
