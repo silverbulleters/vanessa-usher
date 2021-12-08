@@ -8,10 +8,12 @@ import com.cloudbees.groovy.cps.NonCPS
 import groovy.transform.Field
 import hudson.tasks.test.AbstractTestResultAction
 import org.silverbulleters.usher.NotificationInfo
+import org.silverbulleters.usher.config.ConfigurationReader
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.NotificationMode
 import org.silverbulleters.usher.state.PipelineState
 import org.silverbulleters.usher.util.Common
+import org.silverbulleters.usher.util.GitlabHelper
 
 /**
  * Конфигурация
@@ -84,12 +86,13 @@ void call(String pathToConfig, String nodeForReadConfig = '') {
 private void readConfig(String pathToConfig) {
   logger.info("Чтение конфигурационного файла")
 
-  def absolutePathToConfig = common.getAbsolutePathToConfig(pathToConfig)
-  def file = new File(absolutePathToConfig)
-  if (file.exists()) {
-    logger.debug("Конфигурационный файл найден в workspace")
-    config = getPipelineConfiguration(absolutePathToConfig)
-  } else {
+  try {
+    readConfigByApi(pathToConfig)
+  } catch (def exception) {
+    logger.info("Не удалось прочитать конфигурационный файл по API. Причина: ${exception.getMessage()}")
+  }
+
+  if (config == null) {
 
     logger.debug("Чтение конфигурационного файла на узле с checkout scm")
 
@@ -99,7 +102,34 @@ private void readConfig(String pathToConfig) {
     }
 
   }
+
 }
+
+private void readConfigByApi(pathToConfig) {
+  def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
+
+  if (scmUrl != null) {
+
+    if (GitlabHelper.isUrlGitlab(scmUrl)) {
+
+      logger.info("Чтение конфигурационного файла из Gitlab по API")
+
+      def scmCredentialsId = scm.getUserRemoteConfigs()[0].getCredentialsId()
+      def shaCommit = Common.getShaCommitFromLog(currentBuild.rawBuild.getLog())
+
+      withCredentials([usernamePassword(credentialsId: scmCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        def content = GitlabHelper.getContent(scmUrl, PASSWORD, shaCommit, pathToConfig)
+
+        config = ConfigurationReader.create(content)
+
+      }
+
+    }
+
+  }
+
+}
+
 
 private void readConfigInternal(String label, Closure body) {
 
