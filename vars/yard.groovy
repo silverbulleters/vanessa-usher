@@ -14,27 +14,22 @@ PipelineConfiguration config
 @Field
 YardOptional stageOptional
 
+/**
+ * Запустить yard для работы с релизами 1С
+ * @param config
+ */
 void call(PipelineConfiguration config) {
-  if (!config.stages.yard) {
-    return
-  }
-
   this.config = config
   this.stageOptional = config.yardOptional
 
-  timeout(unit: 'MINUTES', time: stageOptional.timeout) {
-    stage(stageOptional.name) {
-
-      if (credentialHelper.authIsPresent(stageOptional.auth) && credentialHelper.exist(stageOptional.auth)) {
-        withCredentials([usernamePassword(credentialsId: stageOptional.auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          withEnv(["YARD_RELEASES_USER=${USERNAME}", "YARD_RELEASES_PWD=${PASSWORD}"]) {
-            yardInternal()
-          }
-        }
-      } else {
+  if (credentialHelper.authIsPresent(stageOptional.auth) && credentialHelper.exist(stageOptional.auth)) {
+    withCredentials([usernamePassword(credentialsId: stageOptional.auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+      withEnv(["YARD_RELEASES_USER=${USERNAME}", "YARD_RELEASES_PWD=${PASSWORD}"]) {
         yardInternal()
       }
     }
+  } else {
+    yardInternal()
   }
 
 }

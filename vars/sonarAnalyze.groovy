@@ -14,27 +14,14 @@ PipelineConfiguration config
 @Field
 SonarQubeOptional stageOptional
 
+/**
+ * Запустить анализ проекта в SonarQube
+ * @param config конфигурацию
+ */
 void call(PipelineConfiguration config) {
-  if (!config.getStages().isSonarqube()) {
-    return
-  }
-
   this.config = config
-  this.stageOptional = config.getSonarQubeOptional()
+  this.stageOptional = config.sonarQubeOptional
 
-  timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
-    stage('Sonarqube static analysis') {
-      node(stageOptional.getAgent()) {
-        def scmVars = checkout scm
-        catchError(message: 'Ошибка во время выполнения sonar-scanner', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-          analyze(scmVars)
-        }
-      }
-    }
-  }
-}
-
-private def analyze(scmVars) {
   def projectVersion = getProjectVersion()
   def scannerHome = tool stageOptional.getToolId()
 
@@ -45,7 +32,7 @@ private def analyze(scmVars) {
 
   def sonarBranch = ''
   if (stageOptional.isUseBranch()) {
-    def branch = "${scmVars.GIT_BRANCH}"
+    def branch = "${env.GIT_BRANCH}"
     if (branch.startsWith('origin/')) {
       branch = branch.substring(7)
     }

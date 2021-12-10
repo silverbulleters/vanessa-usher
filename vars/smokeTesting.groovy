@@ -6,8 +6,9 @@
  */
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
-import org.silverbulleters.usher.config.stage.TddOptional
+import org.silverbulleters.usher.config.stage.SmokeOptional
 import org.silverbulleters.usher.state.PipelineState
+import org.silverbulleters.usher.wrapper.VRunner
 
 @Field
 PipelineConfiguration config
@@ -16,35 +17,28 @@ PipelineConfiguration config
 PipelineState state
 
 @Field
-TddOptional stageOptional
+SmokeOptional stageOptional
 
+/**
+ * Выполнить дымовое тестирование
+ * @param config конфигурация
+ * @param state состояние конвейера
+ */
 void call(PipelineConfiguration config, PipelineState state) {
-  if (!config.getStages().isTdd()) {
-    return
-  }
-
   this.config = config
-  this.stageOptional = config.getTddOptional()
   this.state = state
+  this.stageOptional = config.smokeOptional
 
-  timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
-    stage(stageOptional.getName()) {
+  infobaseHelper.unpackInfobase(config: config, state: state)
 
-      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
-        print('Распаковка каталога "build/ib"')
-        unstash 'build-ib-folder'
-      }
-
-      catchError(message: 'Ошибка во время выполнения модульного тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-        testing()
-      }
-
-      catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-        testResultsHelper.packTestResults(config, stageOptional, state.tdd)
-      }
-
-    }
+  catchError(message: 'Ошибка во время выполнения дымового тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+    testing()
   }
+
+  catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+    testResultsHelper.packTestResults(config, stageOptional, state.smoke)
+  }
+
 }
 
 private def testing() {
@@ -53,17 +47,17 @@ private def testing() {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       def credentialTestClient = credentialHelper.getTestClientWithAuth()
-      xddTesting(credential, credentialTestClient)
+      smokeTesting(credential, credentialTestClient)
     }
   } else {
-    xddTesting('', '')
+    smokeTesting('', '')
   }
 }
 
-private xddTesting(String credential, String credentialTestClient) {
+private smokeTesting(String credential, String credentialTestClient) {
   def testClient = credentialTestClient.isEmpty() ? "::1538" : credentialTestClient
 
-  command = vrunner.xunit(config, stageOptional)
+  def command = VRunner.smoke(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   command = command.replace("%credentialTestClientID%", testClient)
   cmdRun(command)

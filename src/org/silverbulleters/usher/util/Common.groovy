@@ -7,6 +7,7 @@
 package org.silverbulleters.usher.util
 
 import org.silverbulleters.usher.UsherConstant
+import org.silverbulleters.usher.config.PipelineConfiguration
 
 /**
  * Вспомогательный класс
@@ -32,6 +33,14 @@ class Common {
       return matcher[0][1]
     }
     return ''
+  }
+
+  static String getConnectionString(PipelineConfiguration config) {
+    def connectionString = ""
+    if (config.getDefaultInfobase().getConnectionString() != UsherConstant.EMPTY_VALUE) {
+      connectionString = config.getDefaultInfobase().getConnectionString()
+    }
+    return connectionString;
   }
 
 }

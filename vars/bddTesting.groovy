@@ -8,6 +8,7 @@ import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.state.PipelineState
+import org.silverbulleters.usher.wrapper.VRunner
 
 @Field
 PipelineConfiguration config
@@ -18,48 +19,42 @@ PipelineState state
 @Field
 BddOptional stageOptional
 
+/**
+ * Выполнить поведенческое тестирование
+ * @param config конфигурация
+ * @param state состояние конвейера
+ */
 void call(PipelineConfiguration config, PipelineState state) {
-  if (!config.getStages().isBdd()) {
-    return
-  }
-
   this.config = config
-  this.stageOptional = config.getBddOptional()
   this.state = state
+  this.stageOptional = config.bddOptional
 
-  timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
-    stage(stageOptional.getName()) {
-      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
-        print('Распаковка каталога "build/ib"')
-        unstash 'build-ib-folder'
-      }
+  infobaseHelper.unpackInfobase(config: config, state: state)
 
-      catchError(message: 'Ошибка во время выполнения bdd тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-        testing()
-      }
-
-      catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-        testResultsHelper.packTestResults(config, stageOptional, state.bdd)
-      }
-
-    }
+  catchError(message: 'Ошибка во время выполнения bdd тестирования', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+    testing()
   }
+
+  catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+    testResultsHelper.packTestResults(config, stageOptional, state.bdd)
+  }
+
 }
 
 private def testing() {
-  def auth = config.getDefaultInfobase().getAuth()
+  def auth = config.defaultInfobase.auth
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       bddTesting(credential)
     }
   } else {
-    bddTesting('')
+    bddTesting()
   }
 }
 
-private bddTesting(String credential) {
-  def command = vrunner.vanessa(config, stageOptional)
+private bddTesting(String credential = '') {
+  def command = VRunner.vanessa(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }

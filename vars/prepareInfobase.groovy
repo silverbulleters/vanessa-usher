@@ -11,6 +11,7 @@ import org.silverbulleters.usher.config.additional.ExtensionSource
 import org.silverbulleters.usher.config.additional.Repo
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 import org.silverbulleters.usher.state.PipelineState
+import org.silverbulleters.usher.wrapper.VRunner
 
 @Field
 PipelineConfiguration config
@@ -22,46 +23,34 @@ PipelineState state
 PrepareBaseOptional stageOptional
 
 /**
- * Подготовка и обновление базы
- *
- * @param config
+ * Подготовить информационную базы
+ * @param config конфигурация
+ * @param state состояние конвейера
  */
 void call(PipelineConfiguration config, PipelineState state) {
-  if (!config.getStages().isPrepareBase()) {
-    return
-  }
-
   this.config = config
-  this.stageOptional = config.getPrepareBaseOptional()
   this.state = state
+  this.stageOptional = config.prepareBaseOptional
 
-  timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
-    stage('Prepare base') {
-      prepare()
+  prepareBase()
 
-      // архивация информационной базы
-      if (fileExists('build/ib')) {
-        state.prepareBase.localBuildFolder = true
+  infobaseHelper.packInfobase(state)
 
-        stash name: 'build-ib-folder', includes: 'build/ib/*'
-      }
-    }
-  }
 }
 
-private def prepare() {
+private void prepareBase() {
   def auth = config.getDefaultInfobase().getAuth()
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
-      prepareInternal(credential)
+      prepareBaseInternal(credential)
     }
   } else {
-    prepareInternal('')
+    prepareBaseInternal()
   }
 }
 
-private def prepareInternal(String credential) {
+private void prepareBaseInternal(String credential = '') {
 
   if (stageOptional.getTemplate().isEmpty() || stageOptional.getTemplate() == UsherConstant.EMPTY_VALUE) {
     if (stageOptional.getRepo() != Repo.EMPTY) {
@@ -85,8 +74,8 @@ private def prepareInternal(String credential) {
   migrate(credential)
 }
 
-private def loadRepo(credential) {
-  command = vrunner.loadRepo(config, stageOptional)
+private void loadRepo(credential) {
+  def command = VRunner.loadRepo(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   auth = stageOptional.getRepo().getAuth()
   // fixme: есть кред пустой - ругаться
@@ -97,38 +86,38 @@ private def loadRepo(credential) {
   }
 }
 
-private def updateDB(credential) {
-  command = vrunner.updateDB(config, stageOptional)
+private void updateDB(credential) {
+  def command = VRunner.updateDB(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def initDevWithTemplate(credential) {
-  command = vrunner.initDevWithTemplate(config, stageOptional)
+private void initDevWithTemplate(credential) {
+  def command = VRunner.initDevWithTemplate(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def initDevFromSource(credential) {
-  command = vrunner.initDevFromSource(config, stageOptional)
+private void initDevFromSource(credential) {
+  def command = VRunner.initDevFromSource(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def compile(credential) {
-  command = vrunner.compile(config, stageOptional)
+private void compile(credential) {
+  def command = VRunner.compile(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
 private void compileExt(ExtensionSource source, String credential) {
-  def command = vrunner.compileExt(config, source)
+  def command = VRunner.compileExt(config, source)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }
 
-private def migrate(credential) {
-  command = vrunner.migrate(config, stageOptional)
+private void migrate(credential) {
+  def command = VRunner.migrate(config, stageOptional)
   command = command.replace("%credentialID%", credential)
   cmdRun(command)
 }

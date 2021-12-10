@@ -31,7 +31,7 @@ static String shieldSymbols(String value) {
 }
 
 static boolean needPublishTests(PipelineConfiguration config) {
-  return config.getStages().isSyntaxCheck() || config.getStages().isSmoke() || config.getStages().isTdd() || config.getStages().isBdd()
+  return config.stages.syntaxCheck || config.stages.smoke || config.stages.tdd || config.stages.bdd
 }
 
 /**
@@ -51,52 +51,10 @@ static String getRepoVersion(String pathToSource) {
   def xmlData = new XmlParser().parse(pathToVersion)
   try {
     version = xmlData.value()[0]
-  } catch (e) {
+  } catch (ignore) {
     // todo: нужен logger
     // не удалось прочитать файл с версией
   }
 
   return version
-}
-
-/**
- * Абсолютный путь к конфигурационному файлу на master узле
- * @param pathToConfig относительный путь к конфигурационному файлу
- * @return
- */
-String getAbsolutePathToConfig(String pathToConfig) {
-  def jobName = getProjectPathFromWorkspace()
-  def pathToBuild = "${env.JENKINS_HOME}/workspace/${jobName}@script/"
-  return pathToBuild + pathToConfig
-}
-
-private String getProjectPathFromWorkspace() {
-  def pathToWorkspaces = "${env.JENKINS_HOME}/workspace/workspaces.txt"
-  def file = new File(pathToWorkspaces)
-  if (!file.exists()) {
-    return ''
-  }
-  
-  def data = [:]
-  def lines = file as String[]
-
-  def projectName = ''
-  def count = 1
-
-  lines.each {
-    if (count % 2 == 0) {
-      data[projectName] = it
-    } else {
-      projectName = it
-    }
-    count++
-  }
-
-  def entry = data.find { key, value -> key == "${env.JOB_NAME}"}
-  if (entry == null) {
-    return ''
-  } else {
-    return "${entry.value}"
-  }
-
 }

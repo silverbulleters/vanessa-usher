@@ -14,10 +14,13 @@ PipelineConfiguration config
 @Field
 PipelineState state
 
+/**
+ * Опубликовать отчеты о тестировании
+ * @param config конфигурация
+ * @param state состояние конвейера
+ */
 void call(PipelineConfiguration config, PipelineState state) {
-  boolean needPublish = common.needPublishTests(config)
-
-  if (!needPublish) {
+  if (!common.needPublishTests(config)) {
     return
   }
 
