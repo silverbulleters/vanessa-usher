@@ -18,6 +18,13 @@ PipelineState state
 @Field
 SyntaxCheckOptional stageOptional
 
+@Field
+Map result = [
+    "junit" : [],
+    "allure": [],
+    "error": false
+]
+
 def call(PipelineConfiguration config, PipelineState state) {
   if (!config.getStages().isSyntaxCheck()) {
     return
@@ -28,21 +35,32 @@ def call(PipelineConfiguration config, PipelineState state) {
   this.state = state
 
   timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
+
     stage(stageOptional.getName()) {
-      if (config.stages.prepareBase && state.prepareBase.localBuildFolder) {
-        print('Распаковка каталога "build/ib"')
-        unstash 'build-ib-folder'
-      }
 
-      catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+      infobaseHelper.unzipInfobase(config: config, state: state)
+
+      catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE',
+          stageResult: 'FAILURE') {
+
         check()
+
       }
 
-      catchError(message: 'Ошибка во время архивации отчетов о тестировании', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-        testResultsHelper.packTestResults(config, stageOptional, state.syntaxCheck)
+      catchError(message: 'Ошибка во время публикации отчетов о тестировании', buildResult: 'FAILURE',
+          stageResult: 'FAILURE') {
+
+        testResultsHelper.archiveTestResults(
+            name: stageOptional.name,
+            junit: result.junit,
+            allure: result.allure,
+            stashes: state.syntaxCheck.stashes
+        )
+
       }
 
     }
+
   }
 }
 
@@ -51,15 +69,50 @@ private def check() {
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
-      runSyntaxCheck(credential)
+      syntaxCheck(credential)
     }
   } else {
-    runSyntaxCheck('')
+    syntaxCheck()
   }
 }
 
-private def runSyntaxCheck(credential) {
-  command = vrunner.syntaxCheck(config, stageOptional)
+private def syntaxCheck(credential = '') {
+
+  syntaxCheckByOptional(credential)
+  if (stageOptional.checkExtensions) {
+    syntaxCheckByOptional(credential, true)
+  }
+
+  if (result.error) {
+    failure("Во время выполнения syntax-check были ошибки")
+  }
+
+}
+
+private def syntaxCheckByOptional(String credential, boolean checkExtensions = false) {
+  def allureUuid = UUID.randomUUID().toString()
+  def junitUuid = UUID.randomUUID().toString()
+
+  def allurePath = "out/${allureUuid}"
+  def junitPath = "out/${junitUuid}/${junitUuid}.xml"
+
+  result.allure += allurePath
+  result.junit += junitPath
+
+  def command = vrunner.syntaxCheck(
+      config: config,
+      setting: stageOptional,
+      checkExtensions: checkExtensions,
+      allurePath: allurePath,
+      junitPath: junitPath
+  )
   command = command.replace("%credentialID%", credential)
-  cmdRun(command)
+
+  try {
+    cmdRun(command)
+  } catch (exception) {
+    result.error = true
+    logger.info(exception.getMessage())
+  }
+
 }

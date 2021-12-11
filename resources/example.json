@@ -28,12 +28,15 @@
     "tdd" : false,
     "bdd" : false,
     "sonarqube" : false,
-    "build" : false
+    "build" : false,
+    "yard" : false
   },
   "gitsync" : {
     "timeout" : 40,
     "configPath" : "./tools/JSON/gitsync_conf.JSON",
-    "auth" : "EMPTY_VALUE"
+    "auth" : "EMPTY_VALUE",
+    "useTemporaryInfobase" : false,
+    "tempPath" : ""
   },
   "edtTransform" : {
     "timeout" : 30,
@@ -49,12 +52,17 @@
     "repo" : {
       "path" : "EMPTY_VALUE",
       "auth" : "EMPTY_VALUE"
-    }
+    },
+    "extensions" : [ ]
   },
   "syntaxCheck" : {
     "timeout" : 100,
     "allurePath" : "./out/syntaxCheck/allure",
-    "junitPath" : "./out/junit/syntaxCheck.xml"
+    "junitPath" : "./out/junit/syntaxCheck.xml",
+    "checkExtensions" : false,
+    "groupByMetadata" : true,
+    "mode" : [ "-ThinClient", "-Server", "-ConfigLogIntegrity", "-HandlersExistence", "-ExtendedModulesCheck" ],
+    "exceptionFile" : "./tools/syntax-check/exceptionFile.txt"
   },
   "smoke" : {
     "timeout" : 100,
@@ -86,5 +94,15 @@
     "timeout" : 100,
     "distPath" : ".packman/1cv8.cf",
     "errorIfJobStatusOfFailure" : false
+  },
+  "yard" : {
+    "timeout" : 300,
+    "appName" : "",
+    "descriptionPath" : "./description.json",
+    "yardSettingsPath" : "./yardsettings.json",
+    "auth" : "EMPTY_VALUE",
+    "workspacePath" : "./",
+    "branch" : "master",
+    "debug" : false
   }
 }

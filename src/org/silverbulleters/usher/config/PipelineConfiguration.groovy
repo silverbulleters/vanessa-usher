@@ -22,6 +22,7 @@ import org.silverbulleters.usher.config.stage.SmokeOptional
 import org.silverbulleters.usher.config.stage.SonarQubeOptional
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 import org.silverbulleters.usher.config.stage.TddOptional
+import org.silverbulleters.usher.config.stage.YardOptional
 
 /**
  * Настройки pipeline
@@ -96,4 +97,9 @@ class PipelineConfiguration implements Serializable {
   @JsonPropertyDescription("Настройки этапа сборки CF на поставке")
   @JsonProperty("build")
   BuildOptional buildOptional = BuildOptional.EMPTY
+
+  @JsonPropertyDescription("Настройки этапа загрузки и обработки релизов 1С")
+  @JsonProperty("yard")
+  YardOptional yardOptional = YardOptional.EMPTY
+
 }

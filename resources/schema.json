@@ -122,6 +122,10 @@
         "build" : {
           "type" : "boolean",
           "description" : "Собрать cf на поставке с помощью `packman`"
+        },
+        "yard" : {
+          "type" : "boolean",
+          "description" : "Запустить загрузку и обработку релизов конфигураций 1С"
         }
       }
     },
@@ -141,6 +145,14 @@
         "auth" : {
           "type" : "string",
           "description" : "Идентификатор секрета Jenkins для авторизации в хранилище конфигурации"
+        },
+        "useTemporaryInfobase" : {
+          "type" : "boolean",
+          "description" : "Использовать временную информационную базу. База будет создана во временном \n  каталоге gitsync.\n  "
+        },
+        "tempPath" : {
+          "type" : "string",
+          "description" : "Путь к каталогу временных файлов"
         }
       }
     },
@@ -200,6 +212,24 @@
               "type" : "string"
             }
           }
+        },
+        "extensions" : {
+          "type" : "array",
+          "description" : "Список расширений конфигурации 1С. Используется для обновления базы",
+          "items" : {
+            "type" : "object",
+            "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:ExtensionSource",
+            "properties" : {
+              "name" : {
+                "type" : "string",
+                "description" : "Имя расширения конфигурации. Например, `МоеРасширениеКонфигурации`. \n  По умолчанию пустое значение и будет пропущено при обновлении информационной базы.\n  "
+              },
+              "sourcePath" : {
+                "type" : "string",
+                "description" : "Путь к исходному коду расширения 1С. По умолчанию пустое значение и будет пропущено\n  при обновлении информационной базы.\n  "
+              }
+            }
+          }
         }
       }
     },
@@ -219,6 +249,25 @@
         "junitPath" : {
           "type" : "string",
           "description" : "Путь к файлу выгрузки отчета в формате jUnit"
+        },
+        "checkExtensions" : {
+          "type" : "boolean",
+          "description" : "Проверять все расширения в информационной базе"
+        },
+        "groupByMetadata" : {
+          "type" : "boolean",
+          "description" : "Группировать результат проверки по метаданным"
+        },
+        "mode" : {
+          "type" : "array",
+          "description" : "Список параметров проверок",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "exceptionFile" : {
+          "type" : "string",
+          "description" : "Путь к файлу с исключениями"
         }
       }
     },
@@ -338,6 +387,45 @@
         "errorIfJobStatusOfFailure" : {
           "type" : "boolean",
           "description" : "Прерывать этап если статус задачи равен FAILURE"
+        }
+      }
+    },
+    "yard" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:YardOptional",
+      "description" : "Настройки этапа загрузки и обработки релизов 1С",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
+        },
+        "appName" : {
+          "type" : "string",
+          "description" : "Имя конфигурации с сайта releases.1c.ru. Например, `EnterpriseERP20`"
+        },
+        "descriptionPath" : {
+          "type" : "string",
+          "description" : "Путь к файлу описания конфигурации"
+        },
+        "yardSettingsPath" : {
+          "type" : "string",
+          "description" : "Путь к файлу настроек yard"
+        },
+        "auth" : {
+          "type" : "string",
+          "description" : "Секрет для авторизации на сайте releases.1c.ru"
+        },
+        "workspacePath" : {
+          "type" : "string",
+          "description" : "Каталог запуска yard"
+        },
+        "branch" : {
+          "type" : "string",
+          "description" : "Имя ветки для git push"
+        },
+        "debug" : {
+          "type" : "boolean",
+          "description" : "Режим дебага yard"
         }
       }
     }

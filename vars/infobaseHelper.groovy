@@ -15,3 +15,14 @@ String getConnectionString(PipelineConfiguration config) {
   }
   return connectionString;
 }
+
+/**
+ * Распаковать информационную базу, если нужно
+ * @param args
+ */
+void unzipInfobase(Map args) {
+  if (args.config.stages.prepareBase && args.state.prepareBase.localBuildFolder) {
+    logger.info('Распаковка локальной информационной базы"')
+    unstash 'build-ib-folder'
+  }
+}

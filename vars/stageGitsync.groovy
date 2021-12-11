@@ -23,11 +23,15 @@ void call(PipelineConfiguration config) {
   this.stageOptional = config.getGitsyncOptional()
 
   timeout(unit: 'MINUTES', time: config.getTimeout()) {
-    stage(stageOptional.getName()) {
-      checkout scm
 
-      syncInternal()
+    stage(stageOptional.getName()) {
+
+      catchError(message: 'Ошибка во время выполнения gitsync', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        syncInternal()
+      }
+
     }
+
   }
 }
 
@@ -55,18 +59,33 @@ private void syncInternalWithRepoAuth(String credential) {
 }
 
 private void runSync(String credential, String credentialStorage) {
-  def command = [
+
+  def commandPathOne = [
       "gitsync",
       "%credentialID%",
-      "--v8version", config.getV8Version(),
-      "--ibconnection", infobaseHelper.getConnectionString(config),
+      "--v8version", config.getV8Version()
+  ]
+
+  if (!stageOptional.useTemporaryInfobase) {
+    commandPathOne += "--ibconnection ${config.defaultInfobase.connectionString}"
+  }
+
+  if (!stageOptional.tempPath.isEmpty()) {
+    commandPathOne += "--tempdir \"${stageOptional.tempPath}\""
+  }
+
+  commandPathOne += [
       "all",
       "%credentialStorageID%",
       stageOptional.getConfigPath()
-  ].join(" ")
+  ]
+
+  def command = commandPathOne.join(" ")
+
   command = command.replace("%credentialID%", credential)
   command = command.replace("%credentialStorageID%", credentialStorage)
 
   // TODO: ищем ошибку "КРИТИЧНАЯОШИБКА" в логах, если есть - фейлим сборку этой ошибкой
   cmdRun(command)
+
 }

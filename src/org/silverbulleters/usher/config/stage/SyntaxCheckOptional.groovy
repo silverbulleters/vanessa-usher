@@ -22,6 +22,24 @@ class SyntaxCheckOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к файлу выгрузки отчета в формате jUnit")
   String junitPath = "./out/junit/syntaxCheck.xml"
 
+  @JsonPropertyDescription("Проверять все расширения в информационной базе")
+  boolean checkExtensions = false
+
+  @JsonPropertyDescription("Группировать результат проверки по метаданным")
+  boolean groupByMetadata = true
+
+  @JsonPropertyDescription("Список параметров проверок")
+  String[] mode = [
+      "-ThinClient",
+      "-Server",
+      "-ConfigLogIntegrity",
+      "-HandlersExistence",
+      "-ExtendedModulesCheck"
+  ]
+
+  @JsonPropertyDescription("Путь к файлу с исключениями")
+  String exceptionFile = "./tools/syntax-check/exceptionFile.txt"
+
   SyntaxCheckOptional() {
     name = 'Syntax check'
     id = 'syntax'

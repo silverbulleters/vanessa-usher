@@ -34,7 +34,12 @@ private def publish() {
   def reports = []
 
   if (config.getStages().isSyntaxCheck()) {
-    addToReport(reports, config.getSyntaxCheckOptional().getAllurePath())
+    state.syntaxCheck.stashes.each { key, value ->
+      logger.info("Путь к отчету " + value)
+      if (!key.startsWith("junit_")) {
+        addToReport(reports, value)
+      }
+    }
     unpackResult(state.syntaxCheck.stashes)
   }
 

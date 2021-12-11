@@ -13,8 +13,25 @@ import org.silverbulleters.usher.UsherConstant
  */
 class Common {
 
+  /**
+   * Получить версию библиотеки
+   * @return версия библиотеки
+   */
   static String getLibraryVersion() {
     return UsherConstant.PROJECT_VERSION
+  }
+
+  /**
+   * Получить sha коммита из лога
+   * @param log лог сборки
+   * @return sha коммита
+   */
+  static String getShaCommitFromLog(def log) {
+    def matcher = (log =~ /Obtained.+?from.(\w{40})/)
+    if (matcher.find()) {
+      return matcher[0][1]
+    }
+    return ''
   }
 
 }

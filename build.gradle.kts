@@ -1,7 +1,7 @@
 val junitVersion = "5.6.1"
 
 group = "org.github.silverbulleters"
-version = "2.0.0"
+version = "2.1.0"
 
 plugins {
     java
@@ -9,6 +9,11 @@ plugins {
     id("com.mkobit.jenkins.pipelines.shared-library") version "0.10.1"
     id("com.github.ben-manes.versions") version "0.21.0"
     id("net.kyori.indra.license-header") version "2.0.6"
+}
+
+repositories {
+    mavenCentral()
+    maven { url = uri("https://repo.jenkins-ci.org/releases/") }
 }
 
 dependencies {
@@ -19,6 +24,9 @@ dependencies {
     // unit-tests
     testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.6.1")
     testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.6.1")
+
+    // https://repo.jenkins-ci.org/releases/com/lesfurets/jenkins-pipeline-unit/
+    testImplementation("com.lesfurets:jenkins-pipeline-unit:1.12")
 
     testImplementation("org.assertj", "assertj-core", "3.15.0")
 

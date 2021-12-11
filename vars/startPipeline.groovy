@@ -8,16 +8,24 @@ import com.cloudbees.groovy.cps.NonCPS
 import groovy.transform.Field
 import hudson.tasks.test.AbstractTestResultAction
 import org.silverbulleters.usher.NotificationInfo
+import org.silverbulleters.usher.config.ConfigurationReader
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.NotificationMode
 import org.silverbulleters.usher.state.PipelineState
 import org.silverbulleters.usher.util.Common
+import org.silverbulleters.usher.util.GitlabHelper
 
 /**
  * Конфигурация
  */
 @Field
 PipelineConfiguration config
+
+/**
+ * Метка или имя узла для чтения конфигурационного файла
+ */
+@Field
+String nodeForReadConfig
 
 /**
  * Состояние
@@ -32,18 +40,32 @@ PipelineState state
 NotificationInfo notificationInfo = new NotificationInfo()
 
 void call() {
+
+  logger.debug("Путь к конфигурационному файлу по умолчанию pipeline.json")
+
   call('pipeline.json')
+
 }
 
-void call(String pathToConfig) {
+/**
+ * Запустить конвейер 1С
+ * @param pathToConfig путь к конфигурационному файлу
+ * @param nodeForReadConfig (опционально) имя узла или метки для чтения конфигурационного файла
+ */
+void call(String pathToConfig, String nodeForReadConfig = '') {
 
-  state = new PipelineState()
+  logger.debug("Путь к конфигурационному файлу '${pathToConfig}'")
+
+  this.nodeForReadConfig = nodeForReadConfig
+  this.state = newPipelineState()
 
   def libraryVersion = Common.getLibraryVersion()
-  print("Версия Vanessa.Usher: ${libraryVersion}")
+  logger.info("Версия Vanessa.Usher `${libraryVersion}`")
+
+  readConfig(pathToConfig)
 
   catchError(buildResult: 'FAILURE') {
-    start(pathToConfig);
+    start()
   }
 
   notificationInfo.status = "${currentBuild.currentResult}"
@@ -61,47 +83,144 @@ void call(String pathToConfig) {
   }
 }
 
-void start(String pathToConfig) {
-  node {
-    def scmVariables = checkout scm
-    init(pathToConfig, scmVariables)
+private void readConfig(String pathToConfig) {
+  logger.info("Чтение конфигурационного файла")
 
-    // gitsync
-    node(config.getAgent()) {
-      stageGitsync(config)
-    }
+  try {
+    readConfigByApi(pathToConfig)
+  } catch (def exception) {
+    logger.info("Не удалось прочитать конфигурационный файл по API. Причина: ${exception.getMessage()}")
+  }
 
-    // ci
-    node(config.getAgent()) {
+  if (config == null) {
+
+    logger.debug("Чтение конфигурационного файла на узле с checkout scm")
+
+    readConfigInternal(nodeForReadConfig) {
       checkout scm
-
-      stageEdtTransform(config)
-      stagePrepareBase(config, state)
-      stageSyntaxCheck(config, state)
-
-      testing()
-
-      stageSonarAnalyze(config)
-
-      stageBuild(config, state)
+      config = getPipelineConfiguration(pathToConfig, true)
     }
+
+  }
+
+}
+
+private void readConfigByApi(pathToConfig) {
+  def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
+
+  if (scmUrl != null) {
+
+    if (GitlabHelper.isUrlGitlab(scmUrl)) {
+
+      logger.info("Чтение конфигурационного файла из Gitlab по API")
+
+      def scmCredentialsId = scm.getUserRemoteConfigs()[0].getCredentialsId()
+      def shaCommit = Common.getShaCommitFromLog(currentBuild.rawBuild.getLog())
+
+      withCredentials([usernamePassword(credentialsId: scmCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        def content = GitlabHelper.getContent(scmUrl, PASSWORD, shaCommit, pathToConfig)
+
+        config = ConfigurationReader.create(content)
+
+      }
+
+    }
+
+  }
+
+}
+
+
+private void readConfigInternal(String label, Closure body) {
+
+  if (label.isEmpty()) {
+    node {
+      body()
+    }
+  } else {
+    node(label) {
+      body()
+    }
+  }
+
+}
+
+private void start() {
+
+  if (config.stages.gitsync) {
+
+    logger.info("Это конвейер с gitsync")
+    startGitSync()
+
+  } else if (config.stages.yard) {
+    logger.info("Это конвейер с yard")
+    startYard()
+  } else {
+
+    logger.info("Это конвейер сборочной линии")
+    startBuildPipeline()
+
+  }
+
+}
+
+private void startGitSync() {
+
+  node(config.getAgent()) {
+
+    def scmVariables = checkout scm
+    logger.debug("Чтение данных scm для уведомлений")
+    fillNotificationInfo(scmVariables)
+
+    stageGitsync(config)
+
+  }
+
+}
+
+private void startYard() {
+
+  node(config.getAgent()) {
+
+    def scmVariables = checkout scm
+    logger.debug("Чтение данных scm для уведомлений")
+    fillNotificationInfo(scmVariables)
+
+    stageYard(config)
+
+  }
+
+}
+
+private void startBuildPipeline() {
+
+  node(config.getAgent()) {
+    def scmVariables = checkout scm
+
+    logger.debug("Чтение данных scm для уведомлений")
+    fillNotificationInfo(scmVariables)
+
+    stageEdtTransform(config)
+    stagePrepareBase(config, state)
+    stageSyntaxCheck(config, state)
+
+    testing()
+
+    stageSonarAnalyze(config)
+
+    stageBuild(config, state)
 
     stageReportPublish(config, state)
   }
+
 }
 
-void init(String pathToConfig, scmVariables) {
-  stage('Initializing') {
-    config = getPipelineConfiguration(pathToConfig)
-    fillNotificationInfo(scmVariables)
-  }
-}
-
-void testing() {
+private void testing() {
 
   if (config.matrixTesting.agents.size() == 0) {
     performTesting()
   } else {
+    logger.info("Используется матричное тестирование")
     def jobs = [:]
     def count = 1
     config.matrixTesting.agents.each { agentName ->
@@ -120,13 +239,13 @@ void testing() {
 
 }
 
-void performTesting() {
+private void performTesting() {
   stageSmoke(config, state)
   stageTdd(config, state)
   stageBdd(config, state)
 }
 
-void sendNotification() {
+private void sendNotification() {
   address = ""
   def providerNotification
   if (config.getNotification().getMode() == NotificationMode.SLACK) {
@@ -146,7 +265,7 @@ void sendNotification() {
   }
 }
 
-void fillNotificationInfo(scmVariables) {
+private void fillNotificationInfo(scmVariables) {
   // для slack only
   notificationInfo.channelId = config.notification.slack.channelName
   notificationInfo.projectName = "${env.JOB_NAME}"
@@ -158,7 +277,7 @@ void fillNotificationInfo(scmVariables) {
 }
 
 @NonCPS
-void fillSummaryTestResults() {
+private void fillSummaryTestResults() {
   def testResultAction = currentBuild.rawBuild.getAction(AbstractTestResultAction.class)
   if (testResultAction == null) {
     notificationInfo.showTestResults = false
