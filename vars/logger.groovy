@@ -54,5 +54,8 @@ void error(def text) {
  * @param text сообщение
  */
 void log(LogLevel level, def text) {
-  ULogger.log(level, this, text)
+  try {
+    ULogger.log(level, this, text)
+  } catch (ignore) {
+  }
 }

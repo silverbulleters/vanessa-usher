@@ -1,7 +1,7 @@
 val junitVersion = "5.6.1"
 
 group = "org.github.silverbulleters"
-version = "2.0.0"
+version = "2.1.0"
 
 plugins {
     java
