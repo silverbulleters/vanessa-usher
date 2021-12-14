@@ -4,7 +4,6 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
-
 import hudson.tasks.test.AbstractTestResultAction
 import org.silverbulleters.usher.NotificationInfo
 import org.silverbulleters.usher.config.PipelineConfiguration
