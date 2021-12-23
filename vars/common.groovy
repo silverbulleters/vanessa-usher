@@ -40,20 +40,21 @@ static boolean needPublishTests(PipelineConfiguration config) {
  * @param pathToSource путь к исходному коду 1С, например, `./src/cf`
  * @return номер синхронизированной версии или пустая строка
  */
-static String getRepoVersion(String pathToSource) {
-  def pathToVersion = new File(pathToSource, "VERSION")
-  if (!pathToVersion.exists()) {
-    return ""
-  }
-
+String getRepoVersion(String pathToSource) {
   def version = ""
 
-  def xmlData = new XmlParser().parse(pathToVersion)
+  def path = "${pathToSource}/VERSION"
+  if (!fileExists(path)) {
+    logger.info("Файл VERSION не найден")
+    return version
+  }
+
   try {
-    version = xmlData.value()[0]
+    def content = readFile(path)
+    def pattern = /(?mi)<version>(.*)<\/version>/
+    version = (content =~ pattern)[0][1]
   } catch (ignore) {
-    // todo: нужен logger
-    // не удалось прочитать файл с версией
+    logger.error("Не удалось прочитать файл VERSION")
   }
 
   return version

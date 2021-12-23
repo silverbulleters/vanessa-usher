@@ -75,10 +75,11 @@ private void prepareBaseInternal(String credential = '') {
 }
 
 private void loadRepo(credential) {
-  def command = VRunner.loadRepo(config, stageOptional)
+  def repoVersion = common.getRepoVersion(stageOptional.sourcePath)
+  def command = VRunner.loadRepo(config, stageOptional, repoVersion)
   command = command.replace("%credentialID%", credential)
   auth = stageOptional.getRepo().getAuth()
-  // fixme: есть кред пустой - ругаться
+  // fixme: если кред пустой - ругаться
   withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     def credentialRepo = credentialHelper.getAuthRepoString()
     command = command.replace("%credentialStorageID%", credentialRepo)
