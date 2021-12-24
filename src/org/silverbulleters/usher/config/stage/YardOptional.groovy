@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
 import org.silverbulleters.usher.UsherConstant
 
+/**
+ * Настройки этапа синхронизации релиза 1С в git-проектом
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class YardOptional extends BaseOptional {
   static final EMPTY = new YardOptional()
@@ -23,7 +26,7 @@ class YardOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к файлу настроек yard")
   String yardSettingsPath = "./yardsettings.json"
 
-  @JsonPropertyDescription("Секрет для авторизации на сайте releases.1c.ru")
+  @JsonPropertyDescription("Идентификатор секрета для авторизации на сайте releases.1c.ru")
   String auth = UsherConstant.EMPTY_VALUE
 
   @JsonPropertyDescription("Каталог запуска yard")
@@ -32,7 +35,7 @@ class YardOptional extends BaseOptional {
   @JsonPropertyDescription("Имя ветки для git push")
   String branch = "master"
 
-  @JsonPropertyDescription("Режим дебага yard")
+  @JsonPropertyDescription("Режим включения отладочных логов yard")
   boolean debug = false
 
   YardOptional() {

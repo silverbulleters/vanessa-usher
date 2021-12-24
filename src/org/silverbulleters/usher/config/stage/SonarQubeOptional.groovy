@@ -19,10 +19,10 @@ class SonarQubeOptional extends BaseOptional {
   @JsonPropertyDescription("Имя/метки агента для запуска этапа. Например, `sonar-scanner`")
   String agent = "any"
 
-  @JsonPropertyDescription("Id утилиты sonar-scanner (глобальные инструменты Jenkins)")
+  @JsonPropertyDescription("Идентификатор утилиты sonar-scanner (глобальные инструменты Jenkins)")
   String toolId = "sonar-scanner"
 
-  @JsonPropertyDescription("Id настроек сервера SonarQube")
+  @JsonPropertyDescription("Идентификатор настроек подключения к серверу SonarQube")
   String serverId = "SonarQube"
 
   @JsonPropertyDescription("Режим отладки sonar-scanner")

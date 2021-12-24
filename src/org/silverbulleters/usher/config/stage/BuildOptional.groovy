@@ -20,7 +20,7 @@ class BuildOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к собранной cf на поставке")
   String distPath = '.packman/1cv8.cf'
 
-  @JsonPropertyDescription("Прерывать этап если статус задачи равен FAILURE")
+  @JsonPropertyDescription("Прерывать этап если статус сборки равен FAILURE")
   boolean errorIfJobStatusOfFailure = false
 
   BuildOptional() {

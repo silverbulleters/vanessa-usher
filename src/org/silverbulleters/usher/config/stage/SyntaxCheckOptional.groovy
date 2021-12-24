@@ -28,7 +28,7 @@ class SyntaxCheckOptional extends BaseOptional {
   @JsonPropertyDescription("Группировать результат проверки по метаданным")
   boolean groupByMetadata = true
 
-  @JsonPropertyDescription("Список параметров проверок")
+  @JsonPropertyDescription("Список параметров проверки")
   String[] mode = [
       "-ThinClient",
       "-Server",
