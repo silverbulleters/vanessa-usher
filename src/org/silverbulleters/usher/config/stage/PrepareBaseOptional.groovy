@@ -25,7 +25,7 @@ class PrepareBaseOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к шаблону базы в формате *.dt")
   String template = UsherConstant.EMPTY_VALUE
 
-  @JsonPropertyDescription("Настройки подключения к хранилище конфигурации 1С")
+  @JsonPropertyDescription("Настройки подключения к хранилищу конфигурации 1С")
   Repo repo = Repo.EMPTY
 
   @JsonPropertyDescription("Список расширений конфигурации 1С. Используется для обновления базы")

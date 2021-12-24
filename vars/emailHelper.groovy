@@ -6,6 +6,11 @@
  */
 import org.silverbulleters.usher.NotificationInfo
 
+/**
+ * Отправить уведомление по email
+ * @param email электронная почта
+ * @param info информация об уведомлении
+ */
 void sendNotification(String email, NotificationInfo info) {
   message = ""
   if (info.status == 'SUCCESS') {
@@ -22,6 +27,11 @@ void sendNotification(String email, NotificationInfo info) {
   )
 }
 
+/**
+ * Отправить уведомление по email с ошибкой
+ * @param email электронная почта
+ * @param info информация об уведомлении
+ */
 void sendErrorNotification(String email, NotificationInfo info) {
   message = getErrorMessage(info)
 

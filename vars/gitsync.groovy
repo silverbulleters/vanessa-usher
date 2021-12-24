@@ -7,6 +7,7 @@
 import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.GitsyncOptional
+import org.silverbulleters.usher.wrapper.Gitsync
 
 @Field
 PipelineConfiguration config
@@ -14,29 +15,19 @@ PipelineConfiguration config
 @Field
 GitsyncOptional stageOptional
 
+/**
+ * Запустить синхронизацию хранилища 1С и проекта git
+ * @param config конфигурацию
+ */
 void call(PipelineConfiguration config) {
-  if (!config.getStages().isGitsync()) {
-    return
-  }
-
   this.config = config
-  this.stageOptional = config.getGitsyncOptional()
+  this.stageOptional = config.gitsyncOptional
 
-  timeout(unit: 'MINUTES', time: config.getTimeout()) {
-
-    stage(stageOptional.getName()) {
-
-      catchError(message: 'Ошибка во время выполнения gitsync', buildResult: 'FAILURE', stageResult: 'FAILURE') {
-        syncInternal()
-      }
-
-    }
-
-  }
+  syncInternal()
 }
 
 private void syncInternal() {
-  def auth = config.getDefaultInfobase().getAuth()
+  def auth = config.defaultInfobase.auth
   if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       syncInternalWithRepoAuth(credentialHelper.getAuthString())
@@ -44,10 +35,10 @@ private void syncInternal() {
     }
   }
 
-  syncInternalWithRepoAuth('')
+  syncInternalWithRepoAuth()
 }
 
-private void syncInternalWithRepoAuth(String credential) {
+private void syncInternalWithRepoAuth(String credential = '') {
   def authStorage = stageOptional.auth
   if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
     withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -55,37 +46,11 @@ private void syncInternalWithRepoAuth(String credential) {
     }
     return
   }
-  runSync(credential, '')
+  runSync(credential)
 }
 
-private void runSync(String credential, String credentialStorage) {
-
-  def commandPathOne = [
-      "gitsync",
-      "%credentialID%",
-      "--v8version", config.getV8Version()
-  ]
-
-  if (!stageOptional.useTemporaryInfobase) {
-    commandPathOne += "--ibconnection ${config.defaultInfobase.connectionString}"
-  }
-
-  if (!stageOptional.tempPath.isEmpty()) {
-    commandPathOne += "--tempdir \"${stageOptional.tempPath}\""
-  }
-
-  commandPathOne += [
-      "all",
-      "%credentialStorageID%",
-      stageOptional.getConfigPath()
-  ]
-
-  def command = commandPathOne.join(" ")
-
-  command = command.replace("%credentialID%", credential)
-  command = command.replace("%credentialStorageID%", credentialStorage)
-
+private void runSync(String credential = '', String credentialStorage = '') {
+  def command = Gitsync.syncAll(config, stageOptional, credential, credentialStorage)
   // TODO: ищем ошибку "КРИТИЧНАЯОШИБКА" в логах, если есть - фейлим сборку этой ошибкой
   cmdRun(command)
-
 }

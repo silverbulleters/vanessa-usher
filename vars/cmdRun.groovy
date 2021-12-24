@@ -5,7 +5,7 @@
  * Proprietary and confidential.
  */
 /**
- * Функция исполнения команд. Установка локализации при использовании MS Windows
+ * Выполнить произвольную команду
  * Пример вызова: cmdRun.Выполнить("dir /w")
  */
 void call(String command) {

@@ -22,7 +22,7 @@ class NotificationOptional {
   @JsonPropertyDescription("Почтовый ящик для уведомлений по email (несколько значений указывать через запятую).")
   String email = "test@localhost"
 
-  @JsonPropertyDescription("Настройки уведомлений в Slack")
+  @JsonPropertyDescription("Настройка уведомлений в Slack")
   SlackSetting slack = SlackSetting.EMPTY
 
   static class SlackSetting {

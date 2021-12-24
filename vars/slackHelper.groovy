@@ -6,11 +6,21 @@
  */
 import org.silverbulleters.usher.NotificationInfo
 
+/**
+ * Отправить уведомления в slack
+ * @param channelId идентификатор канала в slack
+ * @param info информация об уведомлении
+ */
 void sendNotification(String channelId, NotificationInfo info) {
   blocks = getSuccessBlock(info)
   slackSend(channel: channelId, blocks: blocks)
 }
 
+/**
+ * Отправить уведомление с ошибкой
+ * @param channelId идентификатор канала в slack
+ * @param info информация об уведомлении
+ */
 void sendErrorNotification(String channelId, NotificationInfo info) {
   blocks = [
       [

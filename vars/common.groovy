@@ -31,7 +31,7 @@ static String shieldSymbols(String value) {
 }
 
 static boolean needPublishTests(PipelineConfiguration config) {
-  return config.getStages().isSyntaxCheck() || config.getStages().isSmoke() || config.getStages().isTdd() || config.getStages().isBdd()
+  return config.stages.syntaxCheck || config.stages.smoke || config.stages.tdd || config.stages.bdd
 }
 
 /**
@@ -40,63 +40,22 @@ static boolean needPublishTests(PipelineConfiguration config) {
  * @param pathToSource путь к исходному коду 1С, например, `./src/cf`
  * @return номер синхронизированной версии или пустая строка
  */
-static String getRepoVersion(String pathToSource) {
-  def pathToVersion = new File(pathToSource, "VERSION")
-  if (!pathToVersion.exists()) {
-    return ""
-  }
-
+String getRepoVersion(String pathToSource) {
   def version = ""
 
-  def xmlData = new XmlParser().parse(pathToVersion)
+  def path = "${pathToSource}/VERSION"
+  if (!fileExists(path)) {
+    logger.info("Файл VERSION не найден")
+    return version
+  }
+
   try {
-    version = xmlData.value()[0]
-  } catch (e) {
-    // todo: нужен logger
-    // не удалось прочитать файл с версией
+    def content = readFile(path)
+    def pattern = /(?mi)<version>(.*)<\/version>/
+    version = (content =~ pattern)[0][1]
+  } catch (ignore) {
+    logger.error("Не удалось прочитать файл VERSION")
   }
 
   return version
-}
-
-/**
- * Абсолютный путь к конфигурационному файлу на master узле
- * @param pathToConfig относительный путь к конфигурационному файлу
- * @return
- */
-String getAbsolutePathToConfig(String pathToConfig) {
-  def jobName = getProjectPathFromWorkspace()
-  def pathToBuild = "${env.JENKINS_HOME}/workspace/${jobName}@script/"
-  return pathToBuild + pathToConfig
-}
-
-private String getProjectPathFromWorkspace() {
-  def pathToWorkspaces = "${env.JENKINS_HOME}/workspace/workspaces.txt"
-  def file = new File(pathToWorkspaces)
-  if (!file.exists()) {
-    return ''
-  }
-  
-  def data = [:]
-  def lines = file as String[]
-
-  def projectName = ''
-  def count = 1
-
-  lines.each {
-    if (count % 2 == 0) {
-      data[projectName] = it
-    } else {
-      projectName = it
-    }
-    count++
-  }
-
-  def entry = data.find { key, value -> key == "${env.JOB_NAME}"}
-  if (entry == null) {
-    return ''
-  } else {
-    return "${entry.value}"
-  }
-
 }

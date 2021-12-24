@@ -19,7 +19,7 @@ class SmokeOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к конфигурационному файлу xUnitFor1c")
   String xddConfig = "./tools/JSON/smokeTestRunnerConf.json"
 
-  @JsonPropertyDescription("Путь к каталогу или к файлу с тестами")
+  @JsonPropertyDescription("Путь к каталогу / к файлу с тестами, или название подсистемы")
   String testPath = '$addroot/tests/smoke'
 
   @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure")

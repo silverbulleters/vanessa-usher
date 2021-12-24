@@ -20,6 +20,6 @@ class InfoBase {
   @JsonPropertyDescription("Строка подключения к информационной базе, например, `/F.build/ib`")
   String connectionString = "/F.build/ib"
 
-  @JsonPropertyDescription("Id секрета Jenkins для авторизации в информационной базе")
+  @JsonPropertyDescription("Идентификатор секрета Jenkins для авторизации в информационной базе")
   String auth = UsherConstant.EMPTY_VALUE
 }

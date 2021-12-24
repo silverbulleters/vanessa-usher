@@ -19,6 +19,14 @@ class commonTest extends BasePipelineTest {
   void setUp() throws Exception {
     super.setUp()
     TestHelper.registerUsher2(this)
+
+    def contentVersion = """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <VERSION>40</VERSION>
+    """
+
+    helper.addFileExistsMock("${BASE_PATH}/src/cf/VERSION", true)
+    helper.addReadFileMock("${BASE_PATH}/src/cf/VERSION", contentVersion)
   }
 
   @Test

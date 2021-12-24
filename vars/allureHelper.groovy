@@ -4,8 +4,12 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
-void createAllureCategories(String title, String allurePath) {
-  // нужен плагин https://plugins.jenkins.io/pipeline-utility-steps/
+/**
+ * Добавить в результаты отчеты Allure настройку категорий
+ * @param title заголовок категории
+ * @param allurePath путь к каталогу с отчетом в формате Allure
+ */
+void addCategories(String title, String allurePath) {
   def categories = [['name': title]]
   writeJSON file: "${allurePath}/categories.json", json: categories
 }

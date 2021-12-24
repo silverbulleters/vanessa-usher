@@ -13,16 +13,8 @@ import org.silverbulleters.usher.config.PipelineConfiguration
  * @param pathToConfig путь к конфигурации
  * @return
  */
-PipelineConfiguration call(String pathToConfig, boolean fromNode) {
-  if (fromNode) {
-    return readConfigurationFromNode(pathToConfig)
-  } else {
-    readConfigurationFromWorkspace(pathToConfig)
-  }
-}
-
 PipelineConfiguration call(String pathToConfig) {
-  return getPipelineConfiguration(pathToConfig, false)
+  return readConfigurationFromNode(pathToConfig)
 }
 
 /**
@@ -33,7 +25,7 @@ PipelineConfiguration call() {
   return ConfigurationReader.create()
 }
 
-private PipelineConfiguration readConfigurationFromNode(String pathToConfig) {
+private def readConfigurationFromNode(String pathToConfig) {
 
   if (fileExists(pathToConfig)) {
     def content = readFile(pathToConfig)
@@ -50,21 +42,4 @@ private PipelineConfiguration readConfigurationFromNode(String pathToConfig) {
     throw new Exception("Конфигурационный файл не найден")
   }
 
-}
-
-private PipelineConfiguration readConfigurationFromWorkspace(String pathToConfig) {
-  def file = new File(pathToConfig)
-  if (!file.exists()) {
-
-    logger.error("Не удалось прочитать конфигурационный файл проекта")
-
-    throw new Exception("Config file not found")
-  }
-  def content = file.getText('UTF-8')
-
-  logger.debug("""Конфигурационный файл:
-  ${content}
-  """)
-
-  return ConfigurationReader.create(content)
 }

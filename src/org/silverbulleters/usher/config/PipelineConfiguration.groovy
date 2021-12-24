@@ -41,10 +41,10 @@ class PipelineConfiguration implements Serializable {
   @JsonPropertyDescription("Настройка для мульти-тестирования на разных ос / версиях 1С")
   MatrixTesting matrixTesting = []
 
-  @JsonPropertyDescription("Режим отладки")
+  @JsonPropertyDescription("Режим включения отладочных логов конвейера")
   boolean debug = false
 
-  @JsonPropertyDescription("Настройки уведомлений")
+  @JsonPropertyDescription("Настройка отправки уведомлений")
   NotificationOptional notification = NotificationOptional.EMPTY
 
   @JsonPropertyDescription("Путь к конфигурационному файлу vanessa-runner")
@@ -53,7 +53,7 @@ class PipelineConfiguration implements Serializable {
   @JsonPropertyDescription("Путь к каталогу с отчетами в в формате jUnit")
   String junitPath = UsherConstant.JUNIT_PATH
 
-  @JsonPropertyDescription("Общий таймаут на время работы pipeline")
+  @JsonPropertyDescription("Общий таймаут на время работы конвейера")
   int timeout = 100
 
   @JsonPropertyDescription("Информационная база по умолчанию")

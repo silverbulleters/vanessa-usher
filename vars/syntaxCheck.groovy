@@ -8,6 +8,7 @@ import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 import org.silverbulleters.usher.state.PipelineState
+import org.silverbulleters.usher.wrapper.VRunner
 
 @Field
 PipelineConfiguration config
@@ -25,43 +26,29 @@ Map result = [
     "error": false
 ]
 
-def call(PipelineConfiguration config, PipelineState state) {
-  if (!config.getStages().isSyntaxCheck()) {
-    return
-  }
-
+/**
+ * Выполнить синтаксическую проверку конфигурации
+ * @param config конфигурацию
+ * @param state состояние конвейера
+ */
+void call(PipelineConfiguration config, PipelineState state) {
   this.config = config
-  this.stageOptional = config.getSyntaxCheckOptional()
   this.state = state
+  this.stageOptional = config.syntaxCheckOptional
 
-  timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
+  infobaseHelper.unpackInfobase(config: config, state: state)
 
-    stage(stageOptional.getName()) {
-
-      infobaseHelper.unzipInfobase(config: config, state: state)
-
-      catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE',
-          stageResult: 'FAILURE') {
-
-        check()
-
-      }
-
-      catchError(message: 'Ошибка во время публикации отчетов о тестировании', buildResult: 'FAILURE',
-          stageResult: 'FAILURE') {
-
-        testResultsHelper.archiveTestResults(
-            name: stageOptional.name,
-            junit: result.junit,
-            allure: result.allure,
-            stashes: state.syntaxCheck.stashes
-        )
-
-      }
-
-    }
-
+  catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+    check()
   }
+
+  testResultsHelper.archiveTestResults(
+        name: stageOptional.name,
+        junit: result.junit,
+        allure: result.allure,
+        stashes: state.syntaxCheck.stashes
+    )
+
 }
 
 private def check() {
@@ -84,7 +71,7 @@ private def syntaxCheck(credential = '') {
   }
 
   if (result.error) {
-    failure("Во время выполнения syntax-check были ошибки")
+    setFailureStatusStage("Во время выполнения syntax-check были ошибки")
   }
 
 }
@@ -99,9 +86,10 @@ private def syntaxCheckByOptional(String credential, boolean checkExtensions = f
   result.allure += allurePath
   result.junit += junitPath
 
-  def command = vrunner.syntaxCheck(
+  def command = VRunner.syntaxCheck(
       config: config,
       setting: stageOptional,
+      existsExceptionFile: fileExists(stageOptional.exceptionFile),
       checkExtensions: checkExtensions,
       allurePath: allurePath,
       junitPath: junitPath
