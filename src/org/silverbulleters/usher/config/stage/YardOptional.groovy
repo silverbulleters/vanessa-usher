@@ -8,15 +8,12 @@ package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
-import org.silverbulleters.usher.UsherConstant
 
 /**
  * Настройки этапа синхронизации релиза 1С в git-проектом
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class YardOptional extends BaseOptional {
-  static final EMPTY = new YardOptional()
-
   @JsonPropertyDescription("Имя конфигурации с сайта releases.1c.ru. Например, `EnterpriseERP20`")
   String appName = ""
 
@@ -27,7 +24,7 @@ class YardOptional extends BaseOptional {
   String yardSettingsPath = "./yardsettings.json"
 
   @JsonPropertyDescription("Идентификатор секрета для авторизации на сайте releases.1c.ru")
-  String auth = UsherConstant.EMPTY_VALUE
+  String auth = ''
 
   @JsonPropertyDescription("Каталог запуска yard")
   String workspacePath = "./"

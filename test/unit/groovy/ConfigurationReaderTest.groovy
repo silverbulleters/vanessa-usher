@@ -22,18 +22,7 @@ class ConfigurationReaderTest {
     assertThat(config.getV8Version()).isEqualTo("8.3")
     assertThat(config.isDebug()).isFalse()
     assertThat(config.getTimeout()).isEqualTo(100)
-    assertThat(config.getDefaultInfobase()).isEqualTo(InfoBase.EMPTY)
-    checkStages(config.getStages());
-
-    assertThat(config.getGitsyncOptional()).isEqualTo(GitsyncOptional.EMPTY)
-
-    assertThat(config.getPrepareBaseOptional()).isEqualTo(PrepareBaseOptional.EMPTY)
-    assertThat(config.getSyntaxCheckOptional()).isEqualTo(SyntaxCheckOptional.EMPTY)
-    assertThat(config.getSmokeOptional()).isEqualTo(SmokeOptional.EMPTY)
-    assertThat(config.getTddOptional()).isEqualTo(TddOptional.EMPTY)
-    assertThat(config.getBddOptional()).isEqualTo(BddOptional.EMPTY)
-    assertThat(config.getSonarQubeOptional()).isEqualTo(SonarQubeOptional.EMPTY)
-    assertThat(config.getBuildOptional()).isEqualTo(BuildOptional.EMPTY)
+    checkStages(config.getStages())
   }
 
   private static void checkStages(Stages stages) {
@@ -46,6 +35,8 @@ class ConfigurationReaderTest {
     assertThat(stages.isBdd()).isFalse()
     assertThat(stages.isSonarqube()).isFalse()
     assertThat(stages.isBuild()).isFalse()
+    assertThat(stages.isEdtTransform()).isFalse()
+    assertThat(stages.isYard()).isFalse()
   }
 
 }

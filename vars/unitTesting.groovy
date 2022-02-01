@@ -24,10 +24,10 @@ TddOptional stageOptional
  * @param config конфигурация
  * @param state состояние конвейера
  */
-void call(PipelineConfiguration config, PipelineState state) {
+void call(PipelineConfiguration config, TddOptional stageOptional, PipelineState state) {
   this.config = config
   this.state = state
-  this.stageOptional = config.tddOptional
+  this.stageOptional = stageOptional
 
   infobaseHelper.unpackInfobase(config: config, state: state)
 
@@ -42,19 +42,19 @@ void call(PipelineConfiguration config, PipelineState state) {
 }
 
 private def testing() {
-  def auth = config.getDefaultInfobase().getAuth()
-  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
+  def auth = config.defaultInfobase.auth
+  if (credentialHelper.authIsPresent(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       def credentialTestClient = credentialHelper.getTestClientWithAuth()
       xddTesting(credential, credentialTestClient)
     }
   } else {
-    xddTesting('', '')
+    xddTesting()
   }
 }
 
-private xddTesting(String credential, String credentialTestClient) {
+private xddTesting(String credential = '', String credentialTestClient = '') {
   def testClient = credentialTestClient.isEmpty() ? "::1538" : credentialTestClient
 
   def command = VRunner.xunit(config, stageOptional)

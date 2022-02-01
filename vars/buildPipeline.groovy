@@ -47,7 +47,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { edtTransform(config) }
+          script { edtTransform(config, config.edtTransformOptional) }
         }
       }
 
@@ -58,7 +58,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { prepareInfobase(config, state) }
+          script { prepareInfobase(config, config.prepareBaseOptional, state) }
         }
       }
 
@@ -69,7 +69,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { syntaxCheck(config, state) }
+          script { syntaxCheck(config, config.syntaxCheckOptional, state) }
         }
       }
 
@@ -86,7 +86,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { sonarAnalyze(config) }
+          script { sonarAnalyze(config, config.sonarQubeOptional) }
         }
       }
 
@@ -97,7 +97,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { smokeTesting(config, state) }
+          script { smokeTesting(config, config.smokeOptional, state) }
         }
       }
 
@@ -108,7 +108,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { unitTesting(config, state) }
+          script { unitTesting(config, config.tddOptional, state) }
         }
       }
 
@@ -119,7 +119,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { bddTesting(config, state) }
+          script { bddTesting(config, config.bddOptional, state) }
         }
       }
 
@@ -130,7 +130,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { distributionBuild(config, state) }
+          script { distributionBuild(config, config.buildOptional, state) }
         }
       }
 

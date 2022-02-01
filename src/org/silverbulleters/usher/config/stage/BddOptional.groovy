@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class BddOptional extends BaseOptional {
-  static final EMPTY = new BddOptional()
-
   @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure. Например, `./out/bddallure`")
   String allurePath = "./out/bddallure"
 

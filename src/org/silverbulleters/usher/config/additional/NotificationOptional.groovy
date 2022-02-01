@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class NotificationOptional {
-  static final NotificationOptional EMPTY = new NotificationOptional()
-
   @JsonPropertyDescription("Режим уведомлений")
   NotificationMode mode = NotificationMode.NO_USE
 
@@ -23,11 +21,10 @@ class NotificationOptional {
   String email = "test@localhost"
 
   @JsonPropertyDescription("Настройка уведомлений в Slack")
-  SlackSetting slack = SlackSetting.EMPTY
+  SlackSetting slack = new SlackSetting()
 
+  @JsonIgnoreProperties(ignoreUnknown = true)
   static class SlackSetting {
-    static final SlackSetting EMPTY = new SlackSetting()
-
     @JsonPropertyDescription("Канал уведомлений")
     String channelName = "#build"
   }

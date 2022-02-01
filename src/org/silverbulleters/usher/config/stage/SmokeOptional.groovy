@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SmokeOptional extends BaseOptional {
-  static final EMPTY = new SmokeOptional()
-
   @JsonPropertyDescription("Путь к конфигурационному файлу xUnitFor1c")
   String xddConfig = "./tools/JSON/smokeTestRunnerConf.json"
 

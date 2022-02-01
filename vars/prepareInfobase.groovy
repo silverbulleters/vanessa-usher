@@ -5,10 +5,8 @@
  * Proprietary and confidential.
  */
 import groovy.transform.Field
-import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.ExtensionSource
-import org.silverbulleters.usher.config.additional.Repo
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 import org.silverbulleters.usher.state.PipelineState
 import org.silverbulleters.usher.wrapper.VRunner
@@ -27,10 +25,10 @@ PrepareBaseOptional stageOptional
  * @param config конфигурация
  * @param state состояние конвейера
  */
-void call(PipelineConfiguration config, PipelineState state) {
+void call(PipelineConfiguration config, PrepareBaseOptional stageOptional, PipelineState state) {
   this.config = config
   this.state = state
-  this.stageOptional = config.prepareBaseOptional
+  this.stageOptional = stageOptional
 
   prepareBase()
 
@@ -39,10 +37,10 @@ void call(PipelineConfiguration config, PipelineState state) {
 }
 
 private void prepareBase() {
-  def auth = config.getDefaultInfobase().getAuth()
-  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
+  def auth = config.defaultInfobase.auth
+  if (credentialHelper.authIsPresent(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      def credential = credentialHelper.getAuthString()
+      def credential = credentialHelper.getAuthString() // ??
       prepareBaseInternal(credential)
     }
   } else {
@@ -52,8 +50,8 @@ private void prepareBase() {
 
 private void prepareBaseInternal(String credential = '') {
 
-  if (stageOptional.getTemplate().isEmpty() || stageOptional.getTemplate() == UsherConstant.EMPTY_VALUE) {
-    if (stageOptional.getRepo() != Repo.EMPTY) {
+  if (stageOptional.template.isEmpty()) {
+    if (stageOptional.repo.isEmpty()) {
       loadRepo(credential)
       updateDB(credential)
     } else {

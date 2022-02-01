@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SonarQubeOptional extends BaseOptional {
-  static final EMPTY = new SonarQubeOptional()
-
   @JsonPropertyDescription("Имя/метки агента для запуска этапа. Например, `sonar-scanner`")
   String agent = "any"
 
