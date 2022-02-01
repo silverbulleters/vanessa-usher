@@ -63,7 +63,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { gitsync(config) }
+          script { gitsync(config, config.gitsyncOptional) }
         }
       }
 

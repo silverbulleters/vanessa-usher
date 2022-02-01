@@ -8,7 +8,6 @@ package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
-import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.ExtensionSource
 import org.silverbulleters.usher.config.additional.Repo
 
@@ -17,16 +16,14 @@ import org.silverbulleters.usher.config.additional.Repo
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PrepareBaseOptional extends BaseOptional {
-  static final EMPTY = new PrepareBaseOptional()
-
   @JsonPropertyDescription("Каталог с исходниками в формате xml")
   String sourcePath = "./src/cf"
 
   @JsonPropertyDescription("Путь к шаблону базы в формате *.dt")
-  String template = UsherConstant.EMPTY_VALUE
+  String template = ''
 
   @JsonPropertyDescription("Настройки подключения к хранилищу конфигурации 1С")
-  Repo repo = Repo.EMPTY
+  Repo repo = new Repo()
 
   @JsonPropertyDescription("Список расширений конфигурации 1С. Используется для обновления базы")
   ExtensionSource[] extensions = []

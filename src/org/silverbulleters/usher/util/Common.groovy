@@ -36,11 +36,7 @@ class Common {
   }
 
   static String getConnectionString(PipelineConfiguration config) {
-    def connectionString = ""
-    if (config.getDefaultInfobase().getConnectionString() != UsherConstant.EMPTY_VALUE) {
-      connectionString = config.getDefaultInfobase().getConnectionString()
-    }
-    return connectionString;
+    return config.defaultInfobase.connectionString
   }
 
 }

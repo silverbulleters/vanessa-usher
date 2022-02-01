@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SyntaxCheckOptional extends BaseOptional {
-  static final EMPTY = new SyntaxCheckOptional()
-
   @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure")
   String allurePath = "./out/syntaxCheck/allure"
 

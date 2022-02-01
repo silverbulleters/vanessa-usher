@@ -63,7 +63,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
 
         steps {
-          script { yard(config) }
+          script { yard(config, config.yardOptional) }
         }
       }
 

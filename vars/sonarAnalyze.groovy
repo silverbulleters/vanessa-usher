@@ -18,20 +18,20 @@ SonarQubeOptional stageOptional
  * Запустить анализ проекта в SonarQube
  * @param config конфигурацию
  */
-void call(PipelineConfiguration config) {
+void call(PipelineConfiguration config, SonarQubeOptional stageOptional) {
   this.config = config
-  this.stageOptional = config.sonarQubeOptional
+  this.stageOptional = stageOptional
 
   def projectVersion = getProjectVersion()
-  def scannerHome = tool stageOptional.getToolId()
+  def scannerHome = tool stageOptional.toolId
 
   def sonarDebugKey = ''
-  if (stageOptional.isDebug()) {
+  if (stageOptional.debug) {
     sonarDebugKey = '-X'
   }
 
   def sonarBranch = ''
-  if (stageOptional.isUseBranch()) {
+  if (stageOptional.useBranch) {
     def branch = "${env.GIT_BRANCH}"
     if (branch.startsWith('origin/')) {
       branch = branch.substring(7)
@@ -40,11 +40,12 @@ void call(PipelineConfiguration config) {
   }
 
   sonarCommand = "${scannerHome}/bin/sonar-scanner ${sonarDebugKey} ${projectVersion} ${sonarBranch}"
-  withSonarQubeEnv("${stageOptional.getServerId()}") {
+  withSonarQubeEnv("${stageOptional.serverId}") {
     cmdRun(sonarCommand)
   }
 }
 
+// TODO: реализовать получение версии проекта из xml / mdo
 private String getProjectVersion() {
   return ''
 }

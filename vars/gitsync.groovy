@@ -19,16 +19,16 @@ GitsyncOptional stageOptional
  * Запустить синхронизацию хранилища 1С и проекта git
  * @param config конфигурацию
  */
-void call(PipelineConfiguration config) {
+void call(PipelineConfiguration config, GitsyncOptional stageOptional) {
   this.config = config
-  this.stageOptional = config.gitsyncOptional
+  this.stageOptional = stageOptional
 
   syncInternal()
 }
 
 private void syncInternal() {
   def auth = config.defaultInfobase.auth
-  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
+  if (credentialHelper.authIsPresent(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       syncInternalWithRepoAuth(credentialHelper.getAuthString())
       return
@@ -40,7 +40,7 @@ private void syncInternal() {
 
 private void syncInternalWithRepoAuth(String credential = '') {
   def authStorage = stageOptional.auth
-  if (credentialHelper.authIsPresent(authStorage) && credentialHelper.exist(authStorage)) {
+  if (credentialHelper.authIsPresent(authStorage)) {
     withCredentials([usernamePassword(credentialsId: authStorage, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       runSync(credential, credentialHelper.getAuthRepoString())
     }

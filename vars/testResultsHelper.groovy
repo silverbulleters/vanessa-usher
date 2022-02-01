@@ -21,9 +21,9 @@ void archive(PipelineConfiguration config, stageOptional, BaseTestingState state
     deleteDir()
   }
 
-  dir(config.getJunitPath()) {
+  dir(config.junitPath) {
     def name = UUID.randomUUID().toString()
-    state.stashes.put(name, config.getJunitPath())
+    state.stashes.put(name, config.junitPath)
     stash includes: "*", name: name
     deleteDir()
   }

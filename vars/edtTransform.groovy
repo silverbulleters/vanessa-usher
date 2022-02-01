@@ -19,9 +19,9 @@ EdtTransformOptional optionals
  * Трансформировать исходники EDT формата в XML
  * @param config конфигурацию
  */
-void call(PipelineConfiguration config) {
+void call(PipelineConfiguration config, EdtTransformOptional optionals) {
   this.config = config
-  optionals = config.edtTransformOptional
+  this.optionals = optionals
 
   def workspace = pwd()
   removeDir(optionals.outPath)

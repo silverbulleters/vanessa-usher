@@ -17,10 +17,10 @@ void call(PipelineConfiguration config, NotificationInfo info) {
 
   def address
   def providerNotification
-  if (config.getNotification().getMode() == NotificationMode.SLACK) {
+  if (config.notification.mode == NotificationMode.SLACK) {
     providerNotification = slackHelper
     address = config.notification.slack.channelName
-  } else if (config.getNotification().getMode() == NotificationMode.EMAIL) {
+  } else if (config.notification.mode == NotificationMode.EMAIL) {
     providerNotification = emailHelper
     address = config.notification.email
   } else {

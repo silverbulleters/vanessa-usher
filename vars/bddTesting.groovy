@@ -24,10 +24,10 @@ BddOptional stageOptional
  * @param config конфигурация
  * @param state состояние конвейера
  */
-void call(PipelineConfiguration config, PipelineState state) {
+void call(PipelineConfiguration config, BddOptional stageOptional, PipelineState state) {
   this.config = config
   this.state = state
-  this.stageOptional = config.bddOptional
+  this.stageOptional = stageOptional
 
   infobaseHelper.unpackInfobase(config: config, state: state)
 
@@ -43,7 +43,7 @@ void call(PipelineConfiguration config, PipelineState state) {
 
 private def testing() {
   def auth = config.defaultInfobase.auth
-  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
+  if (credentialHelper.authIsPresent(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       bddTesting(credential)

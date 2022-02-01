@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class BuildOptional extends BaseOptional {
-  static final EMPTY = new BuildOptional()
-
   /* TODO: реализовать смену рабочего каталога packman */
   @JsonPropertyDescription("Путь к собранной cf на поставке")
   String distPath = '.packman/1cv8.cf'

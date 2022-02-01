@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class TddOptional extends BaseOptional {
-  static final EMPTY = new TddOptional()
-
   @JsonPropertyDescription("Путь к конфигурационному файлу xUnitFor1c")
   String xddConfig = "./tools/JSON/xddTestRunnerConf.json"
 

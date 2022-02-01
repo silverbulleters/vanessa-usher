@@ -15,8 +15,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Stages {
-  static final EMPTY = createEmptyStages()
-
   @JsonPropertyDescription("Выгрузить историю хранилища 1С с помощью утилиты `gitsync`")
   boolean gitsync = false
 
@@ -46,10 +44,4 @@ class Stages {
 
   @JsonPropertyDescription("Запустить загрузку и обработку релизов конфигураций 1С")
   boolean yard = false
-
-  @NonCPS
-  private static Stages createEmptyStages() {
-    return new Stages()
-  }
-
 }

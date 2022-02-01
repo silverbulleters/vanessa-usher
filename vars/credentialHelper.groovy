@@ -4,7 +4,6 @@
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
-import org.silverbulleters.usher.UsherConstant
 
 /**
  * Получить строку авторизации информационной базы
@@ -69,24 +68,5 @@ String getTestClientWithAuth() {
  * @return
  */
 boolean authIsPresent(String auth) {
-  return !(auth == UsherConstant.EMPTY_VALUE || auth.isEmpty())
-}
-
-/**
- * Проверить существование секрета
- * @param id идентификатор секрета
- * @return признак существования секрета
- */
-boolean exist(String id) {
-  boolean result = false
-  try {
-    withCredentials([usernamePassword(credentialsId: id, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-      result = true;
-    }
-  } catch (e) {
-    println(e.getMessage())
-    result = false
-  }
-  logger.debug("Credential " + id + "  exist? " + result)
-  return result
+  return !auth.isEmpty()
 }

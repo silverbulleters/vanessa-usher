@@ -36,7 +36,7 @@ void call(PipelineConfiguration config, PipelineState state) {
 private def publish() {
   def reports = []
 
-  if (config.getStages().isSyntaxCheck()) {
+  if (config.stages.syntaxCheck) {
     state.syntaxCheck.stashes.each { key, value ->
       logger.info("Путь к отчету " + value)
       if (!key.startsWith("junit_")) {
@@ -46,18 +46,18 @@ private def publish() {
     unpackResult(state.syntaxCheck.stashes)
   }
 
-  if (config.getStages().isSmoke()) {
-    addToReport(reports, config.getSmokeOptional().getAllurePath())
+  if (config.stages.smoke) {
+    addToReport(reports, config.smokeOptional.allurePath)
     unpackResult(state.smoke.stashes)
   }
 
-  if (config.getStages().isTdd()) {
-    addToReport(reports, config.getTddOptional().getAllurePath())
+  if (config.stages.tdd) {
+    addToReport(reports, config.tddOptional.allurePath)
     unpackResult(state.tdd.stashes)
   }
 
-  if (config.getStages().isBdd()) {
-    addToReport(reports, config.getBddOptional().getAllurePath())
+  if (config.stages.bdd) {
+    addToReport(reports, config.bddOptional.allurePath)
     unpackResult(state.bdd.stashes)
   }
 
