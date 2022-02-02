@@ -233,6 +233,11 @@ class VRunner {
         "--xddExitCodePath", "./xddExitCodePath.txt",
         "--xddConfig", optional.xddConfig
     ]
+
+    if(!optional.pathXUnit.isEmpty()) {
+      command += "--pathxunit \"${optional.pathXUnit}\""
+    }
+
     return command.join(" ")
   }
 
@@ -257,6 +262,11 @@ class VRunner {
         "--xddExitCodePath", "./xddExitCodePath.txt",
         "--xddConfig", optional.xddConfig
     ]
+
+    if(!optional.pathXUnit.isEmpty()) {
+      command += "--pathxunit \"${optional.pathXUnit}\""
+    }
+
     return command.join(" ")
   }
 
@@ -275,6 +285,11 @@ class VRunner {
         "--ibconnection", Common.getConnectionString(config),
         "--v8version", config.v8Version
     ]
+
+    if(!optional.pathVanessa.isEmpty()) {
+      command += "--pathvanessa \"${optional.pathVanessa}\""
+    }
+
     return command.join(" ")
   }
 

@@ -17,6 +17,9 @@ class BddOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure. Например, `./out/bddallure`")
   String allurePath = "./out/bddallure"
 
+  @JsonPropertyDescription("Путь к внешней обработке, по умолчанию <OneScript>/lib/add/bddRunner.epf")
+  String pathVanessa = ''
+
   BddOptional() {
     name = 'BDD'
     id = 'bdd'
