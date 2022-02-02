@@ -26,6 +26,9 @@ class SmokeOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к файлу выгрузки отчета в формате jUnit")
   String junitPath = "./out/junit/smoke.xml"
 
+  @JsonPropertyDescription("Путь к внешней обработке xddTestRunner.epf, по умолчанию ищу в пакете vanessa-add")
+  String pathXUnit = ''
+
   SmokeOptional() {
     name = 'Smoke'
     id = 'smoke'
