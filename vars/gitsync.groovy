@@ -31,8 +31,8 @@ private void syncInternal() {
   if (credentialHelper.authIsPresent(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       syncInternalWithRepoAuth(credentialHelper.getAuthString())
-      return
     }
+    return
   }
 
   syncInternalWithRepoAuth()
