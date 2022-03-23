@@ -290,6 +290,10 @@ class VRunner {
       command += "--pathvanessa \"${optional.pathVanessa}\""
     }
 
+    if(!optional.vanessasettings.isEmpty()) {
+      command += "--vanessasettings \"${optional.vanessasettings}\""
+    }
+
     return command.join(" ")
   }
 
