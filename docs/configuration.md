@@ -180,7 +180,7 @@
 
 * `junitPath` - путь к файлу выгрузки отчета в формате jUnit
 
-* `pathXUnit` - путь к внешней обработке xddTestRunner.epf, по умолчанию ищу в пакете vanessa-add
+* `pathXUnit` - путь к внешней обработке xddTestRunner.epf, по умолчанию в пакете vanessa-add
 
 `tdd` - настройки этапа TDD (Test-driven development)
 
