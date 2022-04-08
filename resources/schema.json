@@ -210,6 +210,9 @@
             },
             "auth" : {
               "type" : "string"
+            },
+            "empty" : {
+              "type" : "boolean"
             }
           }
         },
@@ -349,6 +352,10 @@
         "pathVanessa" : {
           "type" : "string",
           "description" : "Путь к внешней обработке, по умолчанию <OneScript>/lib/add/bddRunner.epf"
+        },
+        "vanessasettings" : {
+          "type" : "string",
+          "description" : "путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json"
         }
       }
     },

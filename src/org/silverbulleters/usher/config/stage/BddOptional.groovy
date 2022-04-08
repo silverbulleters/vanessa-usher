@@ -20,6 +20,9 @@ class BddOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к внешней обработке, по умолчанию <OneScript>/lib/add/bddRunner.epf")
   String pathVanessa = ''
 
+  @JsonPropertyDescription("Путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json")
+  String vanessasettings = './tools/JSON/vanessaConf.json'
+
   BddOptional() {
     name = 'BDD'
     id = 'bdd'
