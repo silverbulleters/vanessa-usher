@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -18,7 +18,7 @@ class UsherConstant {
   /**
    * Версия проекта
    */
-  static final String PROJECT_VERSION = "2.1.0"
+  static final String PROJECT_VERSION = "2.2.0"
 
   /**
    * Путь к каталогу с отчетами в формате jUnit

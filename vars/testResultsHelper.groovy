@@ -1,12 +1,18 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.state.BaseTestingState
 
+/**
+ * Упаковать результат о тестировании
+ * @param config конфигурация
+ * @param stageOptional настройка шага
+ * @param state состояние шага
+ */
 void archive(PipelineConfiguration config, stageOptional, BaseTestingState state) {
   dir(stageOptional.getAllurePath()) {
     def name = UUID.randomUUID().toString()
@@ -15,9 +21,9 @@ void archive(PipelineConfiguration config, stageOptional, BaseTestingState state
     deleteDir()
   }
 
-  dir(config.getJunitPath()) {
+  dir(config.junitPath) {
     def name = UUID.randomUUID().toString()
-    state.stashes.put(name, config.getJunitPath())
+    state.stashes.put(name, config.junitPath)
     stash includes: "*", name: name
     deleteDir()
   }
@@ -26,16 +32,16 @@ void archive(PipelineConfiguration config, stageOptional, BaseTestingState state
 /**
  * Упаковка результата о тестировании
  * @param config конфигурация пайплайна
- * @param stageOptional - настройки этапа
- * @param state - состояние этапа
+ * @param stageOptional настройки этапа
+ * @param state состояние этапа
  */
 void packTestResults(PipelineConfiguration config, stageOptional, BaseTestingState state) {
-  allureHelper.createAllureCategories(stageOptional.getName(), stageOptional.getAllurePath())
+  allureHelper.addCategories(stageOptional.getName(), stageOptional.getAllurePath())
   archive(config, stageOptional, state)
 }
 
 /**
- * Архивация результатов тестирования
+ * Архивировать результаты тестирования
  * @param result
  */
 void archiveTestResults(Map result) {
@@ -52,7 +58,7 @@ void archiveTestResults(Map result) {
   }
 
   result.allure.each {
-    allureHelper.createAllureCategories(result.name, it)
+    allureHelper.addCategories(result.name, it)
     dir(it) {
       def name = UUID.randomUUID().toString()
       result.stashes.put(name, it)

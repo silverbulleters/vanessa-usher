@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -14,15 +14,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SonarQubeOptional extends BaseOptional {
-  static final EMPTY = new SonarQubeOptional()
-
   @JsonPropertyDescription("Имя/метки агента для запуска этапа. Например, `sonar-scanner`")
   String agent = "any"
 
-  @JsonPropertyDescription("Id утилиты sonar-scanner (глобальные инструменты Jenkins)")
+  @JsonPropertyDescription("Идентификатор утилиты sonar-scanner (глобальные инструменты Jenkins)")
   String toolId = "sonar-scanner"
 
-  @JsonPropertyDescription("Id настроек сервера SonarQube")
+  @JsonPropertyDescription("Идентификатор настроек подключения к серверу SonarQube")
   String serverId = "SonarQube"
 
   @JsonPropertyDescription("Режим отладки sonar-scanner")

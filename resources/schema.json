@@ -26,12 +26,12 @@
     },
     "debug" : {
       "type" : "boolean",
-      "description" : "Режим отладки"
+      "description" : "Режим включения отладочных логов конвейера"
     },
     "notification" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional",
-      "description" : "Настройки уведомлений",
+      "description" : "Настройка отправки уведомлений",
       "properties" : {
         "mode" : {
           "type" : "string",
@@ -45,7 +45,7 @@
         "slack" : {
           "type" : "object",
           "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional:SlackSetting",
-          "description" : "Настройки уведомлений в Slack",
+          "description" : "Настройка уведомлений в Slack",
           "properties" : {
             "channelName" : {
               "type" : "string",
@@ -65,7 +65,7 @@
     },
     "timeout" : {
       "type" : "integer",
-      "description" : "Общий таймаут на время работы pipeline"
+      "description" : "Общий таймаут на время работы конвейера"
     },
     "defaultInfobase" : {
       "type" : "object",
@@ -78,7 +78,7 @@
         },
         "auth" : {
           "type" : "string",
-          "description" : "Id секрета Jenkins для авторизации в информационной базе"
+          "description" : "Идентификатор секрета Jenkins для авторизации в информационной базе"
         }
       }
     },
@@ -203,13 +203,16 @@
         "repo" : {
           "type" : "object",
           "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo",
-          "description" : "Настройки подключения к хранилище конфигурации 1С",
+          "description" : "Настройки подключения к хранилищу конфигурации 1С",
           "properties" : {
             "path" : {
               "type" : "string"
             },
             "auth" : {
               "type" : "string"
+            },
+            "empty" : {
+              "type" : "boolean"
             }
           }
         },
@@ -260,7 +263,7 @@
         },
         "mode" : {
           "type" : "array",
-          "description" : "Список параметров проверок",
+          "description" : "Список параметров проверки",
           "items" : {
             "type" : "string"
           }
@@ -286,7 +289,7 @@
         },
         "testPath" : {
           "type" : "string",
-          "description" : "Путь к каталогу или к файлу с тестами"
+          "description" : "Путь к каталогу / к файлу с тестами, или название подсистемы"
         },
         "allurePath" : {
           "type" : "string",
@@ -295,6 +298,10 @@
         "junitPath" : {
           "type" : "string",
           "description" : "Путь к файлу выгрузки отчета в формате jUnit"
+        },
+        "pathXUnit" : {
+          "type" : "string",
+          "description" : "Путь к внешней обработке xddTestRunner.epf, по умолчанию ищу в пакете vanessa-add"
         }
       }
     },
@@ -322,6 +329,10 @@
         "junitPath" : {
           "type" : "string",
           "description" : "Путь к файлу выгрузки отчета в формате jUnit"
+        },
+        "pathXUnit" : {
+          "type" : "string",
+          "description" : "Путь к внешней обработке xddTestRunner.epf, по умолчанию ищу в пакете vanessa-add"
         }
       }
     },
@@ -337,6 +348,14 @@
         "allurePath" : {
           "type" : "string",
           "description" : "Путь к каталогу выгрузки отчета в формате Allure. Например, `./out/bddallure`"
+        },
+        "pathVanessa" : {
+          "type" : "string",
+          "description" : "Путь к внешней обработке, по умолчанию <OneScript>/lib/add/bddRunner.epf"
+        },
+        "vanessasettings" : {
+          "type" : "string",
+          "description" : "путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json"
         }
       }
     },
@@ -355,11 +374,11 @@
         },
         "toolId" : {
           "type" : "string",
-          "description" : "Id утилиты sonar-scanner (глобальные инструменты Jenkins)"
+          "description" : "Идентификатор утилиты sonar-scanner (глобальные инструменты Jenkins)"
         },
         "serverId" : {
           "type" : "string",
-          "description" : "Id настроек сервера SonarQube"
+          "description" : "Идентификатор настроек подключения к серверу SonarQube"
         },
         "debug" : {
           "type" : "boolean",
@@ -386,7 +405,7 @@
         },
         "errorIfJobStatusOfFailure" : {
           "type" : "boolean",
-          "description" : "Прерывать этап если статус задачи равен FAILURE"
+          "description" : "Прерывать этап если статус сборки равен FAILURE"
         }
       }
     },
@@ -413,7 +432,7 @@
         },
         "auth" : {
           "type" : "string",
-          "description" : "Секрет для авторизации на сайте releases.1c.ru"
+          "description" : "Идентификатор секрета для авторизации на сайте releases.1c.ru"
         },
         "workspacePath" : {
           "type" : "string",
@@ -425,7 +444,7 @@
         },
         "debug" : {
           "type" : "boolean",
-          "description" : "Режим дебага yard"
+          "description" : "Режим включения отладочных логов yard"
         }
       }
     }

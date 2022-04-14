@@ -1,16 +1,26 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
 import org.silverbulleters.usher.NotificationInfo
 
+/**
+ * Отправить уведомления в slack
+ * @param channelId идентификатор канала в slack
+ * @param info информация об уведомлении
+ */
 void sendNotification(String channelId, NotificationInfo info) {
   blocks = getSuccessBlock(info)
   slackSend(channel: channelId, blocks: blocks)
 }
 
+/**
+ * Отправить уведомление с ошибкой
+ * @param channelId идентификатор канала в slack
+ * @param info информация об уведомлении
+ */
 void sendErrorNotification(String channelId, NotificationInfo info) {
   blocks = [
       [
