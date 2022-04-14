@@ -1,14 +1,14 @@
 val junitVersion = "5.6.1"
 
 group = "org.github.silverbulleters"
-version = "2.1.0"
+version = "2.2.0"
 
 plugins {
     java
     groovy
     id("com.mkobit.jenkins.pipelines.shared-library") version "0.10.1"
     id("com.github.ben-manes.versions") version "0.21.0"
-    id("net.kyori.indra.license-header") version "2.0.6"
+    id ("com.github.hierynomus.license") version "0.15.0"
 }
 
 repositories {
@@ -78,9 +78,10 @@ sharedLibrary {
 }
 
 license {
-    header(rootProject.file("/license/header.txt"))
+    header = rootProject.file("license/header.txt")
+    strictCheck = true
     ext["title"] = "Vanessa-Usher"
-    ext["years"] = "2019-2021"
+    ext["years"] = "2019-2022"
     ext["owner"] = "SilverBulleters, LLC"
     exclude("**/*.properties")
     exclude("**/*.xml")

@@ -1,12 +1,13 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
 package org.silverbulleters.usher.util
 
 import org.silverbulleters.usher.UsherConstant
+import org.silverbulleters.usher.config.PipelineConfiguration
 
 /**
  * Вспомогательный класс
@@ -32,6 +33,10 @@ class Common {
       return matcher[0][1]
     }
     return ''
+  }
+
+  static String getConnectionString(PipelineConfiguration config) {
+    return config.defaultInfobase.connectionString
   }
 
 }

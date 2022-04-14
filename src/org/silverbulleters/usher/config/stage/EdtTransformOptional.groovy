@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class EdtTransformOptional extends BaseOptional {
-  static final EMPTY = new EdtTransformOptional()
-
   @JsonPropertyDescription("""Модуль edt для утилиты ring. По умолчанию используется `edt`.
   Для использования, например, версии 2021.2 нужно указать `edt@2021.2.0`.
   """)

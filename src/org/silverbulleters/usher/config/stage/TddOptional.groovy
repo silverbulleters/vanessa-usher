@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class TddOptional extends BaseOptional {
-  static final EMPTY = new TddOptional()
-
   @JsonPropertyDescription("Путь к конфигурационному файлу xUnitFor1c")
   String xddConfig = "./tools/JSON/xddTestRunnerConf.json"
 
@@ -27,6 +25,9 @@ class TddOptional extends BaseOptional {
 
   @JsonPropertyDescription("Путь к файлу выгрузки отчета в формате jUnit")
   String junitPath = "./out/junit/xdd.xml"
+
+  @JsonPropertyDescription("Путь к внешней обработке xddTestRunner.epf, по умолчанию ищу в пакете vanessa-add")
+  String pathXUnit = ''
 
   TddOptional() {
     name = "TDD"

@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -29,7 +29,6 @@ import org.silverbulleters.usher.config.stage.YardOptional
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class PipelineConfiguration implements Serializable {
-
   @JsonPropertyDescription("Версия платформы 1С. Например, `8.3.20.1549`")
   String v8Version = "8.3"
 
@@ -41,11 +40,11 @@ class PipelineConfiguration implements Serializable {
   @JsonPropertyDescription("Настройка для мульти-тестирования на разных ос / версиях 1С")
   MatrixTesting matrixTesting = []
 
-  @JsonPropertyDescription("Режим отладки")
+  @JsonPropertyDescription("Режим включения отладочных логов конвейера")
   boolean debug = false
 
-  @JsonPropertyDescription("Настройки уведомлений")
-  NotificationOptional notification = NotificationOptional.EMPTY
+  @JsonPropertyDescription("Настройка отправки уведомлений")
+  NotificationOptional notification = new NotificationOptional()
 
   @JsonPropertyDescription("Путь к конфигурационному файлу vanessa-runner")
   String vrunnerConfig = "./tools/JSON/vRunner.json"
@@ -53,53 +52,53 @@ class PipelineConfiguration implements Serializable {
   @JsonPropertyDescription("Путь к каталогу с отчетами в в формате jUnit")
   String junitPath = UsherConstant.JUNIT_PATH
 
-  @JsonPropertyDescription("Общий таймаут на время работы pipeline")
+  @JsonPropertyDescription("Общий таймаут на время работы конвейера")
   int timeout = 100
 
   @JsonPropertyDescription("Информационная база по умолчанию")
-  InfoBase defaultInfobase = InfoBase.EMPTY
+  InfoBase defaultInfobase = new InfoBase()
 
   @JsonPropertyDescription("Настройка использования этапов")
-  Stages stages = Stages.EMPTY
+  Stages stages = new Stages()
 
   @JsonPropertyDescription("Настройки этапа выгрузки истории хранилища 1С с помощью утилиты `gitsync`")
   @JsonProperty("gitsync")
-  GitsyncOptional gitsyncOptional = GitsyncOptional.EMPTY
+  GitsyncOptional gitsyncOptional = new GitsyncOptional()
 
   @JsonPropertyDescription("Настройка этапа трансформации edt-формата конфигурации в xml")
   @JsonProperty("edtTransform")
-  EdtTransformOptional edtTransformOptional = EdtTransformOptional.EMPTY
+  EdtTransformOptional edtTransformOptional = new EdtTransformOptional()
 
   @JsonPropertyDescription("Настройки этапа подготовки информационной базы")
   @JsonProperty("preparebase")
-  PrepareBaseOptional prepareBaseOptional = PrepareBaseOptional.EMPTY
+  PrepareBaseOptional prepareBaseOptional = new PrepareBaseOptional()
 
   @JsonPropertyDescription("Настройки этапа синтакс-проверки конфигурации 1С")
   @JsonProperty("syntaxCheck")
-  SyntaxCheckOptional syntaxCheckOptional = SyntaxCheckOptional.EMPTY
+  SyntaxCheckOptional syntaxCheckOptional = new SyntaxCheckOptional()
 
   @JsonPropertyDescription("Настройки этапа дымового тестирования")
   @JsonProperty("smoke")
-  SmokeOptional smokeOptional = SmokeOptional.EMPTY
+  SmokeOptional smokeOptional = new SmokeOptional()
 
   @JsonPropertyDescription("Настройки этапа TDD (Test-driven development)")
   @JsonProperty("tdd")
-  TddOptional tddOptional = TddOptional.EMPTY
+  TddOptional tddOptional = new TddOptional()
 
   @JsonPropertyDescription("Настройки этапа BDD (Behavior-driven development)")
   @JsonProperty("bdd")
-  BddOptional bddOptional = BddOptional.EMPTY
+  BddOptional bddOptional = new BddOptional()
 
   @JsonPropertyDescription("Настройки этапа статического анализа для SonarQube")
   @JsonProperty("sonarqube")
-  SonarQubeOptional sonarQubeOptional = SonarQubeOptional.EMPTY
+  SonarQubeOptional sonarQubeOptional = new SonarQubeOptional()
 
   @JsonPropertyDescription("Настройки этапа сборки CF на поставке")
   @JsonProperty("build")
-  BuildOptional buildOptional = BuildOptional.EMPTY
+  BuildOptional buildOptional = new BuildOptional()
 
   @JsonPropertyDescription("Настройки этапа загрузки и обработки релизов 1С")
   @JsonProperty("yard")
-  YardOptional yardOptional = YardOptional.EMPTY
+  YardOptional yardOptional = new YardOptional()
 
 }

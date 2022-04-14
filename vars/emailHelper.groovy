@@ -1,11 +1,16 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
 import org.silverbulleters.usher.NotificationInfo
 
+/**
+ * Отправить уведомление по email
+ * @param email электронная почта
+ * @param info информация об уведомлении
+ */
 void sendNotification(String email, NotificationInfo info) {
   message = ""
   if (info.status == 'SUCCESS') {
@@ -22,6 +27,11 @@ void sendNotification(String email, NotificationInfo info) {
   )
 }
 
+/**
+ * Отправить уведомление по email с ошибкой
+ * @param email электронная почта
+ * @param info информация об уведомлении
+ */
 void sendErrorNotification(String email, NotificationInfo info) {
   message = getErrorMessage(info)
 

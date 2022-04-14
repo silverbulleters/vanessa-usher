@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SyntaxCheckOptional extends BaseOptional {
-  static final EMPTY = new SyntaxCheckOptional()
-
   @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure")
   String allurePath = "./out/syntaxCheck/allure"
 
@@ -28,7 +26,7 @@ class SyntaxCheckOptional extends BaseOptional {
   @JsonPropertyDescription("Группировать результат проверки по метаданным")
   boolean groupByMetadata = true
 
-  @JsonPropertyDescription("Список параметров проверок")
+  @JsonPropertyDescription("Список параметров проверки")
   String[] mode = [
       "-ThinClient",
       "-Server",

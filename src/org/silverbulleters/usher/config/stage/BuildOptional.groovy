@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -14,13 +14,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class BuildOptional extends BaseOptional {
-  static final EMPTY = new BuildOptional()
-
   /* TODO: реализовать смену рабочего каталога packman */
   @JsonPropertyDescription("Путь к собранной cf на поставке")
   String distPath = '.packman/1cv8.cf'
 
-  @JsonPropertyDescription("Прерывать этап если статус задачи равен FAILURE")
+  @JsonPropertyDescription("Прерывать этап если статус сборки равен FAILURE")
   boolean errorIfJobStatusOfFailure = false
 
   BuildOptional() {

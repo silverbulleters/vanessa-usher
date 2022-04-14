@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -14,10 +14,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class BddOptional extends BaseOptional {
-  static final EMPTY = new BddOptional()
-
   @JsonPropertyDescription("Путь к каталогу выгрузки отчета в формате Allure. Например, `./out/bddallure`")
   String allurePath = "./out/bddallure"
+
+  @JsonPropertyDescription("Путь к внешней обработке, по умолчанию <OneScript>/lib/add/bddRunner.epf")
+  String pathVanessa = ''
+
+  @JsonPropertyDescription("Путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json")
+  String vanessasettings = './tools/JSON/vanessaConf.json'
 
   BddOptional() {
     name = 'BDD'

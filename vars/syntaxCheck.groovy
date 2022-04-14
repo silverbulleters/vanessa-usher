@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -8,6 +8,7 @@ import groovy.transform.Field
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
 import org.silverbulleters.usher.state.PipelineState
+import org.silverbulleters.usher.wrapper.VRunner
 
 @Field
 PipelineConfiguration config
@@ -25,48 +26,34 @@ Map result = [
     "error": false
 ]
 
-def call(PipelineConfiguration config, PipelineState state) {
-  if (!config.getStages().isSyntaxCheck()) {
-    return
-  }
-
+/**
+ * Выполнить синтаксическую проверку конфигурации
+ * @param config конфигурацию
+ * @param state состояние конвейера
+ */
+void call(PipelineConfiguration config, SyntaxCheckOptional stageOptional, PipelineState state) {
   this.config = config
-  this.stageOptional = config.getSyntaxCheckOptional()
   this.state = state
+  this.stageOptional = stageOptional
 
-  timeout(unit: 'MINUTES', time: stageOptional.getTimeout()) {
+  infobaseHelper.unpackInfobase(config: config, state: state)
 
-    stage(stageOptional.getName()) {
-
-      infobaseHelper.unzipInfobase(config: config, state: state)
-
-      catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE',
-          stageResult: 'FAILURE') {
-
-        check()
-
-      }
-
-      catchError(message: 'Ошибка во время публикации отчетов о тестировании', buildResult: 'FAILURE',
-          stageResult: 'FAILURE') {
-
-        testResultsHelper.archiveTestResults(
-            name: stageOptional.name,
-            junit: result.junit,
-            allure: result.allure,
-            stashes: state.syntaxCheck.stashes
-        )
-
-      }
-
-    }
-
+  catchError(message: 'Ошибка во время выполнения синтаксической проверки', buildResult: 'FAILURE', stageResult: 'FAILURE') {
+    check()
   }
+
+  testResultsHelper.archiveTestResults(
+        name: stageOptional.name,
+        junit: result.junit,
+        allure: result.allure,
+        stashes: state.syntaxCheck.stashes
+    )
+
 }
 
 private def check() {
-  def auth = config.getDefaultInfobase().getAuth()
-  if (credentialHelper.authIsPresent(auth) && credentialHelper.exist(auth)) {
+  def auth = config.defaultInfobase.auth
+  if (credentialHelper.authIsPresent(auth)) {
     withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       syntaxCheck(credential)
@@ -84,7 +71,7 @@ private def syntaxCheck(credential = '') {
   }
 
   if (result.error) {
-    failure("Во время выполнения syntax-check были ошибки")
+    setFailureStatusStage("Во время выполнения syntax-check были ошибки")
   }
 
 }
@@ -99,9 +86,10 @@ private def syntaxCheckByOptional(String credential, boolean checkExtensions = f
   result.allure += allurePath
   result.junit += junitPath
 
-  def command = vrunner.syntaxCheck(
+  def command = VRunner.syntaxCheck(
       config: config,
       setting: stageOptional,
+      existsExceptionFile: fileExists(stageOptional.exceptionFile),
       checkExtensions: checkExtensions,
       allurePath: allurePath,
       junitPath: junitPath

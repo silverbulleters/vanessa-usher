@@ -17,7 +17,7 @@
   "timeout" : 100,
   "defaultInfobase" : {
     "connectionString" : "/F.build/ib",
-    "auth" : "EMPTY_VALUE"
+    "auth" : ""
   },
   "stages" : {
     "gitsync" : false,
@@ -34,7 +34,7 @@
   "gitsync" : {
     "timeout" : 40,
     "configPath" : "./tools/JSON/gitsync_conf.JSON",
-    "auth" : "EMPTY_VALUE",
+    "auth" : "",
     "useTemporaryInfobase" : false,
     "tempPath" : ""
   },
@@ -48,10 +48,11 @@
   "preparebase" : {
     "timeout" : 100,
     "sourcePath" : "./src/cf",
-    "template" : "EMPTY_VALUE",
+    "template" : "",
     "repo" : {
-      "path" : "EMPTY_VALUE",
-      "auth" : "EMPTY_VALUE"
+      "path" : "",
+      "auth" : "",
+      "empty" : false
     },
     "extensions" : [ ]
   },
@@ -69,18 +70,22 @@
     "xddConfig" : "./tools/JSON/smokeTestRunnerConf.json",
     "testPath" : "$addroot/tests/smoke",
     "allurePath" : "./out/smoke/allure",
-    "junitPath" : "./out/junit/smoke.xml"
+    "junitPath" : "./out/junit/smoke.xml",
+    "pathXUnit" : ""
   },
   "tdd" : {
     "timeout" : 100,
     "xddConfig" : "./tools/JSON/xddTestRunnerConf.json",
     "testPath" : "./tests/unit",
     "allurePath" : "./out/tdd/allure",
-    "junitPath" : "./out/junit/xdd.xml"
+    "junitPath" : "./out/junit/xdd.xml",
+    "pathXUnit" : ""
   },
   "bdd" : {
     "timeout" : 100,
-    "allurePath" : "./out/bddallure"
+    "allurePath" : "./out/bddallure",
+    "pathVanessa" : "",
+    "vanessasettings" : "./tools/JSON/vanessaConf.json"
   },
   "sonarqube" : {
     "timeout" : 100,
@@ -100,7 +105,7 @@
     "appName" : "",
     "descriptionPath" : "./description.json",
     "yardSettingsPath" : "./yardsettings.json",
-    "auth" : "EMPTY_VALUE",
+    "auth" : "",
     "workspacePath" : "./",
     "branch" : "master",
     "debug" : false

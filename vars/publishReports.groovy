@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -14,10 +14,13 @@ PipelineConfiguration config
 @Field
 PipelineState state
 
+/**
+ * Опубликовать отчеты о тестировании
+ * @param config конфигурация
+ * @param state состояние конвейера
+ */
 void call(PipelineConfiguration config, PipelineState state) {
-  boolean needPublish = common.needPublishTests(config)
-
-  if (!needPublish) {
+  if (!common.needPublishTests(config)) {
     return
   }
 
@@ -33,7 +36,7 @@ void call(PipelineConfiguration config, PipelineState state) {
 private def publish() {
   def reports = []
 
-  if (config.getStages().isSyntaxCheck()) {
+  if (config.stages.syntaxCheck) {
     state.syntaxCheck.stashes.each { key, value ->
       logger.info("Путь к отчету " + value)
       if (!key.startsWith("junit_")) {
@@ -43,18 +46,18 @@ private def publish() {
     unpackResult(state.syntaxCheck.stashes)
   }
 
-  if (config.getStages().isSmoke()) {
-    addToReport(reports, config.getSmokeOptional().getAllurePath())
+  if (config.stages.smoke) {
+    addToReport(reports, config.smokeOptional.allurePath)
     unpackResult(state.smoke.stashes)
   }
 
-  if (config.getStages().isTdd()) {
-    addToReport(reports, config.getTddOptional().getAllurePath())
+  if (config.stages.tdd) {
+    addToReport(reports, config.tddOptional.allurePath)
     unpackResult(state.tdd.stashes)
   }
 
-  if (config.getStages().isBdd()) {
-    addToReport(reports, config.getBddOptional().getAllurePath())
+  if (config.stages.bdd) {
+    addToReport(reports, config.bddOptional.allurePath)
     unpackResult(state.bdd.stashes)
   }
 

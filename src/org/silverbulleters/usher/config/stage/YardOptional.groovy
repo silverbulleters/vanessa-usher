@@ -1,6 +1,6 @@
 /*
  * Vanessa-Usher
- * Copyright (C) 2019-2021 SilverBulleters, LLC - All Rights Reserved.
+ * Copyright (C) 2019-2022 SilverBulleters, LLC - All Rights Reserved.
  * Unauthorized copying of this file in any way is strictly prohibited.
  * Proprietary and confidential.
  */
@@ -8,12 +8,12 @@ package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
-import org.silverbulleters.usher.UsherConstant
 
+/**
+ * Настройки этапа синхронизации релиза 1С в git-проектом
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class YardOptional extends BaseOptional {
-  static final EMPTY = new YardOptional()
-
   @JsonPropertyDescription("Имя конфигурации с сайта releases.1c.ru. Например, `EnterpriseERP20`")
   String appName = ""
 
@@ -23,8 +23,8 @@ class YardOptional extends BaseOptional {
   @JsonPropertyDescription("Путь к файлу настроек yard")
   String yardSettingsPath = "./yardsettings.json"
 
-  @JsonPropertyDescription("Секрет для авторизации на сайте releases.1c.ru")
-  String auth = UsherConstant.EMPTY_VALUE
+  @JsonPropertyDescription("Идентификатор секрета для авторизации на сайте releases.1c.ru")
+  String auth = ''
 
   @JsonPropertyDescription("Каталог запуска yard")
   String workspacePath = "./"
@@ -32,7 +32,7 @@ class YardOptional extends BaseOptional {
   @JsonPropertyDescription("Имя ветки для git push")
   String branch = "master"
 
-  @JsonPropertyDescription("Режим дебага yard")
+  @JsonPropertyDescription("Режим включения отладочных логов yard")
   boolean debug = false
 
   YardOptional() {
