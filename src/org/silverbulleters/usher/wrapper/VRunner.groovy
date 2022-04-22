@@ -9,6 +9,7 @@ package org.silverbulleters.usher.wrapper
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.ExtensionSource
 import org.silverbulleters.usher.config.stage.BddOptional
+import org.silverbulleters.usher.config.stage.CheckExtensionsOptional
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
 import org.silverbulleters.usher.config.stage.SmokeOptional
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
@@ -211,7 +212,6 @@ class VRunner {
     return command.join(" ")
   }
 
-
   /**
    * Запустить дымовое тестирование
    * @param config конфигурация
@@ -297,4 +297,33 @@ class VRunner {
     return command.join(" ")
   }
 
+  /**
+   * Выполнить проверку применимости расширений
+   * @param config
+   * @param optional
+   */
+  static def checkCanApplyExtensions(PipelineConfiguration config, CheckExtensionsOptional optional) {
+    def command = [
+            "vrunner",
+            "designer",
+            "--v8version", config.v8Version,
+            "%credentialID%",
+            "--ibconnection", Common.getConnectionString(config),
+            "--nocacheuse",
+            "%credentialStorageID%",
+            "--storage-name", optional.repo.path
+    ]
+
+    command += "--additional \"/CheckCanApplyConfigurationExtensions"
+
+
+    if (!optional.extensions.isEmpty()) {
+      command += "-Extension ${optional.extensions}\""
+    }
+    else {
+      command += "\""
+    }
+
+    return command.join(" ")
+  }
 }

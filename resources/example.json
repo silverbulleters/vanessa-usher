@@ -23,6 +23,7 @@
     "gitsync" : false,
     "edtTransform" : false,
     "prepareBase" : false,
+    "checkExtensions" : false,
     "syntaxCheck" : false,
     "smoke" : false,
     "tdd" : false,
@@ -55,6 +56,15 @@
       "empty" : false
     },
     "extensions" : [ ]
+  },
+  "checkExtensions" : {
+    "timeout" : 40,
+    "repo" : {
+      "path" : "",
+      "auth" : "",
+      "empty" : false
+    },
+    "extensions" : ""
   },
   "syntaxCheck" : {
     "timeout" : 100,

@@ -16,6 +16,11 @@ class PipelineState {
   PrepareBaseState prepareBase = new PrepareBaseState()
 
   /**
+   * Состояние проверки применимости расширений
+   */
+  BaseTestingState checkExtensions = new BaseTestingState()
+
+  /**
    * Состояние синтакс-проверки
    */
   BaseTestingState syntaxCheck = new BaseTestingState()
