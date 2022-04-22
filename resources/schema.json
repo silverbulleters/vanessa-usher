@@ -99,6 +99,10 @@
           "type" : "boolean",
           "description" : "Подготовить информационную базу"
         },
+        "checkExtensions" : {
+          "type" : "boolean",
+          "description" : "Проверить возможность применимости расширений"
+        },
         "syntaxCheck" : {
           "type" : "boolean",
           "description" : "Проверить конфигурацию с помощью синтакс-проверки"
@@ -236,6 +240,26 @@
         }
       }
     },
+    "checkExtensions" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:CheckExtensionsOptional",
+      "description" : "Настройки этапа применимости расширения для использования в конкретной информационной базе конфигурации 1С",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer",
+          "description" : "Таймаут времени работы таймаута"
+        },
+        "repo" : {
+          "type" : "object",
+          "$ref" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo",
+          "description" : "Настройки подключения к хранилищу конфигурации 1С"
+        },
+        "extensions" : {
+          "type" : "string",
+          "description" : "Выполнить проверку для указанного расширения с учетом всех ранее загружаемых расширений. Если имя расширения не указано, то проверяются все расширения в порядке загрузки."
+        }
+      }
+    },
     "syntaxCheck" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SyntaxCheckOptional",
@@ -355,7 +379,7 @@
         },
         "vanessasettings" : {
           "type" : "string",
-          "description" : "путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json"
+          "description" : "Путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json"
         }
       }
     },

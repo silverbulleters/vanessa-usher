@@ -62,6 +62,17 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
       }
 
+      stage('Check Extensions') {
+        when { expression { config.stages.checkExtensions } }
+        options {
+          timeout(time: config.checkExtensionsOptional.timeout, unit: TimeUnit.MINUTES)
+        }
+
+        steps {
+          script { checkExtensions(config, config.checkExtensionsOptional, state) }
+        }
+      }
+
       stage('Syntax check') {
         when { expression { config.stages.syntaxCheck } }
         options {
