@@ -23,6 +23,7 @@
     "gitsync" : false,
     "edtTransform" : false,
     "prepareBase" : false,
+    "runExternal" : false,
     "checkExtensions" : false,
     "syntaxCheck" : false,
     "smoke" : false,
@@ -56,6 +57,15 @@
       "empty" : false
     },
     "extensions" : [ ]
+  },
+  "runExternal" : {
+    "timeout" : 100,
+    "vRunnerExecute" : [ ],
+    "vRunnerCommand" : [ ],
+    "pathEpf" : "./tools/epf/",
+    "settings" : "./tools/JSON/vRunnerExternalOptions.JSON",
+    "allurePath" : "./out/runExternal/allure",
+    "junitPath" : "./out/junit/runExternal.xml"
   },
   "checkExtensions" : {
     "timeout" : 40,

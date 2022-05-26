@@ -62,6 +62,17 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
       }
 
+      stage('Run testing') {
+        when { expression { config.stages.runExternal } }
+        options {
+          timeout(time: config.runExternal.timeout, unit: TimeUnit.MINUTES)
+        }
+
+        steps {
+          script { runExternalDataProcessors(config, config.runExternal, state) }
+        }
+      }
+
       stage('Check Extensions') {
         when { expression { config.stages.checkExtensions } }
         options {

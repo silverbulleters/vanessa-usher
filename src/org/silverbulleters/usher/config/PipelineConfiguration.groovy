@@ -19,6 +19,7 @@ import org.silverbulleters.usher.config.stage.CheckExtensionsOptional
 import org.silverbulleters.usher.config.stage.EdtTransformOptional
 import org.silverbulleters.usher.config.stage.GitsyncOptional
 import org.silverbulleters.usher.config.stage.PrepareBaseOptional
+import org.silverbulleters.usher.config.stage.RunExternalDataProcessorsOptional
 import org.silverbulleters.usher.config.stage.SmokeOptional
 import org.silverbulleters.usher.config.stage.SonarQubeOptional
 import org.silverbulleters.usher.config.stage.SyntaxCheckOptional
@@ -73,6 +74,10 @@ class PipelineConfiguration implements Serializable {
   @JsonPropertyDescription("Настройки этапа подготовки информационной базы")
   @JsonProperty("preparebase")
   PrepareBaseOptional prepareBaseOptional = new PrepareBaseOptional()
+
+  @JsonPropertyDescription("Настройки этапап выполнения произвольных внешних обработок 1с")
+  @JsonProperty("runExternal")
+  RunExternalDataProcessorsOptional runExternal = new RunExternalDataProcessorsOptional()
 
   @JsonPropertyDescription("Настройки этапа применимости расширения для использования в конкретной информационной базе конфигурации 1С")
   @JsonProperty("checkExtensions")
