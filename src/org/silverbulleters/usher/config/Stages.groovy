@@ -24,6 +24,9 @@ class Stages {
   @JsonPropertyDescription("Подготовить информационную базу")
   boolean prepareBase = false
 
+  @JsonPropertyDescription("Запустить выполнение произвольных внешних обработок 1с")
+  boolean runExternal = false
+
   @JsonPropertyDescription("Проверить возможность применимости расширений")
   boolean checkExtensions = false
 
