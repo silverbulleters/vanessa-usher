@@ -62,7 +62,7 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
       }
 
-      stage('Run testing') {
+      stage('Run external') {
         when { expression { config.stages.runExternal } }
         options {
           timeout(time: config.runExternal.timeout, unit: TimeUnit.MINUTES)

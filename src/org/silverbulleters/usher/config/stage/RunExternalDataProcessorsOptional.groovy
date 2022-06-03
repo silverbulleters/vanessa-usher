@@ -8,6 +8,7 @@ package org.silverbulleters.usher.config.stage
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonPropertyDescription
+import org.silverbulleters.usher.config.additional.VrunnerAdditional
 
 /**
  * Настройки этапа
@@ -15,19 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription
 @JsonIgnoreProperties(ignoreUnknown = true)
 class RunExternalDataProcessorsOptional extends BaseOptional {
 
-    @JsonPropertyDescription("""
-     Имена файлов внешних обработок 1с для запуска в предприятии.
-     Пример: ["Обработка1.epf", "Обрабортка2.epf", "Обработка3.epf"]
-  """)
-    String[] vRunnerExecute = []
-
-    @JsonPropertyDescription("""
-    Cтрока, передаваемая в ПараметрыЗапуска.
-    Массив строк, указываются по аналогии с параметром vRunnerExecute.
-    Если параметр в обработку передавать не нужно, указывается пустая строка.
-    Пример: ["ПараметрЗапуска1ДляОбработки1;ПараметраЗапуска2ДляОбработки1;", "", "ПараметрЗапуска1ДляОбработки3"]
-   """)
-    String[] vRunnerCommand = []
+    @JsonPropertyDescription("Массив из пары vrunnercommand и vrunnerexecute")
+    VrunnerAdditional[] vrunnerAdditionals = []
 
     @JsonPropertyDescription("Путь к каталогу с обработками, по умолчанию ./tools/epf/")
     String pathEpf = "./tools/epf/"

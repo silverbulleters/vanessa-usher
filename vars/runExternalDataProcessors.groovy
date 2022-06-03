@@ -46,31 +46,23 @@ private def testing() {
     if (credentialHelper.authIsPresent(auth)) {
         withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             def credential = credentialHelper.getAuthString()
-            runTesting(credential)
+            runExternal(credential)
         }
     } else {
-        runTesting()
+        runExternal()
     }
 }
 
-private runTesting(String credential = '') {
+private runExternal(String credential = '') {
 
-    int indepf = 0;
-    String vRunnerCommand = ""
-
-    for (String epf:stageOptional.vRunnerExecute) {
-        if(!stageOptional.pathEpf.isEmpty()) {
-            epf = stageOptional.pathEpf.concat(epf);
+    stageOptional.vrunnerAdditionals.each {source ->
+        if (!source.vRunnerExecute.empty) {
+            if(!stageOptional.pathEpf.isEmpty()) {
+                source.vRunnerExecute = stageOptional.pathEpf.concat(source.vRunnerExecute)
+            }
+            def command = VRunner.runExternalDataProcessors(config, stageOptional, source.vRunnerExecute, source.vRunnerCommand)
+            command = command.replace("%credentialID%", credential)
+            cmdRun(command)
         }
-
-        if(indepf < stageOptional.vRunnerCommand.size()) {
-            vRunnerCommand = stageOptional.vRunnerCommand[indepf]
-        }
-
-        def command = VRunner.runExternalDataProcessors(config, stageOptional, epf, vRunnerCommand)
-        command = command.replace("%credentialID%", credential)
-        cmdRun(command)
-        vRunnerCommand = ""
-        indepf++
     }
 }
