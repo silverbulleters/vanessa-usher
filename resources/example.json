@@ -60,8 +60,7 @@
   },
   "runExternal" : {
     "timeout" : 100,
-    "vRunnerExecute" : [ ],
-    "vRunnerCommand" : [ ],
+    "vrunnerAdditionals" : [ ],
     "pathEpf" : "./tools/epf/",
     "settings" : "./tools/JSON/vRunnerExternalOptions.JSON",
     "allurePath" : "./out/runExternal/allure",

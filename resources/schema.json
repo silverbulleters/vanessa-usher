@@ -253,18 +253,22 @@
           "type" : "integer",
           "description" : "Таймаут времени работы таймаута"
         },
-        "vRunnerExecute" : {
+        "vrunnerAdditionals" : {
           "type" : "array",
-          "description" : "\n     Имена файлов внешних обработок 1с для запуска в предприятии.\n     Пример: [\"Обработка1.epf\", \"Обрабортка2.epf\", \"Обработка3.epf\"]\n  ",
+          "description" : "Массив из пары vrunnercommand и vrunnerexecute",
           "items" : {
-            "type" : "string"
-          }
-        },
-        "vRunnerCommand" : {
-          "type" : "array",
-          "description" : "\n    Cтрока, передаваемая в ПараметрыЗапуска.\n    Массив строк, указываются по аналогии с параметром vRunnerExecute.\n    Если параметр в обработку передавать не нужно, указывается пустая строка.\n    Пример: [\"ПараметрЗапуска1ДляОбработки1;ПараметраЗапуска2ДляОбработки1;\", \"\", \"ПараметрЗапуска1ДляОбработки3\"]\n   ",
-          "items" : {
-            "type" : "string"
+            "type" : "object",
+            "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:VrunnerAdditional",
+            "properties" : {
+              "vRunnerExecute" : {
+                "type" : "string",
+                "description" : "Имя файла внешней обработки 1с для запуска в предприятии."
+              },
+              "vRunnerCommand" : {
+                "type" : "string",
+                "description" : "\n    Cтрока, передаваемая в ПараметрыЗапуска.\n    Если параметр в обработку передавать не нужно, указывается пустая строка.\n    Пример: \"ПараметрЗапуска1ДляОбработки1;ПараметраЗапуска2ДляОбработки1;\",\n   "
+              }
+            }
           }
         },
         "pathEpf" : {
