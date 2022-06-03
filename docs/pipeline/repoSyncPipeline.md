@@ -3,7 +3,7 @@
 Конвейер поможет автоматизировать выгрузку истории хранилища 1С в git-репозиторий. Внутри используется приложение
 gitsync.
 
-Пример конфигурационного файла:
+Пример конфигурационного файла `gitsync.json`:
 
 ```json
 {
@@ -18,6 +18,65 @@ gitsync.
   }
 }
 ```
+
+Пример конфигурационного файла `gitsync_conf.json`:
+
+```json
+{
+  "globals": {
+    "lic-try-count": 5,
+    "plugins": {
+      "enable": [
+        "increment",
+        "check-authors",
+        "sync-remote"
+      ]
+    },
+    "plugins-config": {
+      "rename-module": false,
+      "rename-form": false,
+      "pull": true,
+      "push": true,
+      "push-n-commits": 1,
+      "push-tags": false,
+      "skip-exists-tags": false
+    }
+  },
+  "repositories": [
+    {
+      "name": "bsp",
+      "path": "C:/tmp/Storage_SSL31",
+      "dir": "./src/cf",
+      "v8version": "8.3.20.1674",
+      "plugins-config": {
+        "URL": "http://gitlab-url/project1c/project-name.git"
+      }
+    },
+    {
+      "name": "extension1",
+      "extention": "extension1",
+      "path": "C:/tmp/Storage_ext1",
+      "dir": "./src/cfe/extension1",
+      "v8version": "8.3.20.1674",
+      "plugins-config": {
+        "URL": "http://gitlab-url/project1c/project-name.git"
+      }
+    },
+    {
+      "name": "extension2",
+      "extention": "extension2",
+      "path": "C:/tmp/Storage_ext2",
+      "dir": "./src/cfe/extension2",
+      "v8version": "8.3.20.1674",
+      "plugins-config": {
+        "URL": "http://gitlab-url/project1c/project-name.git"
+      }
+    }
+  ]
+}
+```
+
+//TODO : написат issue в проекте gitsync для исправления опечатки `extenTion` на `extenSion` в пакетном запуске gitsync.
 
 ### Git Credential Manager
 
