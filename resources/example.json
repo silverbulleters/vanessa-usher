@@ -10,6 +10,9 @@
     "email" : "test@localhost",
     "slack" : {
       "channelName" : "#build"
+    },
+    "telegram" : {
+      "chatId" : "1234567890"
     }
   },
   "vrunnerConfig" : "./tools/JSON/vRunner.json",

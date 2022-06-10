@@ -36,7 +36,7 @@
         "mode" : {
           "type" : "string",
           "description" : "Режим уведомлений",
-          "enum" : [ "NO_USE", "EMAIL", "SLACK" ]
+          "enum" : [ "NO_USE", "EMAIL", "SLACK", "TELEGRAM" ]
         },
         "email" : {
           "type" : "string",
@@ -48,6 +48,17 @@
           "description" : "Настройка уведомлений в Slack",
           "properties" : {
             "channelName" : {
+              "type" : "string",
+              "description" : "Канал уведомлений"
+            }
+          }
+        },
+        "telegram" : {
+          "type" : "object",
+          "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional:TelegramSetting",
+          "description" : "Настройка уведомлений в Telegram",
+          "properties" : {
+            "chatId" : {
               "type" : "string",
               "description" : "Канал уведомлений"
             }

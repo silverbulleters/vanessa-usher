@@ -23,10 +23,18 @@ class NotificationOptional {
   @JsonPropertyDescription("Настройка уведомлений в Slack")
   SlackSetting slack = new SlackSetting()
 
+  @JsonPropertyDescription("Настройка уведомлений в Telegram")
+  TelegramSetting telegram = new TelegramSetting()
+
   @JsonIgnoreProperties(ignoreUnknown = true)
   static class SlackSetting {
     @JsonPropertyDescription("Канал уведомлений")
     String channelName = "#build"
   }
 
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  static class TelegramSetting {
+    @JsonPropertyDescription("Канал уведомлений")
+    String chatId = "1234567890"
+  }
 }
