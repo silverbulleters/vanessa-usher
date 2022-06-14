@@ -3,6 +3,8 @@
 Все настройки конвейеров Usher2 делаются через конфигурационные файлы. Например, для запуска конвейера
 `gitsync` может использоваться такая конфигурация:
 
+`./tools/pipeline/gitsync.json`
+
 ```json
 {
   "$scheme": "file:./resources/schema.json",
@@ -18,12 +20,108 @@
 }
 ```
 
+Пример конфигурационного файла для запуска конвейера `ci`:
+
+`./tools/pipeline/ci.json`
+
+```json
+{
+  "$scheme": "file:./resources/schema.json",
+  "agent": "ci",
+  "v8Version": "8.3.18",
+  "debug": false,
+  "notification": {
+    "mode": "TELEGRAM",
+    "telegram": {
+       "chatId": "Telegram_Chat_ID" 
+      }
+  },
+  "defaultInfobase": {
+    "connectionString": "/FC:/tmp/demo",
+    "auth": "admin1c"
+  },
+    "stages": {
+    "prepareBase": false,
+    "runExternal": false,
+    "checkExtensions": false,
+    "syntaxCheck": false,
+    "smoke": false,
+    "tdd": false,
+    "bdd": false,
+    "sonarqube": false,
+    "build": false
+  },
+  "prepareBase": {
+    "template": "./build/ext/1Cv8.dt",
+    "repo": {
+      "path": "C:/tmp/Storage",
+      "auth": "cibot"
+    }
+  },
+  "runExternal": {
+    "timeout": 20,
+    "pathEpf": "./tools/epf/",
+    "vrunnerAdditionals" : [
+      {
+        "vRunnerExecute": "Обработка1.epf",
+        "vRunnerCommand": "ПараметрЗапуска1ДляОбработки1;ПараметрЗапуска2ДляОбработки1;"
+      }
+    ]
+  },
+  "checkExtensions": {
+    "repo": {
+      "path": "C:/tmp/Storage",
+      "auth": "cibot"
+    }
+  },
+  "syntaxCheck": {
+    "timeout": 100,
+    "allurePath": "./out/syntaxCheck/allure",
+    "junitPath": "./out/junit/syntaxCheck.xml",
+    "checkExtensions": false,
+    "groupByMetadata": true,
+    "mode": [
+      "-ThinClient",
+      "-Server",
+      "-ConfigLogIntegrity",
+      "-HandlersExistence",
+      "-ExtendedModulesCheck"
+    ],
+    "exceptionFile": "./tools/syntax-check/exceptionFile.txt"
+  },
+  "smoke": {
+    "timeout": 100,
+    "testPath": "./tests/smoke/Тесты_ОткрытиеФормКонфигурации.epf"
+  },
+  "tdd": {
+    "timeout": 10
+  },
+  "bdd": {
+    "timeout": 100,
+    "vanessasettings": "./tools/vanessaConf.json"
+  },
+  "sonarqube": {
+    "timeout": 100,
+    "agent": "sonar",
+    "toolId": "sonar-scanner",
+    "serverId": "SonarQube",
+    "debug": false,
+    "useBranch": false
+  },
+  "build": {
+    "timeout": 100,
+    "distPath": ".packman/1cv8.cf",
+    "errorIfJobStatusOfFailure": false
+  }
+}
+```
+
 В редакторах можно использовать JSON-схему (путь к схеме указывается через свойство `$scheme`.
 Она расположена в каталоге `resources/schema.json`.
 
 Снимок всех настроек по умолчанию в файле `resources/example.json`.
 
-## Описание конфигурационного файла
+## Описание конфигурационных файлов
 
 `debug` - режим включения отладочных логов конвейера. По умолчанию `false`.
 
@@ -66,6 +164,10 @@
 * `edtTransform` - трансформировать edt-формат конфигурации в xml.
 
 * `prepareBase` - подготовить информационную базу.
+
+* `runExternal` - выполнить произвольные внешние обработки с передачей параметров запуска
+
+* `checkExtensions` - выполнить проверку применимости расширений
 
 * `syntaxCheck` - проверить конфигурацию с помощью синтакс-проверки.
 
@@ -143,6 +245,55 @@
 
   * `sourcePath` - путь к исходному коду расширения 1С. По умолчанию пустое значение и будет пропущено
 при обновлении информационной базы.
+
+`runExtrnal` - настройки этапа выполнения внешних обработок 1с
+
+* `timeout` - таймаут выполнения этапа. По умолчанию `100`.
+
+* `pathEpf` - путь к каталогу с внешними обработками, по умолчанию `./tools/epf/`
+
+* `vrunnerAdditionals` - список обработок с параметрами запуска
+  * `vRunnerExecute` - Имя файла внешней обработки (МояВнешнаяОбработка.epf)
+  * `vRunnerCommand` - Строка передаваемая в `ПараметрыЗапуска` ("ПараметрЗапускаМоейВнешнейОбработки1;ПараметрЗапускаМоейВнешнейОбработки2;")
+  
+  Например:
+
+  ```json
+    "runExternal": {
+    "timeout": 100,
+    "pathEpf": "./tools/epf/",
+    "vrunnerAdditionals" : [
+      {
+        "vRunnerExecute": "Обработка1.epf",
+        "vRunnerCommand": "ПараметрЗапуска1ДляОбработки1;ПараметрЗапуска2ДляОбработки1;"
+      },
+      {
+        "vRunnerExecute": "Обработка2.epf",
+        "vRunnerCommand": ""
+      },
+      {
+        "vRunnerExecute": "Обработка3.epf",
+        "vRunnerCommand": "ПараметрЗапуска1ДляОбработки3;"
+      }
+    ]
+  },
+  ```
+
+* `settings` - путь к файлу настроек фреймворка тестирования, по умолчанию `./tools/JSON/vRunnerExternalOptions.JSON`
+* `allurePath` -  путь к каталогу выгрузки отчета в формате Allure, по умолчанию `./out/runExternal/allure`
+* `junitPath` - путь к файлу выгрузки отчета в формате jUnit, по умолчанию `./out/junit/runExternal.xml`
+
+`checkExtensions` - настройки этапа проверки применимости расширений
+
+* `timeout` - таймаут выполнения этапа. По умолчанию `40`.
+
+* `repo` - настройки подключения к хранилищу конфигурации 1С.
+
+  * `path` - Путь к хранилищу конфигурации. Например, `tcp://repo-server/repo`. По умолчанию пустое значение.
+  
+  * `auth` - идентификатор секрета Jenkins для авторизации в хранилище конфигурации. По умолчанию пустое значение.
+
+* `extension` - имя расширения (_Выполнить проверку для указанного расширения с учетом всех ранее загружаемых расширений. Если имя расширения не указано, то проверяются все расширения в порядке загрузки._)
 
 `syntaxCheck` - настройки этапа синтакс-проверки конфигурации 1С.
 
