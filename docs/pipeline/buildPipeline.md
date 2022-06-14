@@ -39,7 +39,7 @@
   "prepareBase": {
     "template": "./build/ext/1Cv8.dt",
     "repo": {
-      "path": "C:/tmp/Storage_SSL31",
+      "path": "C:/tmp/Storage",
       "auth": "cibot"
     },
     "extensions": [
@@ -56,21 +56,16 @@
   "runExternal": {
     "timeout": 20,
     "pathEpf": "./tools/epf/",
-    "vRunnerExecute": [
-      "epf1.epf",
-      "epf2.epf",
-      "epf3.epf",
-      "epf4.epf"
-    ],
-    "vRunnerCommand": [
-      "Param1;Param2",
-      "",
-      "Param3"
+    "vrunnerAdditionals" : [
+      {
+        "vRunnerExecute": "Обработка1.epf",
+        "vRunnerCommand": "ПараметрЗапуска1ДляОбработки1;ПараметрЗапуска2ДляОбработки1;"
+      }
     ]
   },
   "checkExtensions": {
     "repo": {
-      "path": "C:/tmp/Storage_SSL31",
+      "path": "C:/tmp/Storage",
       "auth": "cibot"
     }
   },
