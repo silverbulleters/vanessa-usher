@@ -144,7 +144,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "configPath" : {
           "type" : "string",
@@ -171,7 +171,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "edt" : {
           "type" : "string",
@@ -198,7 +198,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "sourcePath" : {
           "type" : "string",
@@ -251,7 +251,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "vRunnerExecute" : {
           "type" : "array",
@@ -292,7 +292,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "repo" : {
           "type" : "object",
@@ -312,7 +312,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "allurePath" : {
           "type" : "string",
@@ -350,7 +350,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "xddConfig" : {
           "type" : "string",
@@ -381,7 +381,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "xddConfig" : {
           "type" : "string",
@@ -412,7 +412,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "allurePath" : {
           "type" : "string",
@@ -435,7 +435,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "agent" : {
           "type" : "string",
@@ -466,7 +466,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "distPath" : {
           "type" : "string",
@@ -485,7 +485,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "appName" : {
           "type" : "string",

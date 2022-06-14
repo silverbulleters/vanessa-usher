@@ -78,7 +78,7 @@ repoSyncPipeline('tools/pipeline/gitsync.json', 'main')
 ```
 
 * `@Library` - указываем подключенную в Jenkins библиотеку
-* ![`repoSyncPipeline`](../docs/pipeline/repoSyncPipeline.md)
+* [`repoSyncPipeline`](../docs/pipeline/repoSyncPipeline.md)
   * `'tools/pipeline/gitsync.json'` - путь к конфигурационному файлу gitsync для пакетной синхронизации.
   * `'main'` - Jenkins-агент (имя или метка ноды) на котором будет выполняться чтение конфигурационного файла. (опционально)
 
@@ -90,7 +90,7 @@ repoSyncPipeline('tools/pipeline/gitsync.json', 'main')
 buildPipeline('tools/pipeline/ci.json', 'main')
 ```
 * `@Library` - указываем подключенную в Jenkins библиотеку
-* ![`buildPipeline`](../docs/pipeline/buildPipeline.md)
+* [`buildPipeline`](../docs/pipeline/buildPipeline.md)
   * `'tools/pipeline/ci.json'` - путь к конфигурационному файлу для запуска проверочного контура для проекта 1с.
   * `'main'` - Jenkins-агент (имя или метка ноды) на котором будет выполняться чтение конфигурационного файла. (опционально)
 
