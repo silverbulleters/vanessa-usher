@@ -1,7 +1,7 @@
 # Конвейер `Выгрузка истории хранилища 1С в git-репозиторий`
 
 Конвейер поможет автоматизировать выгрузку истории хранилища 1С в git-репозиторий. Внутри используется приложение
-gitsync.
+[gitsync](https://github.com/oscript-library/gitsync).
 
 ## Пример конфигурационного файла `gitsync.json`
 
@@ -10,7 +10,7 @@ gitsync.
 ```json
 {
   "agent": "gitsync",
-  "v8Version": "8.3.20",
+  "v8Version": "8.3.20.1674",
   "defaultInfobase": {
     "connectionString": "/FC:/tmp/demo",
     "auth": "IDsecretJenkins"
@@ -70,14 +70,14 @@ gitsync.
       "name": "Demo", // уникальное имя репозитория
       "path": "http://storage1c/Demo", // путь к хранилищу 1С
       "dir": "./src/cf", // путь к исхдному коду
-      "v8version": "8.3.15.1489", // версия платформы 1С
+      "v8version": "8.3.20.1674", // версия платформы 1С
       "plugins-config": { // настройка плагинов
         "URL": "https://gitlab.com/MyCompany/my-project.git" // адрес удаленного git-репозитория
       }
     },
     {
       "name": "extension2",
-      "extention": "extension2", //имя расширения
+      "extention": "extension2", //имя расширения в конфигурации 1с
       "path": "C:/tmp/Storage_ext2",
       "dir": "./src/cfe/extension2",
       "v8version": "8.3.20.1674",
@@ -99,7 +99,7 @@ gitsync.
 
 При первом запуске pipeline gitsync, если используется `credential.helper=manager.core`, пара логин\пароль будет автоматически добавлена в credential, что позволяет отказаться от ручного ввода логина\пароля на ноде Jenkins-агента.
 
-При установке git for windows предалагается по умолчанию установить credential helper
+При установке git for windows предлагается по умолчанию установить credential helper
 
 ![image-20220201095111619](../images/image-20220201095111619.png)
 
