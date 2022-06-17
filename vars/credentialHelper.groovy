@@ -51,10 +51,10 @@ String getCustomAuth(String userName, String passName) {
  */
 String getTestClientWithAuth() {
   def baseValue = '%s:%s:1538'
-  login = "${USERNAME}"
+  login = "${DBUSERNAME}"
   pass = ""
   try {
-    pass = "${PASSWORD}"
+    pass = "${DBPASSWORD}"
   } catch (ignored) {
   }
   def credentialTestClient = String.format(baseValue, login, pass)
