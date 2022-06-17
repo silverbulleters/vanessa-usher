@@ -9,9 +9,9 @@
  * @return строка авторизации
  */
 String getAuthString() {
-  def credential = "--db-user ${USERNAME}"
+  def credential = "--db-user ${DBUSERNAME}"
   try {
-    credential = credential + " --db-pwd ${PASSWORD} "
+    credential = credential + " --db-pwd ${DBPASSWORD} "
   } catch (ignore) {
   }
   return credential
