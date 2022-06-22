@@ -54,7 +54,7 @@ void call(PipelineConfiguration config, SyntaxCheckOptional stageOptional, Pipel
 private def check() {
   def auth = config.defaultInfobase.auth
   if (credentialHelper.authIsPresent(auth)) {
-    withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'DBUSERNAME', passwordVariable: 'DBPASSWORD')]) {
       def credential = credentialHelper.getAuthString()
       syntaxCheck(credential)
     }

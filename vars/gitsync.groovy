@@ -29,7 +29,7 @@ void call(PipelineConfiguration config, GitsyncOptional stageOptional) {
 private void syncInternal() {
   def auth = config.defaultInfobase.auth
   if (credentialHelper.authIsPresent(auth)) {
-    withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    withCredentials([usernamePassword(credentialsId: auth, usernameVariable: 'DBUSERNAME', passwordVariable: 'DBPASSWORD')]) {
       syncInternalWithRepoAuth(credentialHelper.getAuthString())
     }
     return

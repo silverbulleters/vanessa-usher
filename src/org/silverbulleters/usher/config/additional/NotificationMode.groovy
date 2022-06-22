@@ -17,5 +17,7 @@ enum NotificationMode {
   @JsonPropertyDescription("Уведомления по email")
   EMAIL,
   @JsonPropertyDescription("Уведомления в Slack")
-  SLACK
+  SLACK,
+  @JsonPropertyDescription("Уведомления в Telegram")
+  TELEGRAM
 }

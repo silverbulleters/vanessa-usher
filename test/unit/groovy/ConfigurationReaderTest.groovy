@@ -29,6 +29,7 @@ class ConfigurationReaderTest {
     assertThat(stages).isNotNull()
     assertThat(stages.isGitsync()).isFalse()
     assertThat(stages.isPrepareBase()).isFalse()
+    assertThat(stages.isCheckExtensions()).isFalse()
     assertThat(stages.isSyntaxCheck()).isFalse()
     assertThat(stages.isSmoke()).isFalse()
     assertThat(stages.isTdd()).isFalse()

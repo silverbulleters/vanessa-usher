@@ -23,6 +23,9 @@ void call(PipelineConfiguration config, NotificationInfo info) {
   } else if (config.notification.mode == NotificationMode.EMAIL) {
     providerNotification = emailHelper
     address = config.notification.email
+  } else if (config.notification.mode == NotificationMode.TELEGRAM) {
+    providerNotification = telegramHelper
+    addres = config.notification.telegram.chatId
   } else {
     return
   }

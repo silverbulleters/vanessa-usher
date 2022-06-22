@@ -10,6 +10,9 @@
     "email" : "test@localhost",
     "slack" : {
       "channelName" : "#build"
+    },
+    "telegram" : {
+      "chatId" : "1234567890"
     }
   },
   "vrunnerConfig" : "./tools/JSON/vRunner.json",
@@ -23,6 +26,8 @@
     "gitsync" : false,
     "edtTransform" : false,
     "prepareBase" : false,
+    "runExternal" : false,
+    "checkExtensions" : false,
     "syntaxCheck" : false,
     "smoke" : false,
     "tdd" : false,
@@ -55,6 +60,23 @@
       "empty" : false
     },
     "extensions" : [ ]
+  },
+  "runExternal" : {
+    "timeout" : 100,
+    "vrunnerAdditionals" : [ ],
+    "pathEpf" : "./tools/epf/",
+    "settings" : "./tools/JSON/vRunnerExternalOptions.JSON",
+    "allurePath" : "./out/runExternal/allure",
+    "junitPath" : "./out/junit/runExternal.xml"
+  },
+  "checkExtensions" : {
+    "timeout" : 40,
+    "repo" : {
+      "path" : "",
+      "auth" : "",
+      "empty" : false
+    },
+    "extensions" : ""
   },
   "syntaxCheck" : {
     "timeout" : 100,

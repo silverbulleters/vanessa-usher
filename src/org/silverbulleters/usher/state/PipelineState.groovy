@@ -16,6 +16,16 @@ class PipelineState {
   PrepareBaseState prepareBase = new PrepareBaseState()
 
   /**
+   * Состояние выполнения произвольных внешних обработок 1с
+   */
+  BaseTestingState runExternal = new BaseTestingState()
+
+  /**
+   * Состояние проверки применимости расширений
+   */
+  BaseTestingState checkExtensions = new BaseTestingState()
+
+  /**
    * Состояние синтакс-проверки
    */
   BaseTestingState syntaxCheck = new BaseTestingState()

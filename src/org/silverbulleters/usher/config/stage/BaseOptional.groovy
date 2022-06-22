@@ -25,7 +25,7 @@ class BaseOptional {
   @JsonIgnore
   String id = "base"
 
-  @JsonPropertyDescription("Таймаут времени работы таймаута")
+  @JsonPropertyDescription("Таймаут времени работы этапа'")
   int timeout = 0
 
 }

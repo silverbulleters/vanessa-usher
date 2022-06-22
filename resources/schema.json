@@ -36,7 +36,7 @@
         "mode" : {
           "type" : "string",
           "description" : "Режим уведомлений",
-          "enum" : [ "NO_USE", "EMAIL", "SLACK" ]
+          "enum" : [ "NO_USE", "EMAIL", "SLACK", "TELEGRAM" ]
         },
         "email" : {
           "type" : "string",
@@ -48,6 +48,17 @@
           "description" : "Настройка уведомлений в Slack",
           "properties" : {
             "channelName" : {
+              "type" : "string",
+              "description" : "Канал уведомлений"
+            }
+          }
+        },
+        "telegram" : {
+          "type" : "object",
+          "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:NotificationOptional:TelegramSetting",
+          "description" : "Настройка уведомлений в Telegram",
+          "properties" : {
+            "chatId" : {
               "type" : "string",
               "description" : "Канал уведомлений"
             }
@@ -99,6 +110,14 @@
           "type" : "boolean",
           "description" : "Подготовить информационную базу"
         },
+        "runExternal" : {
+          "type" : "boolean",
+          "description" : "Запустить выполнение произвольных внешних обработок 1с"
+        },
+        "checkExtensions" : {
+          "type" : "boolean",
+          "description" : "Проверить возможность применимости расширений"
+        },
         "syntaxCheck" : {
           "type" : "boolean",
           "description" : "Проверить конфигурацию с помощью синтакс-проверки"
@@ -136,7 +155,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "configPath" : {
           "type" : "string",
@@ -163,7 +182,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "edt" : {
           "type" : "string",
@@ -190,7 +209,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "sourcePath" : {
           "type" : "string",
@@ -236,6 +255,71 @@
         }
       }
     },
+    "runExternal" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:RunExternalDataProcessorsOptional",
+      "description" : "Настройки этапап выполнения произвольных внешних обработок 1с",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer",
+          "description" : "Таймаут времени работы этапа'"
+        },
+        "vrunnerAdditionals" : {
+          "type" : "array",
+          "description" : "Массив из пары vrunnercommand и vrunnerexecute",
+          "items" : {
+            "type" : "object",
+            "id" : "urn:jsonschema:org:silverbulleters:usher:config:additional:VrunnerAdditional",
+            "properties" : {
+              "vRunnerExecute" : {
+                "type" : "string",
+                "description" : "Имя файла внешней обработки 1с для запуска в предприятии."
+              },
+              "vRunnerCommand" : {
+                "type" : "string",
+                "description" : "\n    Cтрока, передаваемая в ПараметрыЗапуска.\n    Если параметр в обработку передавать не нужно, указывается пустая строка.\n    Пример: \"ПараметрЗапуска1ДляОбработки1;ПараметраЗапуска2ДляОбработки1;\",\n   "
+              }
+            }
+          }
+        },
+        "pathEpf" : {
+          "type" : "string",
+          "description" : "Путь к каталогу с обработками, по умолчанию ./tools/epf/"
+        },
+        "settings" : {
+          "type" : "string",
+          "description" : "Путь к файлу настроек Vanessa-runner в формате json. По умолчанию ./tools/JSON/vRunnerExternalOptions.JSON"
+        },
+        "allurePath" : {
+          "type" : "string",
+          "description" : "Путь к каталогу выгрузки отчета в формате Allure"
+        },
+        "junitPath" : {
+          "type" : "string",
+          "description" : "Путь к файлу выгрузки отчета в формате jUnit"
+        }
+      }
+    },
+    "checkExtensions" : {
+      "type" : "object",
+      "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:CheckExtensionsOptional",
+      "description" : "Настройки этапа применимости расширения для использования в конкретной информационной базе конфигурации 1С",
+      "properties" : {
+        "timeout" : {
+          "type" : "integer",
+          "description" : "Таймаут времени работы этапа'"
+        },
+        "repo" : {
+          "type" : "object",
+          "$ref" : "urn:jsonschema:org:silverbulleters:usher:config:additional:Repo",
+          "description" : "Настройки подключения к хранилищу конфигурации 1С"
+        },
+        "extensions" : {
+          "type" : "string",
+          "description" : "Выполнить проверку для указанного расширения с учетом всех ранее загружаемых расширений. Если имя расширения не указано, то проверяются все расширения в порядке загрузки."
+        }
+      }
+    },
     "syntaxCheck" : {
       "type" : "object",
       "id" : "urn:jsonschema:org:silverbulleters:usher:config:stage:SyntaxCheckOptional",
@@ -243,7 +327,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "allurePath" : {
           "type" : "string",
@@ -281,7 +365,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "xddConfig" : {
           "type" : "string",
@@ -312,7 +396,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "xddConfig" : {
           "type" : "string",
@@ -343,7 +427,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "allurePath" : {
           "type" : "string",
@@ -355,7 +439,7 @@
         },
         "vanessasettings" : {
           "type" : "string",
-          "description" : "путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json"
+          "description" : "Путь к файлу настроек фреймворка тестирования ./tools/JSON/vanessaConf.json"
         }
       }
     },
@@ -366,7 +450,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "agent" : {
           "type" : "string",
@@ -397,7 +481,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "distPath" : {
           "type" : "string",
@@ -416,7 +500,7 @@
       "properties" : {
         "timeout" : {
           "type" : "integer",
-          "description" : "Таймаут времени работы таймаута"
+          "description" : "Таймаут времени работы этапа'"
         },
         "appName" : {
           "type" : "string",
