@@ -142,7 +142,8 @@
 
   * `channelName` - идентификатор канала уведомлений. По умолчанию `#build`.
 
-* `telegram` - настройка уведомления в Telegram
+* `telegram` - настройка уведомления в Telegram.
+Используется плагин Jenkins [TelegramBot](https://github.com/jenkinsci/telegram-notifications-plugin)
   * `chatID` - идентификатор канала уведомлений.
 
 `timeout` - общий таймаут на время работы конвейера
@@ -260,23 +261,23 @@
 
   ```json
     "runExternal": {
-    "timeout": 100,
-    "pathEpf": "./tools/epf/",
-    "vrunnerAdditionals" : [
-      {
-        "vRunnerExecute": "Обработка1.epf",
-        "vRunnerCommand": "ПараметрЗапуска1ДляОбработки1;ПараметрЗапуска2ДляОбработки1;"
-      },
-      {
-        "vRunnerExecute": "Обработка2.epf",
-        "vRunnerCommand": ""
-      },
-      {
-        "vRunnerExecute": "Обработка3.epf",
-        "vRunnerCommand": "ПараметрЗапуска1ДляОбработки3;"
-      }
-    ]
-  },
+      "timeout": 100,
+      "pathEpf": "./tools/epf/",
+      "vrunnerAdditionals" : [
+        {
+          "vRunnerExecute": "Обработка1.epf",
+          "vRunnerCommand": "ПараметрЗапуска1ДляОбработки1;ПараметрЗапуска2ДляОбработки1;"
+        },
+        {
+          "vRunnerExecute": "Обработка2.epf",
+          "vRunnerCommand": ""
+        },
+        {
+          "vRunnerExecute": "Обработка3.epf",
+          "vRunnerCommand": "ПараметрЗапуска1ДляОбработки3;"
+        }
+      ]
+    },
   ```
 
 * `settings` - путь к файлу настроек фреймворка тестирования, по умолчанию `./tools/JSON/vRunnerExternalOptions.JSON`
