@@ -1,3 +1,5 @@
+<img src="resources/images/logo_270x270.png" alt="drawing" width="50"/> <font size="8"> [Курс "Имплементация инженерных практик" по ссылке](https://silverbulleters.org/implementacia) </font>
+
 # Vanessa-Usher: библиотека автоматизации сборочного цикла для 1С:Предприятие
 
 Библиотека предназначена для быстрого создания сборочных линий CI/CD для прикладных решений на платформе 1С:Предприятие.
@@ -110,6 +112,10 @@ buildPipeline('tools/pipeline/ci.json')
 ```
 
 Параметры по умолчанию можно изучить здесь [example.json](resources/example.json).
+
+## Благодарности участникам разработки
+[@otymko](https://github.com/otymko)
+[@M0okRu](https://github.com/M0okRu) 
 
 ## Лицензия
 
