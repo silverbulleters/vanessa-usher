@@ -113,6 +113,15 @@ buildPipeline('tools/pipeline/ci.json')
 
 Параметры по умолчанию можно изучить здесь [example.json](resources/example.json).
 
+## Как стать контрибьютором
+* Сделать Fork проекта
+* Клонировать Fork на свою машину
+* Создать Issue на странице проекта (или взять в работу ранее созданный)
+* Внести необходимые изменения в Fork
+* Сделать коммит, указав в начале #<НомерIssue>
+* Создать PullRequest и подождать его принятия
+* Profit!
+
 ## Благодарности участникам разработки
 [@otymko](https://github.com/otymko)
 [@M0okRu](https://github.com/M0okRu) 
