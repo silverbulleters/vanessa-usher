@@ -8,6 +8,7 @@ package org.silverbulleters.usher.wrapper
 
 import org.silverbulleters.usher.config.PipelineConfiguration
 import org.silverbulleters.usher.config.additional.ExtensionSource
+import org.silverbulleters.usher.config.stage.BddFirstStartOptional
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.RunExternalDataProcessorsOptional
 import org.silverbulleters.usher.config.stage.CheckExtensionsOptional
@@ -266,6 +267,33 @@ class VRunner {
 
     if(!optional.pathXUnit.isEmpty()) {
       command += "--pathxunit \"${optional.pathXUnit}\""
+    }
+
+    return command.join(" ")
+  }
+
+  /**
+   * Запустить предварительное поведенческое тестирование
+   * @param config конфигурация
+   * @param optional настройки bdd
+   * @return строка команды
+   */
+  static def vanessaFirstStart(PipelineConfiguration config, BddFirstStartOptional optional) {
+    def command = [
+            "vrunner",
+            "vanessa",
+            "%credentialID%",
+            "--settings", config.vrunnerConfig,
+            "--ibconnection", Common.getConnectionString(config),
+            "--v8version", config.v8Version
+    ]
+
+    if(!optional.pathVanessa.isEmpty()) {
+      command += "--pathvanessa \"${optional.pathVanessa}\""
+    }
+
+    if(!optional.vanessasettings.isEmpty()) {
+      command += "--vanessasettings \"${optional.vanessasettings}\""
     }
 
     return command.join(" ")

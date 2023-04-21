@@ -43,5 +43,10 @@ class PipelineState {
   /**
    * Состояние bdd тестирования
    */
+  BaseTestingState bddFirstStart = new BaseTestingState()
+
+  /**
+   * Состояние bdd тестирования
+   */
   BaseTestingState bdd = new BaseTestingState()
 }
