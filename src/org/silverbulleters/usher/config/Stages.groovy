@@ -39,6 +39,9 @@ class Stages {
   @JsonPropertyDescription("Запустить TDD")
   boolean tdd = false
 
+  @JsonPropertyDescription("Запустить BDD-FirstStart")
+  boolean bddFirstStart = false
+
   @JsonPropertyDescription("Запустить BDD")
   boolean bdd = false
 

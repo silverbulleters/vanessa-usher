@@ -31,7 +31,8 @@ static String shieldSymbols(String value) {
 }
 
 static boolean needPublishTests(PipelineConfiguration config) {
-  return config.stages.syntaxCheck || config.stages.smoke || config.stages.tdd || config.stages.bdd
+  return config.stages.syntaxCheck || config.stages.smoke || config.stages.tdd
+          || config.stages.bddFirstStart || config.stages.bdd
 }
 
 /**

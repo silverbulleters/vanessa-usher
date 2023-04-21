@@ -13,6 +13,7 @@ import org.silverbulleters.usher.UsherConstant
 import org.silverbulleters.usher.config.additional.InfoBase
 import org.silverbulleters.usher.config.additional.MatrixTesting
 import org.silverbulleters.usher.config.additional.NotificationOptional
+import org.silverbulleters.usher.config.stage.BddFirstStartOptional
 import org.silverbulleters.usher.config.stage.BddOptional
 import org.silverbulleters.usher.config.stage.BuildOptional
 import org.silverbulleters.usher.config.stage.CheckExtensionsOptional
@@ -94,6 +95,10 @@ class PipelineConfiguration implements Serializable {
   @JsonPropertyDescription("Настройки этапа TDD (Test-driven development)")
   @JsonProperty("tdd")
   TddOptional tddOptional = new TddOptional()
+
+  @JsonPropertyDescription("Настройки этапа BDD-FirstStart")
+  @JsonProperty("bddFirstStart")
+  BddOptional bddFirstStartOptional = new BddFirstStartOptional()
 
   @JsonPropertyDescription("Настройки этапа BDD (Behavior-driven development)")
   @JsonProperty("bdd")
