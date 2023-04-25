@@ -96,6 +96,7 @@ buildPipeline('tools/pipeline/ci.json')
     "sonarqube": true,
     "smoke": true,
     "tdd": true,
+    "bddFirstStart": true,
     "bdd": true,
     "build": true
   },

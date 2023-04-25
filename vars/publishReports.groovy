@@ -56,6 +56,11 @@ private def publish() {
     unpackResult(state.tdd.stashes)
   }
 
+  if (config.stages.bddFirstStart) {
+    addToReport(reports, config.bddFirstStartOptional.allurePath)
+    unpackResult(state.bddFirstStart.stashes)
+  }
+
   if (config.stages.bdd) {
     addToReport(reports, config.bddOptional.allurePath)
     unpackResult(state.bdd.stashes)

@@ -14,6 +14,7 @@
     "sonarqube": true,
     "smoke": true,
     "tdd": true,
+    "bddFirstStart": true,
     "bdd": true,
     "build": true
   },

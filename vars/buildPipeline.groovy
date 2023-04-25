@@ -134,6 +134,17 @@ void call(String pathToConfig, String nodeForRead = '') {
         }
       }
 
+      stage('BDD-FirstStart') {
+        when { expression { config.stages.bddFirstStart } }
+        options {
+          timeout(time: config.bddFirstStartOptional.timeout, unit: TimeUnit.MINUTES)
+        }
+
+        steps {
+          script { bddFirstStartTesting(config, config.bddFirstStartOptional, state) }
+        }
+      }
+
       stage('BDD') {
         when { expression { config.stages.bdd } }
         options {
