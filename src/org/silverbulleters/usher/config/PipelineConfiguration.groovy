@@ -98,7 +98,7 @@ class PipelineConfiguration implements Serializable {
 
   @JsonPropertyDescription("Настройки этапа BDD-FirstStart")
   @JsonProperty("bddFirstStart")
-  BddOptional bddFirstStartOptional = new BddFirstStartOptional()
+  BddFirstStartOptional bddFirstStartOptional = new BddFirstStartOptional()
 
   @JsonPropertyDescription("Настройки этапа BDD (Behavior-driven development)")
   @JsonProperty("bdd")
